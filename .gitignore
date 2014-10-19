@@ -1,0 +1,22 @@
+#	Allgemeine Ignores
+
+*.ipr
+*.iml
+*.iws
+/.idea/*
+!/.idea/artifacts/
+!/.idea/projectCodeStyle.xml
+!/.idea/vcs.xml
+
+
+#	Benutzerdefinierte Ignores
+
+/temp/
+/.misc/
+/_misc/
+/misc/
+
+# shade-plugin dependency file
+
+dependency-reduced-pom.xml
+/*.iml

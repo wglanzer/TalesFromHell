@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>modules</artifactId>
-    <version>1.0</version>
+    <name>TheForr3st: Modules</name>
     <packaging>pom</packaging>
 
     <modules>

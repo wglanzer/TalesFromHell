@@ -8,14 +8,7 @@
     <artifactId>theforr3st</artifactId>
     <version>1.0</version>
     <packaging>pom</packaging>
-
-    <repositories>
-        <repository>
-            <id>Nexus</id>
-            <name>Nexus</name>
-            <url>http://5.45.100.140:10070</url>
-        </repository>
-    </repositories>
+    <name>_TheForr3st</name>
 
     <modules>
         <module>libraries</module>

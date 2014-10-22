@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <!--<module>libraries</module>-->
-        <!--<module>modules</module>-->
+        <module>libraries</module>
+        <module>modules</module>
     </modules>
 </project>

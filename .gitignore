@@ -11,6 +11,7 @@
 
 #	Benutzerdefinierte Ignores
 
+target
 /temp/
 /.misc/
 /_misc/

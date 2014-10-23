@@ -1,4 +1,4 @@
-import de.theforrest.slick.SlickInit;
+import de.talesFromHell.slick.SlickInit;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;

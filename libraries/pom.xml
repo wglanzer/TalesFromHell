@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>de.adito.theforr3st</groupId>
-        <artifactId>theforr3st</artifactId>
+        <groupId>de.talesFromHell</groupId>
+        <artifactId>talesFromHell</artifactId>
         <version>1.0</version>
     </parent>
 
     <artifactId>libraries</artifactId>
-    <name>TheForr3st: Libraries</name>
+    <name>TalesFromHell: Libraries</name>
     <packaging>pom</packaging>
 
     <modules>

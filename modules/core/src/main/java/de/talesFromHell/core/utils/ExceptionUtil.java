@@ -1,6 +1,6 @@
-package de.theforrest.core.utils;
+package de.talesFromHell.core.utils;
 
-import de.theforrest.core.i18n.IErrorMessage;
+import de.talesFromHell.core.i18n.IErrorMessage;
 import org.jetbrains.annotations.Nullable;
 
 /**

@@ -1,4 +1,4 @@
-package de.theforrest.core.i18n;
+package de.talesFromHell.core.i18n;
 
 /**
  * Beschreibt eine Fehlermeldung

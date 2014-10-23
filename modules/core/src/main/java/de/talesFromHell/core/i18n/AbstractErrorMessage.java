@@ -1,6 +1,6 @@
-package de.theforrest.core.i18n;
+package de.talesFromHell.core.i18n;
 
-import de.theforrest.core.utils.ExceptionUtil;
+import de.talesFromHell.core.utils.ExceptionUtil;
 
 /**
  * W.Glanzer, 22.10.2014.

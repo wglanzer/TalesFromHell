@@ -1,7 +1,7 @@
-package de.theforrest.slick;
+package de.talesFromHell.slick;
 
-import de.theforrest.core.exceptions.ForrestException;
-import de.theforrest.core.i18n.Errors;
+import de.talesFromHell.core.exceptions.HellException;
+import de.talesFromHell.core.i18n.Errors;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -14,7 +14,7 @@ import java.lang.reflect.Field;
 public class SlickInit
 {
 
-  public static void installSlick() throws ForrestException
+  public static void installSlick() throws HellException
   {
     try
     {
@@ -29,7 +29,7 @@ public class SlickInit
     }
     catch (Exception e)
     {
-      throw new ForrestException(e, Errors.E0);
+      throw new HellException(e, Errors.E0);
     }
   }
 

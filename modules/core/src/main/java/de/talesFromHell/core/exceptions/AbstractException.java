@@ -1,7 +1,7 @@
-package de.theforrest.core.exceptions;
+package de.talesFromHell.core.exceptions;
 
-import de.theforrest.core.i18n.IErrorMessage;
-import de.theforrest.core.utils.ExceptionUtil;
+import de.talesFromHell.core.i18n.IErrorMessage;
+import de.talesFromHell.core.utils.ExceptionUtil;
 
 /**
  * W.Glanzer, 22.10.2014.

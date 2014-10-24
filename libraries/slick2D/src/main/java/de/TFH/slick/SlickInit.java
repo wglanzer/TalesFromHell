@@ -1,6 +1,6 @@
 package de.tfh.slick;
 
-import de.tfh.core.exceptions.HellException;
+import de.tfh.core.exceptions.TFHException;
 import de.tfh.core.i18n.Errors;
 import de.tfh.slick.logging.TFHLogSystem;
 import org.newdawn.slick.util.Log;
@@ -17,7 +17,7 @@ import java.lang.reflect.Field;
 public class SlickInit
 {
 
-  public static void installSlick() throws HellException
+  public static void installSlick() throws TFHException
   {
     try
     {
@@ -34,7 +34,7 @@ public class SlickInit
     }
     catch (Exception e)
     {
-      throw new HellException(e, Errors.E0);
+      throw new TFHException(e, Errors.E0);
     }
   }
 

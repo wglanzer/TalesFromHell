@@ -1,7 +1,7 @@
-package de.talesFromHell.core.exceptions;
+package de.tfh.core.exceptions;
 
-import de.talesFromHell.core.i18n.IErrorMessage;
-import de.talesFromHell.core.utils.ExceptionUtil;
+import de.tfh.core.i18n.IErrorMessage;
+import de.tfh.core.utils.ExceptionUtil;
 
 /**
  * W.Glanzer, 22.10.2014.

@@ -1,6 +1,6 @@
-package de.talesFromHell.core.i18n;
+package de.tfh.core.i18n;
 
-import de.talesFromHell.core.utils.ExceptionUtil;
+import de.tfh.core.utils.ExceptionUtil;
 
 /**
  * W.Glanzer, 22.10.2014.

@@ -6,7 +6,7 @@
 
     <parent>
         <groupId>de.talesFromHell</groupId>
-        <artifactId>talesFromHell</artifactId>
+        <artifactId>libraries</artifactId>
         <version>1.0</version>
     </parent>
 
@@ -15,9 +15,17 @@
     <packaging>pom</packaging>
 
     <dependencies>
+        <!-- SLF4J -> LOG4J -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.7</version>
+        </dependency>
+
+        <!-- java.util.logging -> SLF4J -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jul-to-slf4j</artifactId>
             <version>1.7.7</version>
         </dependency>
     </dependencies>

@@ -1,7 +1,10 @@
-package de.talesFromHell.slick;
+package de.tfh.slick;
 
-import de.talesFromHell.core.exceptions.HellException;
-import de.talesFromHell.core.i18n.Errors;
+import de.tfh.core.exceptions.HellException;
+import de.tfh.core.i18n.Errors;
+import de.tfh.slick.logging.TFHLogSystem;
+import org.newdawn.slick.util.Log;
+import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -18,6 +21,8 @@ public class SlickInit
   {
     try
     {
+      _initLogging();
+
       String relPath = SlickInit.class.getProtectionDomain().getCodeSource().getLocation().getFile();
       File file = new File(relPath + "../natives");
       System.setProperty("java.library.path", file.getAbsolutePath());
@@ -33,4 +38,11 @@ public class SlickInit
     }
   }
 
+  private static void _initLogging()
+  {
+    Log.setLogSystem(new TFHLogSystem());
+
+    SLF4JBridgeHandler.removeHandlersForRootLogger();
+    SLF4JBridgeHandler.install();
+  }
 }

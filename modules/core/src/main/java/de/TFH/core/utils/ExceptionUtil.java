@@ -1,6 +1,6 @@
-package de.talesFromHell.core.utils;
+package de.tfh.core.utils;
 
-import de.talesFromHell.core.i18n.IErrorMessage;
+import de.tfh.core.i18n.IErrorMessage;
 import org.jetbrains.annotations.Nullable;
 
 /**

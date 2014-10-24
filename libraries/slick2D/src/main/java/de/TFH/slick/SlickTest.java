@@ -1,13 +1,10 @@
-import de.talesFromHell.slick.SlickInit;
-import org.newdawn.slick.Animation;
-import org.newdawn.slick.AppGameContainer;
-import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
+package de.tfh.slick;
+
+import org.newdawn.slick.*;
 import org.newdawn.slick.tiled.TiledMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Marker;
 
 
 /**
@@ -16,6 +13,7 @@ import org.newdawn.slick.tiled.TiledMap;
 public class SlickTest extends BasicGame
 {
 
+  private static final Logger logger = LoggerFactory.getLogger(SlickTest.class);
   private TiledMap grassMap;
   private Animation sprite, up, down, left, right;
   private float x = 34f, y = 34f;
@@ -46,7 +44,7 @@ public class SlickTest extends BasicGame
     }
     catch (Exception e)
     {
-      e.printStackTrace();
+      logger.error(Marker.ANY_MARKER, e);
     }
   }
 
@@ -103,7 +101,8 @@ public class SlickTest extends BasicGame
         // The lower the delta the slowest the sprite will animate.
         y -= delta * 0.1f;
       }
-    } else if (input.isKeyDown(Input.KEY_DOWN))
+    }
+    else if (input.isKeyDown(Input.KEY_DOWN))
     {
       sprite = down;
       if (!isBlocked(x, y + SIZE + delta * 0.1f))
@@ -111,7 +110,8 @@ public class SlickTest extends BasicGame
         sprite.update(delta);
         y += delta * 0.1f;
       }
-    } else if (input.isKeyDown(Input.KEY_LEFT))
+    }
+    else if (input.isKeyDown(Input.KEY_LEFT))
     {
       sprite = left;
       if (!isBlocked(x - delta * 0.1f, y))
@@ -119,7 +119,8 @@ public class SlickTest extends BasicGame
         sprite.update(delta);
         x -= delta * 0.1f;
       }
-    } else if (input.isKeyDown(Input.KEY_RIGHT))
+    }
+    else if (input.isKeyDown(Input.KEY_RIGHT))
     {
       sprite = right;
       if (!isBlocked(x + SIZE + delta * 0.1f, y))

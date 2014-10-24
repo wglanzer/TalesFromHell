@@ -29,6 +29,7 @@ public class SlickTest extends BasicGame
 
   }
 
+
   public SlickTest()
   {
     super("Wizard game");

@@ -23,10 +23,9 @@ public class SlickInit
     {
       _initLogging();
 
-      String relPath = SlickInit.class.getProtectionDomain().getCodeSource().getLocation().getFile();
-      File file = new File(relPath + "../natives");
-      System.setProperty("java.library.path", file.getAbsolutePath());
+      System.setProperty("java.library.path", _getLibraryPath());
 
+      // Neuberechnung des java.library.path's
       Field fieldSysPath = ClassLoader.class.getDeclaredField("sys_paths");
       fieldSysPath.setAccessible(true);
       fieldSysPath.set(null, null);
@@ -38,6 +37,27 @@ public class SlickInit
     }
   }
 
+  /**
+   * Liefert den Pfad der "natives"-Library
+   *
+   * @return Pfad der natives-Library
+   */
+  private static String _getLibraryPath()
+  {
+    File outterIDE = new File("natives");
+    if(outterIDE.exists() && outterIDE.isDirectory())
+      return outterIDE.getAbsolutePath();
+    else
+    {
+      String relPath = SlickInit.class.getProtectionDomain().getCodeSource().getLocation().getFile();
+      File file = new File(relPath + "../natives");
+      return file.getAbsolutePath();
+    }
+  }
+
+  /**
+   * Initialisiert das Logging
+   */
   private static void _initLogging()
   {
     Log.setLogSystem(new TFHLogSystem());

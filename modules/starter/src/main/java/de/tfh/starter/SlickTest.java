@@ -35,7 +35,8 @@ public class SlickTest extends BasicGame
     super("Wizard game");
   }
 
-  public static void main(String[] arguments)
+  // Unusable
+  private void main(String[] arguments)
   {
     try
     {

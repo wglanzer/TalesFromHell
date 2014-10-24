@@ -33,7 +33,7 @@ public class SlickInit
     }
     catch (Exception e)
     {
-      throw new TFHException(e, Errors.E0);
+      throw new TFHException(e, Errors.E1);
     }
   }
 

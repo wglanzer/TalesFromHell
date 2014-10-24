@@ -8,7 +8,8 @@ package de.tfh.core.i18n;
 public class Errors
 {
 
-  public static final IErrorMessage E0 = _create(0, "Failed to install Slick2D");
+  public static final IErrorMessage E0_0 = _create(-1, "An unexpected exception occured");
+  public static final IErrorMessage E1 = _create(0, "Failed to install Slick2D");
 
   /**
    * Erstellt aus einer ID und einer Message eine IErrorMessage

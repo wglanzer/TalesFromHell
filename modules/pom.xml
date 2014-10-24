@@ -16,6 +16,7 @@
 
     <modules>
         <module>core</module>
+        <module>gamecore</module>
         <module>starter</module>
     </modules>
 </project>

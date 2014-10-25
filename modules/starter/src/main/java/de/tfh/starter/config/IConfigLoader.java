@@ -1,6 +1,6 @@
 package de.tfh.starter.config;
 
-import de.tfh.core.exceptions.TFHException;
+import de.test.core.exceptions.TFHException;
 import org.newdawn.slick.AppGameContainer;
 
 /**

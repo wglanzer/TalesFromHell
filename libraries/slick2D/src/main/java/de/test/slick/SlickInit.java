@@ -1,8 +1,8 @@
-package de.tfh.slick;
+package de.test.slick;
 
-import de.tfh.core.exceptions.TFHException;
-import de.tfh.core.i18n.Errors;
-import de.tfh.slick.logging.TFHLogSystem;
+import de.test.slick.logging.TFHLogSystem;
+import de.test.core.exceptions.TFHException;
+import de.test.core.i18n.Errors;
 import org.newdawn.slick.util.Log;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 

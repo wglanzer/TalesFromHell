@@ -1,6 +1,6 @@
 package de.tfh.gamecore;
 
-import de.tfh.core.IStaticResources;
+import de.test.core.IStaticResources;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;

@@ -1,7 +1,7 @@
-package de.tfh.core.exceptions;
+package de.test.core.exceptions;
 
-import de.tfh.core.i18n.IErrorMessage;
-import de.tfh.core.utils.ExceptionUtil;
+import de.test.core.i18n.IErrorMessage;
+import de.test.core.utils.ExceptionUtil;
 
 /**
  * W.Glanzer, 22.10.2014.

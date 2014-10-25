@@ -1,4 +1,4 @@
-package de.tfh.slick.logging;
+package de.test.slick.logging;
 
 import org.newdawn.slick.util.LogSystem;
 import org.slf4j.Logger;

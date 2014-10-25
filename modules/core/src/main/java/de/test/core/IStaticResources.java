@@ -1,4 +1,4 @@
-package de.tfh.core;
+package de.test.core;
 
 /**
  * Enthält alle statischen Ressourcen

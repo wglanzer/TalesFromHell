@@ -1,4 +1,4 @@
-package de.tfh.core.i18n;
+package de.test.core.i18n;
 
 /**
  * Enthält alle Error-Meldungen

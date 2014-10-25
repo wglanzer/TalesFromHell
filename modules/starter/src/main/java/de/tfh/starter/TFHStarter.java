@@ -1,8 +1,8 @@
 package de.tfh.starter;
 
-import de.tfh.core.i18n.Errors;
+import de.test.core.i18n.Errors;
 import de.tfh.gamecore.TFHBasicGame;
-import de.tfh.slick.SlickInit;
+import de.test.slick.SlickInit;
 import de.tfh.starter.config.DefaultConfigLoader;
 import de.tfh.starter.config.IConfigLoader;
 import org.newdawn.slick.AppGameContainer;

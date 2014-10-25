@@ -15,6 +15,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>datamodels</module>
         <module>log4j</module>
         <module>slick2D</module>
     </modules>

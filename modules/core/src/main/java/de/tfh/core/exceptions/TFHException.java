@@ -14,7 +14,7 @@ public class TFHException extends AbstractException
   {
   }
 
-  public TFHException(String pMessage)
+  public TFHException(IErrorMessage pMessage)
   {
     super(pMessage);
   }

@@ -32,6 +32,12 @@
             <artifactId>gamecore</artifactId>
             <version>1.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>de.tfh</groupId>
+            <artifactId>datamodels</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
     <build>

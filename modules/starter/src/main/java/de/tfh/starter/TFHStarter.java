@@ -1,6 +1,7 @@
 package de.tfh.starter;
 
 import de.tfh.core.i18n.Errors;
+import de.tfh.datamodels.StaticDataModelRegistrator;
 import de.tfh.gamecore.TFHBasicGame;
 import de.tfh.slick.SlickInit;
 import de.tfh.starter.config.DefaultConfigLoader;
@@ -25,6 +26,7 @@ public class TFHStarter
     try
     {
       SlickInit.installSlick();
+      StaticDataModelRegistrator.registerAll(true);
       TFHBasicGame game = new TFHBasicGame();
       AppGameContainer container = new AppGameContainer(game);
       configLoader.applyConfig(container);

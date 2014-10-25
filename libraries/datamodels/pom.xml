@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>de.talesFromHell</groupId>
+        <groupId>de.tfh</groupId>
         <artifactId>libraries</artifactId>
         <version>1.0</version>
     </parent>
@@ -15,13 +15,13 @@
 
     <dependencies>
         <dependency>
-            <groupId>de.talesFromHell</groupId>
+            <groupId>de.tfh</groupId>
             <artifactId>core</artifactId>
             <version>1.0</version>
         </dependency>
 
         <dependency>
-            <groupId>de.talesFromHell</groupId>
+            <groupId>de.tfh</groupId>
             <artifactId>slick2D</artifactId>
             <version>1.0</version>
         </dependency>

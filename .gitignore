@@ -5,7 +5,7 @@
 *.iws
 /.idea/*
 !/.idea/artifacts/
-!/.idea/projectCodeStyle.xml
+!/.idea/codeStyleSettings.xml
 !/.idea/vcs.xml
 
 

@@ -1,6 +1,6 @@
 package de.tfh.starter;
 
-import de.test.slick.SlickInit;
+import de.tfh.slick.SlickInit;
 import org.newdawn.slick.*;
 import org.newdawn.slick.tiled.TiledMap;
 import org.slf4j.Logger;

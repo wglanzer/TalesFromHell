@@ -1,6 +1,6 @@
-package de.test.core.exceptions;
+package de.tfh.core.exceptions;
 
-import de.test.core.i18n.IErrorMessage;
+import de.tfh.core.i18n.IErrorMessage;
 
 /**
  * Normale Exception, die geworfen werden kann

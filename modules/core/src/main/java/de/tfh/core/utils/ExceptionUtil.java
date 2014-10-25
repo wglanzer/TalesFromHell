@@ -1,6 +1,6 @@
-package de.test.core.utils;
+package de.tfh.core.utils;
 
-import de.test.core.i18n.IErrorMessage;
+import de.tfh.core.i18n.IErrorMessage;
 import org.jetbrains.annotations.Nullable;
 
 /**

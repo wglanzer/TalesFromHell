@@ -57,6 +57,14 @@ public class DefaultDataModelRegistry implements IDataModelRegistry
     return MODELS.get(pModel);
   }
 
+  @Override
+  public boolean clear()
+  {
+    int size = MODELS.size();
+    MODELS.clear();
+    return size - MODELS.size() > 0;
+  }
+
   /**
    * Liefert die Instanz der DefaultDataModelRegistry
    *

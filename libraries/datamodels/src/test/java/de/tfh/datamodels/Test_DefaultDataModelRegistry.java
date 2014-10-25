@@ -19,6 +19,7 @@ public class Test_DefaultDataModelRegistry
     IDataModelRegistry reg = DefaultDataModelRegistry.getDefault();
     Assert.assertNotNull(reg);
 
+    reg.clear();
     reg.registerDataModel(DummyDataModel.class);
     IDataModel model = reg.getDataModel(DummyDataModel.class);
     Assert.assertNotNull(model);

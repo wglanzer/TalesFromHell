@@ -31,4 +31,11 @@ public interface IDataModelRegistry
    */
   @Nullable
   IDataModel getDataModel(@NotNull Class<? extends IDataModel> pModel);
+
+  /**
+   * Löscht alle Datenmodelle und deren Referenzen
+   *
+   * @return <tt>true</tt>, wenn sich etwas verändert hat
+   */
+  boolean clear();
 }

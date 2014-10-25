@@ -30,7 +30,7 @@ public class DefaultDataModelRegistry implements IDataModelRegistry
   @Override
   public final void registerDataModel(@NotNull Class<? extends IDataModel>... pModels) throws TFHDataModelException
   {
-    for (Class<? extends IDataModel> currModel : pModels)
+    for(Class<? extends IDataModel> currModel : pModels)
     {
       try
       {
@@ -43,7 +43,7 @@ public class DefaultDataModelRegistry implements IDataModelRegistry
         //Datenmodell zur allg. Map hinzufügen, damit darauf zugegriffen werden kann
         MODELS.put(currModel, instance);
       }
-      catch (Exception e)
+      catch(Exception e)
       {
         throw new TFHDataModelException(e, Errors.E2);
       }
@@ -65,7 +65,7 @@ public class DefaultDataModelRegistry implements IDataModelRegistry
   @NotNull
   public static IDataModelRegistry getDefault()
   {
-    if (SINGLETON == null)
+    if(SINGLETON == null)
       SINGLETON = new DefaultDataModelRegistry();
 
     return SINGLETON;

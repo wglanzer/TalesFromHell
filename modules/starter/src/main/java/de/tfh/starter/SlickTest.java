@@ -25,7 +25,8 @@ public class SlickTest extends BasicGame
   private boolean[][] blocked;
   private static final int SIZE = 34;
 
-  static{
+  static
+  {
 
   }
 
@@ -45,7 +46,7 @@ public class SlickTest extends BasicGame
       app.setDisplayMode(500, 400, false);
       app.start();
     }
-    catch (Exception e)
+    catch(Exception e)
     {
       logger.error(Marker.ANY_MARKER, e);
     }
@@ -77,13 +78,13 @@ public class SlickTest extends BasicGame
     // build a collision map based on tile properties in the TileD map
     blocked = new boolean[grassMap.getWidth()][grassMap.getHeight()];
 
-    for (int xAxis = 0; xAxis < grassMap.getWidth(); xAxis++)
+    for(int xAxis = 0; xAxis < grassMap.getWidth(); xAxis++)
     {
-      for (int yAxis = 0; yAxis < grassMap.getHeight(); yAxis++)
+      for(int yAxis = 0; yAxis < grassMap.getHeight(); yAxis++)
       {
         int tileID = grassMap.getTileId(xAxis, yAxis, 0);
         String value = grassMap.getTileProperty(tileID, "blocked", "false");
-        if ("true".equals(value))
+        if("true".equals(value))
         {
           blocked[xAxis][yAxis] = true;
         }
@@ -95,38 +96,38 @@ public class SlickTest extends BasicGame
   public void update(GameContainer container, int delta) throws SlickException
   {
     Input input = container.getInput();
-    if (input.isKeyDown(Input.KEY_UP))
+    if(input.isKeyDown(Input.KEY_UP))
     {
       sprite = up;
-      if (!isBlocked(x, y - delta * 0.1f))
+      if(!isBlocked(x, y - delta * 0.1f))
       {
         sprite.update(delta);
         // The lower the delta the slowest the sprite will animate.
         y -= delta * 0.1f;
       }
     }
-    else if (input.isKeyDown(Input.KEY_DOWN))
+    else if(input.isKeyDown(Input.KEY_DOWN))
     {
       sprite = down;
-      if (!isBlocked(x, y + SIZE + delta * 0.1f))
+      if(!isBlocked(x, y + SIZE + delta * 0.1f))
       {
         sprite.update(delta);
         y += delta * 0.1f;
       }
     }
-    else if (input.isKeyDown(Input.KEY_LEFT))
+    else if(input.isKeyDown(Input.KEY_LEFT))
     {
       sprite = left;
-      if (!isBlocked(x - delta * 0.1f, y))
+      if(!isBlocked(x - delta * 0.1f, y))
       {
         sprite.update(delta);
         x -= delta * 0.1f;
       }
     }
-    else if (input.isKeyDown(Input.KEY_RIGHT))
+    else if(input.isKeyDown(Input.KEY_RIGHT))
     {
       sprite = right;
-      if (!isBlocked(x + SIZE + delta * 0.1f, y))
+      if(!isBlocked(x + SIZE + delta * 0.1f, y))
       {
         sprite.update(delta);
         x += delta * 0.1f;

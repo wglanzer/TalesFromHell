@@ -31,7 +31,7 @@ public class SlickInit
       fieldSysPath.set(null, null);
       fieldSysPath.setAccessible(false);
     }
-    catch (Exception e)
+    catch(Exception e)
     {
       throw new TFHException(e, Errors.E0);
     }

@@ -25,8 +25,8 @@ public interface IDataModel
   /**
    * Setzt den Wert eines Feldes im Datenmodell
    *
-   * @param pKey    Name des Feldes im Datenmodell
-   * @param pValue  Wert, den das Feld danach haben soll
+   * @param pKey   Name des Feldes im Datenmodell
+   * @param pValue Wert, den das Feld danach haben soll
    * @throws TFHDataModelException Wenn der Wert nicht gesetzt werden kann oder ein anderweitiger Fehler aufgetreten ist
    */
   void setValue(@NotNull String pKey, @Nullable Object pValue) throws TFHDataModelException;

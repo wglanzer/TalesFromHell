@@ -37,7 +37,7 @@ public class StaticDataModelRegistrator
   /**
    * Registriert ein bestimmtes Model bei der Registry und loggt evtl. auftretende Fehler
    *
-   * @param pModelToRegister  Model, das registriert werden soll
+   * @param pModelToRegister Model, das registriert werden soll
    */
   private static void _register(Class<? extends IDataModel> pModelToRegister)
   {

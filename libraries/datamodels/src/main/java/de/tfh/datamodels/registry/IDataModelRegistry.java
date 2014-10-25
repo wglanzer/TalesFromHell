@@ -18,7 +18,7 @@ public interface IDataModelRegistry
    * Registriert ein Datenmodell in der Registry, sodass
    * später darauf zugegriffen werden kann
    *
-   * @param pModels  Klasse der Datenmodelle, auf die zugegriffen werden können soll
+   * @param pModels Klasse der Datenmodelle, auf die zugegriffen werden können soll
    * @throws TFHDataModelException Wenn die Instanz des Datenmodells nicht erstellt werden konnte
    */
   void registerDataModel(@NotNull Class<? extends IDataModel>... pModels) throws TFHDataModelException;
@@ -26,7 +26,7 @@ public interface IDataModelRegistry
   /**
    * Liefert eine Instanz des Datenmodells mit der angegebenen Klasse
    *
-   * @param pModel  Klasse des Datenmodells
+   * @param pModel Klasse des Datenmodells
    * @return Instanz eines IDataModels, oder <tt>null</tt> wenn kein zugehöriges Datenmodell existiert
    */
   @Nullable

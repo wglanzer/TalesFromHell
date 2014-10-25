@@ -63,7 +63,7 @@ public abstract class AbstractDataModel implements IDataModel
     {
       Field field = _getCached(pKey);
 
-      if (field == null)
+      if(field == null)
       {
         field = getClass().getDeclaredField(pKey);
         cachedFields.put(pKey, field);
@@ -80,7 +80,7 @@ public abstract class AbstractDataModel implements IDataModel
   /**
    * Liefert den Wert des übergebenen Feldes
    *
-   * @param pField  Feld, dessen Wert gewünscht ist
+   * @param pField Feld, dessen Wert gewünscht ist
    * @return Den Wert des Feldes, kann daher also <tt>null</tt> sein,
    * wenn das Feld den Wert <tt>null</tt> besitzt
    * @throws TFHDataModelException Wenn der Wert des Feldes nicht ausgelesen werden konnte
@@ -103,7 +103,7 @@ public abstract class AbstractDataModel implements IDataModel
   /**
    * Liefert das gecachte Feld mit dem übergebenen Namen
    *
-   * @param pKey  Name des Feldes
+   * @param pKey Name des Feldes
    * @return Das Feld, oder <tt>null</tt>
    */
   private Field _getCached(String pKey)

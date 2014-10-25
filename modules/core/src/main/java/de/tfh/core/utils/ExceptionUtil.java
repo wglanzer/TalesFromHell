@@ -16,7 +16,7 @@ public class ExceptionUtil
   /**
    * Wandelt eine IErrorMessage in einen String um
    *
-   * @param pMessage  Message, die geparst werden soll
+   * @param pMessage Message, die geparst werden soll
    * @return Message als String, oder <tt>null</tt>
    */
   @Nullable

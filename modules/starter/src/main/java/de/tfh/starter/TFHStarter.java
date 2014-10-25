@@ -32,7 +32,7 @@ public class TFHStarter
       configLoader.applyConfig(container);
       container.start();
     }
-    catch (Exception e)
+    catch(Exception e)
     {
       // Eine unerwartete Fehlermeldung ist aufgetreten
       logger.error(Errors.E0_0.getMessage(), e);

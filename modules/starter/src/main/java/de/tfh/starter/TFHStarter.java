@@ -25,7 +25,7 @@ public class TFHStarter
     try
     {
       SlickInit.installSlick();
-      TFHBasicGame game = new TFHBasicGame("");
+      TFHBasicGame game = new TFHBasicGame();
       AppGameContainer container = new AppGameContainer(game);
       configLoader.applyConfig(container);
       container.start();

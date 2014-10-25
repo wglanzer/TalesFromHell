@@ -1,9 +1,12 @@
 package de.tfh.gamecore;
 
+import de.tfh.core.IStaticResources;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
+
+import java.text.MessageFormat;
 
 /**
  * Anfang der Einbindung in Slick2D.
@@ -13,9 +16,9 @@ import org.newdawn.slick.SlickException;
  */
 public class TFHBasicGame extends BasicGame
 {
-  public TFHBasicGame(String title)
+  public TFHBasicGame()
   {
-    super("Tales From Hell - 1.0");
+    super(MessageFormat.format(IStaticResources.WINDOW_TITLE, IStaticResources.MAIN_TITLE, IStaticResources.VERSION));
   }
 
   @Override

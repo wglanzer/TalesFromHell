@@ -1,6 +1,6 @@
 package de.tfh.core.exceptions;
 
-import de.tfh.core.i18n.IErrorMessage;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Normale Exception, die geworfen werden kann
@@ -9,23 +9,13 @@ import de.tfh.core.i18n.IErrorMessage;
  */
 public class TFHException extends AbstractException
 {
-
-  public TFHException()
+  public TFHException(int pID)
   {
+    super(pID);
   }
 
-  public TFHException(IErrorMessage pMessage)
+  public TFHException(@Nullable Throwable pCause, int pID)
   {
-    super(pMessage);
-  }
-
-  public TFHException(Throwable pCause, IErrorMessage pMessage)
-  {
-    super(pCause, pMessage);
-  }
-
-  public TFHException(Throwable pCause)
-  {
-    super(pCause);
+    super(pCause, pID);
   }
 }

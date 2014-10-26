@@ -1,6 +1,6 @@
 package de.tfh.starter;
 
-import de.tfh.core.i18n.Errors;
+import de.tfh.core.i18n.Exceptions;
 import de.tfh.datamodels.StaticDataModelRegistrator;
 import de.tfh.gamecore.TFHBasicGame;
 import de.tfh.slick.SlickInit;
@@ -35,7 +35,7 @@ public class TFHStarter
     catch(Exception e)
     {
       // Eine unerwartete Fehlermeldung ist aufgetreten
-      logger.error(Errors.E0_0.getMessage(), e);
+      logger.error(Exceptions.get(8), e);
     }
   }
 

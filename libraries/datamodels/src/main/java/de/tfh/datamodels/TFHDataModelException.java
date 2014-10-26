@@ -1,7 +1,7 @@
 package de.tfh.datamodels;
 
 import de.tfh.core.exceptions.TFHException;
-import de.tfh.core.i18n.IErrorMessage;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Exception, wenn in einem Datenmodell ein Fehler passiert ist
@@ -10,23 +10,13 @@ import de.tfh.core.i18n.IErrorMessage;
  */
 public class TFHDataModelException extends TFHException
 {
-
-  public TFHDataModelException()
+  public TFHDataModelException(int pID)
   {
+    super(pID);
   }
 
-  public TFHDataModelException(IErrorMessage pMessage)
+  public TFHDataModelException(@Nullable Throwable pCause, int pID)
   {
-    super(pMessage);
-  }
-
-  public TFHDataModelException(Throwable pCause, IErrorMessage pMessage)
-  {
-    super(pCause, pMessage);
-  }
-
-  public TFHDataModelException(Throwable pCause)
-  {
-    super(pCause);
+    super(pCause, pID);
   }
 }

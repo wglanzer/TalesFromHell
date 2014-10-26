@@ -1,7 +1,6 @@
 package de.tfh.slick;
 
 import de.tfh.core.exceptions.TFHException;
-import de.tfh.core.i18n.Errors;
 import de.tfh.slick.logging.TFHLogSystem;
 import org.newdawn.slick.util.Log;
 import org.slf4j.bridge.SLF4JBridgeHandler;
@@ -33,7 +32,7 @@ public class SlickInit
     }
     catch(Exception e)
     {
-      throw new TFHException(e, Errors.E0);
+      throw new TFHException(e, 0);
     }
   }
 

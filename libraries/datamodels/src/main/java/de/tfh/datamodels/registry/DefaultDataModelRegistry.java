@@ -1,6 +1,5 @@
 package de.tfh.datamodels.registry;
 
-import de.tfh.core.i18n.Errors;
 import de.tfh.datamodels.IDataModel;
 import de.tfh.datamodels.TFHDataModelException;
 import org.jetbrains.annotations.NotNull;
@@ -35,7 +34,7 @@ public class DefaultDataModelRegistry implements IDataModelRegistry
       try
       {
         if(MODELS.containsKey(currModel))
-          throw new TFHDataModelException(Errors.E1); //Bereits registriertes Datenmodell kann nicht neu registriert werden
+          throw new TFHDataModelException(1); //Bereits registriertes Datenmodell kann nicht neu registriert werden
 
         //Neue Instanz per Reflection erzeugen
         IDataModel instance = currModel.newInstance();
@@ -45,7 +44,7 @@ public class DefaultDataModelRegistry implements IDataModelRegistry
       }
       catch(Exception e)
       {
-        throw new TFHDataModelException(e, Errors.E2);
+        throw new TFHDataModelException(e, 2);
       }
     }
   }

@@ -1,6 +1,5 @@
 package de.tfh.core.utils;
 
-import de.tfh.core.i18n.IErrorMessage;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -13,19 +12,17 @@ public class ExceptionUtil
 
   private static final String MESSAGEFORMAT = "%s - %s";
 
+
   /**
-   * Wandelt eine IErrorMessage in einen String um
+   * Formatiert eine Fehlermeldung, um diese ausgeben zu können
    *
-   * @param pMessage Message, die geparst werden soll
-   * @return Message als String, oder <tt>null</tt>
+   * @param pMessage  Nachricht, die formatiert werden soll
+   * @return Formatierter String
    */
   @Nullable
-  public static String parseErrorMessage(IErrorMessage pMessage)
+  public static String parseErrorMessage(String pMessage, int pID)
   {
-    if(pMessage == null)
-      return null;
-
-    return String.format(MESSAGEFORMAT, pMessage.getID(), pMessage.getMessage());
+    return String.format(MESSAGEFORMAT, pID, pMessage);
   }
 
 }

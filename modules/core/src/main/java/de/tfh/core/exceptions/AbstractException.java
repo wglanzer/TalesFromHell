@@ -1,7 +1,7 @@
 package de.tfh.core.exceptions;
 
-import de.tfh.core.i18n.Errors;
-import de.tfh.core.i18n.IErrorMessage;
+import de.tfh.core.i18n.ExceptionResources;
+import de.tfh.core.i18n.Exceptions;
 import de.tfh.core.utils.ExceptionUtil;
 import org.jetbrains.annotations.Nullable;
 
@@ -10,23 +10,14 @@ import org.jetbrains.annotations.Nullable;
  */
 public class AbstractException extends Exception
 {
-  public AbstractException()
+
+  public AbstractException(int pID)
   {
-    this(Errors.EINVALID);
+    this(null, pID < 0 ? ExceptionResources.DEFAULT_NO_MESSAGE : pID);
   }
 
-  public AbstractException(@Nullable IErrorMessage pMessage)
+  public AbstractException(@Nullable Throwable pCause, int pID)
   {
-    this(null, pMessage);
-  }
-
-  public AbstractException(@Nullable Throwable pCause, @Nullable IErrorMessage pMessage)
-  {
-    super(ExceptionUtil.parseErrorMessage(pMessage == null ? Errors.EINVALID : pMessage), pCause);
-  }
-
-  public AbstractException(@Nullable Throwable pCause)
-  {
-    super(pCause);
+    super(ExceptionUtil.parseErrorMessage(Exceptions.get(pID), pID), pCause);
   }
 }

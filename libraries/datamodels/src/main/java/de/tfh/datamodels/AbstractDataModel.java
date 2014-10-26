@@ -1,6 +1,5 @@
 package de.tfh.datamodels;
 
-import de.tfh.core.i18n.Errors;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,7 +29,7 @@ public abstract class AbstractDataModel implements IDataModel
     catch(Exception e)
     {
       //Wert des Feldes konnte nicht bestimmt werden
-      throw new TFHDataModelException(e, Errors.E4);
+      throw new TFHDataModelException(e, 4);
     }
   }
 
@@ -45,7 +44,7 @@ public abstract class AbstractDataModel implements IDataModel
     catch(Exception e)
     {
       //Wert des Feldes konnte nicht gesetzt werden
-      throw new TFHDataModelException(e, Errors.E5);
+      throw new TFHDataModelException(e, 5);
     }
   }
 
@@ -73,7 +72,7 @@ public abstract class AbstractDataModel implements IDataModel
     }
     catch(Exception e)
     {
-      throw new TFHDataModelException(e, Errors.E3);
+      throw new TFHDataModelException(e, 3);
     }
   }
 
@@ -96,7 +95,7 @@ public abstract class AbstractDataModel implements IDataModel
     }
     catch(Exception e)
     {
-      throw new TFHDataModelException(e, null);
+      throw new TFHDataModelException(e, 7);
     }
   }
 

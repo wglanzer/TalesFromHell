@@ -1,6 +1,6 @@
 package de.tfh.datamodels;
 
-import de.tfh.core.i18n.Errors;
+import de.tfh.core.i18n.Exceptions;
 import de.tfh.datamodels.models.ConfigDataModel;
 import de.tfh.datamodels.registry.DefaultDataModelRegistry;
 import de.tfh.datamodels.registry.IDataModelRegistry;
@@ -48,7 +48,7 @@ public class StaticDataModelRegistrator
     catch(Exception e)
     {
       if(logging)
-        logger.warn(Errors.E6.getMessage(), e);
+        logger.warn(Exceptions.get(6), e);
     }
   }
 }

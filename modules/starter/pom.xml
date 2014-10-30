@@ -65,7 +65,7 @@
                                     <appendAssemblyId>false</appendAssemblyId>
                                     <archive>
                                         <manifest>
-                                            <mainClass>de.tfh.starter.SlickTest</mainClass>
+                                            <mainClass>de.tfh.starter.TFHStarter</mainClass>
                                         </manifest>
                                     </archive>
                                 </configuration>
@@ -75,7 +75,7 @@
                             <!-- Verzippen -->
                             <execution>
                                 <id>inPackage</id>
-                                <phase>package</phase>
+                                <phase>install</phase>
                                 <goals>
                                     <goal>single</goal>
                                 </goals>
@@ -88,6 +88,51 @@
                                 </configuration>
                             </execution>
                         </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>launch4j</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                        <artifactId>launch4j-maven-plugin</artifactId>
+                        <version>1.7</version>
+                        <executions>
+                            <execution>
+                                <id>l4j</id>
+                                <phase>pre-integration-test</phase>  <!-- Eine Phase nachdem die .jar erstellt wurde -->
+                                <goals>
+                                    <goal>launch4j</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <dontWrapJar>false</dontWrapJar>
+                            <headerType>console</headerType>
+                            <jar>target/TalesFromHell.jar</jar>
+                            <outfile>target/TalesFromHell.exe</outfile>
+                            <chdir>.</chdir>
+                            <priority>normal</priority>
+                            <jre>
+                                <minVersion>1.7.0_51</minVersion>
+                                <maxVersion>1.8.0_99</maxVersion>
+                                <jdkPreference>preferJre</jdkPreference>
+                                <runtimeBits>64/32</runtimeBits>
+                                <initialHeapSize>256</initialHeapSize>
+                                <maxHeapSize>1024</maxHeapSize>
+                            </jre>
+                            <messages>
+                                <startupErr>Ein unerwarteter Fehler ist aufgetreten</startupErr>
+                                <bundledJreErr>Java Runtime Environment nicht gefunden</bundledJreErr>
+                                <jreVersionErr>Java Runtime Environment nicht gefunden</jreVersionErr>
+                                <launcherErr>Java Runtime Environment nicht gefunden</launcherErr>
+                                <instanceAlreadyExistsMsg>Eine Instanz der Applikation läuft noch</instanceAlreadyExistsMsg>
+                            </messages>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>

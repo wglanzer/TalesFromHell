@@ -42,7 +42,7 @@
 
     <profiles>
         <profile>
-            <id>de.tfh.jenkins</id>
+            <id>jenkins</id>
             <build>
                 <plugins>
                     <plugin>

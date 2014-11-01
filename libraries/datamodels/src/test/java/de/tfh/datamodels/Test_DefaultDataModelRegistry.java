@@ -21,7 +21,7 @@ public class Test_DefaultDataModelRegistry
 
     reg.clear();
     reg.registerDataModel(DummyDataModel.class);
-    IDataModel model = reg.getDataModel(DummyDataModel.class);
+    IDataModel model = reg.getDataModel(DummyDataModel.class.getSimpleName());
     Assert.assertNotNull(model);
   }
 

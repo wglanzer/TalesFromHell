@@ -1,5 +1,6 @@
 package de.tfh.datamodels;
 
+import de.tfh.datamodels.xml.IXMLable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -8,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * @author W.Glanzer, 25.10.2014
  */
-public interface IDataModel
+public interface IDataModel extends IXMLable
 {
 
   /**
@@ -31,4 +32,10 @@ public interface IDataModel
    */
   void setValue(@NotNull String pKey, @Nullable Object pValue) throws TFHDataModelException;
 
+  /**
+   * Liefert den Namen eines Datenmodells
+   *
+   * @return Name des Datenmodells als String
+   */
+  String getName();
 }

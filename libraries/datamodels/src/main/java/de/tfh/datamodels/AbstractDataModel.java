@@ -1,10 +1,16 @@
 package de.tfh.datamodels;
 
+import com.toddfast.util.convert.TypeConverter;
+import de.tfh.core.exceptions.TFHException;
+import de.tfh.core.i18n.Exceptions;
+import org.apache.log4j.Logger;
+import org.jdom2.Element;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,13 +45,70 @@ public abstract class AbstractDataModel implements IDataModel
     try
     {
       Field field = _getField(pKey);
-      field.set(this, pValue);
+      if(field != null)
+        field.set(this, pValue);
     }
     catch(Exception e)
     {
       //Wert des Feldes konnte nicht gesetzt werden
       throw new TFHDataModelException(e, 5);
     }
+  }
+
+  @Override
+  public Element toXMLElement() throws TFHException
+  {
+    Element ele = new Element(getName());
+    Map<String, Object> allFields = _getAllFields();
+    for(Map.Entry<String, Object> currEntry : allFields.entrySet())
+    {
+      Element childEle = new Element(currEntry.getKey());
+      childEle.addContent(currEntry.getValue().toString());
+      ele.addContent(childEle);
+    }
+    return ele;
+  }
+
+  @Override
+  public void fromXMLElement(Element pElement) throws TFHException
+  {
+    List<Element> children = pElement.getChildren();
+    for(Element currChild : children)
+    {
+      try
+      {
+        Field field = _getField(currChild.getName());
+        if(field != null)
+        {
+          Class<?> type = field.getType();
+          Object casted = TypeConverter.convert(type, _getValue(field));
+          setValue(currChild.getName(), casted);
+        }
+      }
+      catch(Exception e)
+      {
+        Logger.getLogger(AbstractDataModel.class).error(Exceptions.get(9999), e);
+      }
+    }
+  }
+
+  /**
+   * Liefert alle Felder des Datenmodells und ihren Wert zurück
+   *
+   * @return Map aus Name - Wert der Felder
+   * @throws TFHDataModelException
+   */
+  private Map<String, Object> _getAllFields() throws TFHDataModelException
+  {
+    HashMap<String, Object> map = new HashMap<>();
+    Field[] fields = getClass().getDeclaredFields();
+    for(Field currField : fields)
+    {
+      String name = currField.getName();
+      Object val = _getValue(currField);
+      map.put(name, val);
+    }
+    return map;
   }
 
   /**
@@ -55,7 +118,7 @@ public abstract class AbstractDataModel implements IDataModel
    * @return Das Feld mit dem angegebenen Namen, nicht <tt>null</tt>
    * @throws TFHDataModelException Wenn kein Feld gefunden werden konnte
    */
-  @NotNull
+  @Nullable
   private Field _getField(String pKey) throws TFHDataModelException
   {
     try

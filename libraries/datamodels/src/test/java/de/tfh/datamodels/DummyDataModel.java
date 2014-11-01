@@ -12,4 +12,9 @@ public class DummyDataModel extends AbstractDataModel
 
   protected Boolean configBoolean = false;
 
+  @Override
+  public String getName()
+  {
+    return "DummyDataModel";
+  }
 }

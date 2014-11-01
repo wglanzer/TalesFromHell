@@ -24,13 +24,13 @@ public interface IDataModelRegistry
   void registerDataModel(@NotNull Class<? extends IDataModel>... pModels) throws TFHDataModelException;
 
   /**
-   * Liefert eine Instanz des Datenmodells mit der angegebenen Klasse
+   * Liefert eine Instanz des Datenmodells mit dem angegebenen String
    *
-   * @param pModel Klasse des Datenmodells
+   * @param pModel String des Datenmodells
    * @return Instanz eines IDataModels, oder <tt>null</tt> wenn kein zugehöriges Datenmodell existiert
    */
   @Nullable
-  IDataModel getDataModel(@NotNull Class<? extends IDataModel> pModel);
+  IDataModel getDataModel(@NotNull String pModel);
 
   /**
    * Löscht alle Datenmodelle und deren Referenzen

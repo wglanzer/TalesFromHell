@@ -22,7 +22,7 @@ public class Test_DataModel
     IDataModelRegistry reg = DefaultDataModelRegistry.getDefault();
     reg.clear();
     reg.registerDataModel(DummyDataModel.class);
-    model = reg.getDataModel(DummyDataModel.class);
+    model = reg.getDataModel(DummyDataModel.class.getSimpleName());
   }
 
   /**

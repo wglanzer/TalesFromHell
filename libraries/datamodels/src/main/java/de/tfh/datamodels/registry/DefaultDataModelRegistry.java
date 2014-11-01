@@ -20,10 +20,10 @@ public class DefaultDataModelRegistry implements IDataModelRegistry
 
   /**
    * Map der Datenmodelle
-   * Key = Klasse des Datenmodells
+   * Key = Name des Datenmodells
    * Value = Instanz
    */
-  private static final Map<Class<? extends IDataModel>, IDataModel> MODELS = new HashMap<>();
+  private static final Map<String, IDataModel> MODELS = new HashMap<>();
 
   @SafeVarargs  //für IntelliJ
   @Override
@@ -40,7 +40,7 @@ public class DefaultDataModelRegistry implements IDataModelRegistry
         IDataModel instance = currModel.newInstance();
 
         //Datenmodell zur allg. Map hinzufügen, damit darauf zugegriffen werden kann
-        MODELS.put(currModel, instance);
+        MODELS.put(currModel.getSimpleName(), instance);
       }
       catch(Exception e)
       {
@@ -51,7 +51,7 @@ public class DefaultDataModelRegistry implements IDataModelRegistry
 
   @Nullable
   @Override
-  public IDataModel getDataModel(@NotNull Class<? extends IDataModel> pModel)
+  public IDataModel getDataModel(@NotNull String pModel)
   {
     return MODELS.get(pModel);
   }

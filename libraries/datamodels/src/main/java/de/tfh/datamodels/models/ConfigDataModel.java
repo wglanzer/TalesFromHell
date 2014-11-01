@@ -10,4 +10,9 @@ import de.tfh.datamodels.AbstractDataModel;
 public class ConfigDataModel extends AbstractDataModel
 {
 
+  @Override
+  public String getName()
+  {
+    return "ConfigDataModel";
+  }
 }

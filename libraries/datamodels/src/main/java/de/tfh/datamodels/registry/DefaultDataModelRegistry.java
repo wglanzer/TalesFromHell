@@ -1,10 +1,13 @@
 package de.tfh.datamodels.registry;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import de.tfh.datamodels.IDataModel;
 import de.tfh.datamodels.TFHDataModelException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,12 +21,8 @@ public class DefaultDataModelRegistry implements IDataModelRegistry
 
   private static IDataModelRegistry SINGLETON;
 
-  /**
-   * Map der Datenmodelle
-   * Key = Name des Datenmodells
-   * Value = Instanz
-   */
-  private static final Map<String, IDataModel> MODELS = new HashMap<>();
+  private static final Multimap<String, IDataModel> INSTANCES = ArrayListMultimap.create();
+  private static final Map<String, Class<? extends IDataModel>> REGISTRY = new HashMap<>();
 
   @SafeVarargs  //für IntelliJ
   @Override
@@ -33,14 +32,11 @@ public class DefaultDataModelRegistry implements IDataModelRegistry
     {
       try
       {
-        if(MODELS.containsKey(currModel))
+        if(REGISTRY.containsValue(currModel))
           throw new TFHDataModelException(1); //Bereits registriertes Datenmodell kann nicht neu registriert werden
 
-        //Neue Instanz per Reflection erzeugen
-        IDataModel instance = currModel.newInstance();
-
         //Datenmodell zur allg. Map hinzufügen, damit darauf zugegriffen werden kann
-        MODELS.put(currModel.getSimpleName(), instance);
+        REGISTRY.put(getString(currModel), currModel);
       }
       catch(Exception e)
       {
@@ -51,17 +47,30 @@ public class DefaultDataModelRegistry implements IDataModelRegistry
 
   @Nullable
   @Override
-  public IDataModel getDataModel(@NotNull String pModel)
+  public Collection<IDataModel> getAllInstances(@NotNull Class<? extends IDataModel> pModel)
   {
-    return MODELS.get(pModel);
+    return getAllInstances(getString(pModel));
+  }
+
+  @Nullable
+  @Override
+  public Collection<IDataModel> getAllInstances(@NotNull String pModel)
+  {
+    return INSTANCES.get(pModel);
   }
 
   @Override
-  public boolean clear()
+  public boolean clearAll()
   {
-    int size = MODELS.size();
-    MODELS.clear();
-    return size - MODELS.size() > 0;
+    int size1 = INSTANCES.size();
+    INSTANCES.clear();
+    boolean changed1 = size1 - INSTANCES.size() > 0;
+
+    int size2 = REGISTRY.size();
+    REGISTRY.clear();
+    boolean changed2 = size2 - REGISTRY.size() > 0;
+
+    return changed1 || changed2;
   }
 
   /**
@@ -76,5 +85,56 @@ public class DefaultDataModelRegistry implements IDataModelRegistry
       SINGLETON = new DefaultDataModelRegistry();
 
     return SINGLETON;
+  }
+
+  @Nullable
+  @Override
+  public IDataModel newInstance(@NotNull Class<? extends IDataModel> pModel) throws TFHDataModelException
+  {
+    return newInstance(getString(pModel));
+  }
+
+  @Nullable
+  @Override
+  public IDataModel newInstance(@NotNull String pModel) throws TFHDataModelException
+  {
+    try
+    {
+      Class<? extends IDataModel> model = REGISTRY.get(pModel);
+      if(model != null)
+      {
+        IDataModel instance = model.newInstance();
+        if(instance != null)
+        {
+          INSTANCES.put(pModel, instance);
+          return instance;
+        }
+      }
+      else
+        throw new TFHDataModelException(9999); //Datenmodell nicht registriert
+
+      return null;
+    }
+    catch(Exception e)
+    {
+      throw new TFHDataModelException(e, 9999);
+    }
+  }
+
+  @Override
+  public boolean removeInstance(@NotNull IDataModel pModel)
+  {
+    return INSTANCES.remove(getString(pModel.getClass()), pModel);
+  }
+
+  /**
+   * Wandelt eine Klasse in einen String um
+   *
+   * @param pClass  Klasse die umgewandelt werden soll
+   * @return Name der Klasse
+   */
+  public static <T> String getString(Class<T> pClass)
+  {
+    return pClass.getSimpleName();
   }
 }

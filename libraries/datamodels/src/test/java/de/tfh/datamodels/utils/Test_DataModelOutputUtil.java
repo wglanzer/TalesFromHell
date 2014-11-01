@@ -25,9 +25,9 @@ public class Test_DataModelOutputUtil
     try
     {
       IDataModelRegistry reg = DefaultDataModelRegistry.getDefault();
-      reg.clear();
+      reg.clearAll();
       reg.registerDataModel(DummyDataModel.class);
-      IDataModel ddm = reg.getDataModel(DummyDataModel.class.getSimpleName());
+      IDataModel ddm = reg.newInstance(DummyDataModel.class);
 
       DataModelIOUtil.writeDataModelXML(ddm, "target/config.xml");
       FileReader reader = new FileReader("target/config.xml");
@@ -47,7 +47,7 @@ public class Test_DataModelOutputUtil
     try
     {
       IDataModelRegistry reg = DefaultDataModelRegistry.getDefault();
-      reg.clear();
+      reg.clearAll();
       reg.registerDataModel(DummyDataModel.class);
 
       IDataModel model = DataModelIOUtil.readDataModelFromXML(new FileInputStream("target/config.xml"));

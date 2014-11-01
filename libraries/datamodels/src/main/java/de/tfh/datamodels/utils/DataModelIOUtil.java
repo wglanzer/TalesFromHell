@@ -93,7 +93,7 @@ public abstract class DataModelIOUtil
         Element root = doc.getRootElement();
         if(root != null)
         {
-          IDataModel model = DefaultDataModelRegistry.getDefault().getDataModel(root.getName());
+          IDataModel model = DefaultDataModelRegistry.getDefault().newInstance(root.getName());
           if(model != null)
           {
             model.fromXMLElement(root);

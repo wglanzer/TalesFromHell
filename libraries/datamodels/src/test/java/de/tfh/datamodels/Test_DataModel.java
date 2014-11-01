@@ -20,9 +20,9 @@ public class Test_DataModel
   public static void before() throws TFHDataModelException
   {
     IDataModelRegistry reg = DefaultDataModelRegistry.getDefault();
-    reg.clear();
+    reg.clearAll();
     reg.registerDataModel(DummyDataModel.class);
-    model = reg.getDataModel(DummyDataModel.class.getSimpleName());
+    model = reg.newInstance(DummyDataModel.class);
   }
 
   /**

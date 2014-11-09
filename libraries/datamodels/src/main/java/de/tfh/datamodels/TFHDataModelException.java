@@ -15,8 +15,8 @@ public class TFHDataModelException extends TFHException
     super(pID);
   }
 
-  public TFHDataModelException(@Nullable Throwable pCause, int pID)
+  public TFHDataModelException(@Nullable Throwable pCause, int pID, String... pDetails)
   {
-    super(pCause, pID);
+    super(pCause, pID, pDetails);
   }
 }

@@ -14,8 +14,8 @@ public class TFHException extends AbstractException
     super(pID);
   }
 
-  public TFHException(@Nullable Throwable pCause, int pID)
+  public TFHException(@Nullable Throwable pCause, int pID, Object... pDetails)
   {
-    super(pCause, pID);
+    super(pCause, pID, pDetails);
   }
 }

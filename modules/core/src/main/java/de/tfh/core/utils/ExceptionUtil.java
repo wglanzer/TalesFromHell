@@ -50,6 +50,6 @@ public class ExceptionUtil
    */
   public static String getErrorString(int pID, Object[] pDetails)
   {
-    return parseErrorMessage(Exceptions.get(pID), pID) + (pDetails.length > 0 ? " [" + StringUtil.concat(',', pDetails) + "]" : "");
+    return parseErrorMessage(Exceptions.get(pID), pID) + (pDetails.length > 0 ? " " + StringUtil.concat(',', pDetails) : "");
   }
 }

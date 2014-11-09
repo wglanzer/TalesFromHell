@@ -35,7 +35,7 @@ public class TFHStarter
     catch(Exception e)
     {
       // Eine unerwartete Fehlermeldung ist aufgetreten
-      ExceptionUtil.logError(logger, 10, e, "args=" + "args");
+      ExceptionUtil.logError(logger, 10, e, "args=", args);
     }
   }
 

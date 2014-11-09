@@ -1,5 +1,7 @@
 package de.tfh.core.utils;
 
+import java.util.Arrays;
+
 /**
  * Enthält alle Aktionen, die mit Strings ausgeführt werden können
  *
@@ -12,16 +14,7 @@ public class StringUtil
   {
     StringBuilder string = new StringBuilder();
 
-    for(int i = 0; i < pStrings.length; i++)
-    {
-      Object currString = pStrings[i];
-      string.append(currString.toString());
-      if(i + 1 < pStrings.length)
-      {
-        string.append(pConcatChar);
-        string.append(" ");
-      }
-    }
+    string.append(Arrays.deepToString(pStrings));
 
     return string.toString();
   }

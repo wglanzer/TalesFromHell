@@ -3,6 +3,7 @@ package de.tfh.starter.config;
 import de.tfh.core.exceptions.TFHException;
 import org.jetbrains.annotations.NotNull;
 import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.SlickException;
 
 /**
  * Standard-ConfigLoader
@@ -17,6 +18,14 @@ public class DefaultConfigLoader implements IConfigLoader
   @Override
   public void applyConfig(AppGameContainer pContainer) throws TFHException
   {
+    try
+    {
+      pContainer.setDisplayMode(1366, 768, false);
+    }
+    catch(SlickException e)
+    {
+      throw new TFHException(e, 9999);
+    }
   }
 
   /**

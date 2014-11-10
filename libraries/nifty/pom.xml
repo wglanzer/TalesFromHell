@@ -6,19 +6,14 @@
 
     <parent>
         <groupId>de.tfh</groupId>
-        <artifactId>talesFromHell</artifactId>
+        <artifactId>libraries</artifactId>
         <version>1.0</version>
     </parent>
 
-    <artifactId>libraries</artifactId>
-    <name>TalesFromHell: Libraries</name>
-    <packaging>pom</packaging>
+    <artifactId>nifty</artifactId>
+    <name>TalesFromHell: Nifty</name>
 
-    <modules>
-        <module>datamodels</module>
-        <module>log4j</module>
-        <module>nifty</module>
-        <module>slick2D</module>
-        <module>steam-condenser</module>
-    </modules>
+    <dependencies>
+    </dependencies>
+
 </project>

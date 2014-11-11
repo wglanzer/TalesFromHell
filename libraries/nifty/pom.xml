@@ -13,7 +13,43 @@
     <artifactId>nifty</artifactId>
     <name>TalesFromHell: Nifty</name>
 
+    <repositories>
+        <repository>
+            <id>nifty-maven-repo.sourceforge.net</id>
+            <url>http://nifty-gui.sourceforge.net/nifty-maven-repo</url>
+        </repository>
+    </repositories>
+
     <dependencies>
+        <dependency>
+            <groupId>lessvoid</groupId>
+            <artifactId>nifty</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>lessvoid</groupId>
+            <artifactId>nifty-slick-renderer</artifactId>
+            <version>1.4.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>lessvoid</groupId>
+            <artifactId>nifty-default-controls</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>lessvoid</groupId>
+            <artifactId>nifty-style-black</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.tfh</groupId>
+            <artifactId>slick2D</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
 </project>

@@ -26,6 +26,10 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+        <repository>
+            <id>nifty-maven-repo.sourceforge.net</id>
+            <url>http://nifty-gui.sourceforge.net/nifty-maven-repo</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -40,10 +44,11 @@
             <artifactId>lwjgl</artifactId>
             <version>2.9.0</version>
         </dependency>
+        <!-- Spezielle Slick-Version, damit Nifty funktioniert -->
         <dependency>
-            <groupId>org.newdawn.slick</groupId>
-            <artifactId>slick2d</artifactId>
-            <version>237</version>
+            <groupId>slick</groupId>
+            <artifactId>slick</artifactId>
+            <version>20121001-264</version>
         </dependency>
         <dependency>
             <groupId>java3d</groupId>

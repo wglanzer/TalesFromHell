@@ -1,9 +1,10 @@
 package de.tfh.gamecore;
 
+import de.lessvoid.nifty.slick2d.NiftyStateBasedGame;
 import de.tfh.core.IStaticResources;
-import org.newdawn.slick.BasicGame;
+import de.tfh.gamecore.scenes.StateMainMenu;
+import de.tfh.gamecore.scenes.States;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
 import java.text.MessageFormat;
@@ -14,25 +15,19 @@ import java.text.MessageFormat;
  *
  * @author W.Glanzer, 25.10.2014
  */
-public class TFHBasicGame extends BasicGame
+public class TFHBasicGame extends NiftyStateBasedGame
 {
   public TFHBasicGame()
   {
-    super(MessageFormat.format(IStaticResources.WINDOW_TITLE, IStaticResources.MAIN_TITLE, IStaticResources.VERSION));
+    super(MessageFormat.format(IStaticResources.WINDOW_TITLE, IStaticResources.MAIN_TITLE, IStaticResources.VERSION), true);
   }
 
   @Override
-  public void init(GameContainer pGameContainer) throws SlickException
+  public void initStatesList(GameContainer pGameContainer) throws SlickException
   {
-  }
+    addState(new StateMainMenu());
 
-  @Override
-  public void update(GameContainer pGameContainer, int i) throws SlickException
-  {
-  }
-
-  @Override
-  public void render(GameContainer pGameContainer, Graphics pGraphics) throws SlickException
-  {
+    // Hauptmenü aktivieren
+    enterState(States.STATE_MAINMENU);
   }
 }

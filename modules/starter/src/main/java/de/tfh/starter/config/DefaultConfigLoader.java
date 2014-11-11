@@ -21,7 +21,6 @@ public class DefaultConfigLoader implements IConfigLoader
     try
     {
       pContainer.setDisplayMode(1366, 768, false);
-      throw new TFHException(9999);
     }
     catch(SlickException e)
     {

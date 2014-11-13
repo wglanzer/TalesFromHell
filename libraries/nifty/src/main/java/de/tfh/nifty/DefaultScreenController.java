@@ -11,10 +11,6 @@ import de.lessvoid.nifty.screen.ScreenController;
  */
 public class DefaultScreenController implements ScreenController
 {
-  public void test()
-  {
-    System.out.println("tu was!");
-  }
 
   @Override
   public void bind(Nifty pNifty, Screen pScreen)

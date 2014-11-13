@@ -1,9 +1,7 @@
 package de.tfh.nifty;
 
-import de.lessvoid.nifty.builder.LayerBuilder;
-import de.lessvoid.nifty.builder.PanelBuilder;
-import de.lessvoid.nifty.builder.ScreenBuilder;
-import de.lessvoid.nifty.controls.label.builder.LabelBuilder;
+import de.lessvoid.nifty.controls.button.builder.ButtonBuilder;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
@@ -15,24 +13,24 @@ import java.util.UUID;
 public class NiftyFactory
 {
 
-  public static ScreenBuilder buildScreen()
+  /**
+   * Erstellt einen Button und fügt eine Runnable-Action dahinter ein
+   *
+   * @param pTitle    Titel des Buttons
+   * @param pOnClick  Runnable, das beim Klick ausgeführt wird.
+   *                  Darf keine Referenz auf Dinge ausserhalb haben!! Oder <tt>null</tt>
+   * @return ButtonBuilder für den Button
+   */
+  public static ButtonBuilder createButton(String pTitle, @Nullable Runnable pOnClick)
   {
-    return new ScreenBuilder(UUID.randomUUID().toString());
-  }
+    ButtonBuilder builder = new ButtonBuilder(UUID.randomUUID().toString(), pTitle);
+    if(pOnClick != null)
+    {
+      String uuid = RunnableRegistrator.register(pOnClick);
+      builder.interactOnClick(String.format(RunnableRegistratorScreenController.REGISTERED_RUNNABLE_METHOD_DECLARATION, uuid));
+    }
 
-  public static LayerBuilder buildLayer()
-  {
-    return new LayerBuilder();
-  }
-
-  public static PanelBuilder buildPanel()
-  {
-    return new PanelBuilder();
-  }
-
-  public static LabelBuilder buildLabel()
-  {
-    return new LabelBuilder();
+    return builder;
   }
 
 }

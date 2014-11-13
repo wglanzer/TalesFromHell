@@ -46,22 +46,29 @@ public class StateExampleNifty extends AbstractGameState
   @Override
   protected void initGUI(@NotNull Nifty pNifty) throws TFHException
   {
-    ScreenBuilder screen = NiftyFactory.buildScreen();
+    ScreenBuilder screen = new ScreenBuilder("screen");
     screen.controller(new DefaultScreenController());
 
-    LayerBuilder layer = NiftyFactory.buildLayer();
+    LayerBuilder layer = new LayerBuilder();
     layer.childLayoutVertical();
 
-    PanelBuilder panel = NiftyFactory.buildPanel();
+    PanelBuilder panel = new PanelBuilder();
     panel.childLayoutCenter();
 
-    ButtonBuilder button = new ButtonBuilder("test", "Hello Nifty");
+    ButtonBuilder button = NiftyFactory.createButton("Neu", new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        System.out.println("tu was");
+      }
+    });
+
     button.alignCenter();
     button.valignCenter();
     button.height("5%");
     button.width("15%");
     button.visibleToMouse(true);
-    button.interactOnClick("test()");
 
     panel.control(button);
     layer.panel(panel);

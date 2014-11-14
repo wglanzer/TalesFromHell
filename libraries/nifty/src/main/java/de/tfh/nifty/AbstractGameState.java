@@ -61,12 +61,12 @@ public abstract class AbstractGameState extends NiftyOverlayBasicGameState
       {
         // ScreenBuilder
         ScreenBuilder screen = new ScreenBuilder(UUID.randomUUID().toString());
+        String id = UUID.randomUUID().toString();
 
-        initGUI(pGameContainer, pStateBasedGame, nifty, screen);
+        initGUI(pGameContainer, pStateBasedGame, nifty, screen, id);
 
         // ScreenBuilder builden
         Screen screenBuilded = screen.build(nifty);
-        String id = UUID.randomUUID().toString();
         nifty.addScreen(id, screenBuilded);
         nifty.gotoScreen(id);
       }
@@ -122,8 +122,8 @@ public abstract class AbstractGameState extends NiftyOverlayBasicGameState
    * Initialisiert den State des Games.
    * Wird einmal aufgerufen, wenn der State initalisiert werden soll.
    *
-   * @param pGameContainer   GameContainer, der initialisiert werden soll
-   * @param pStateBasedGame  StateBasedGame, das initialisiert werden soll
+   * @param pGameContainer  GameContainer, der initialisiert werden soll
+   * @param pStateBasedGame StateBasedGame, das initialisiert werden soll
    * @throws TFHException Falls während dem initialisieren ein Fehler aufgetreten ist
    */
   protected abstract void initState(@NotNull GameContainer pGameContainer, @NotNull StateBasedGame pStateBasedGame) throws TFHException;
@@ -131,9 +131,9 @@ public abstract class AbstractGameState extends NiftyOverlayBasicGameState
   /**
    * Rendert den State, sollte nicht allzulang dauern!
    *
-   * @param pGameContainer   GameContainer, der gerendert werden soll
-   * @param pStateBasedGame  StateBasedGame, das gerendert werden soll
-   * @param pGraphics        GraphicsObject, auf das gerendert werden soll
+   * @param pGameContainer  GameContainer, der gerendert werden soll
+   * @param pStateBasedGame StateBasedGame, das gerendert werden soll
+   * @param pGraphics       GraphicsObject, auf das gerendert werden soll
    * @throws TFHException Falls während dem Rendern eine Exception auftritt
    */
   protected abstract void renderState(@NotNull GameContainer pGameContainer, @NotNull StateBasedGame pStateBasedGame, @NotNull Graphics pGraphics) throws TFHException;
@@ -141,9 +141,9 @@ public abstract class AbstractGameState extends NiftyOverlayBasicGameState
   /**
    * Updated den State, kein Rendering!
    *
-   * @param pGameContainer   GameContainer, der geupdated wird
-   * @param pStateBasedGame  StateBasedGame, das geupdated werden soll
-   * @param pDelta           Zeit seit dem letzen Frame, zur Interpolation der Werte
+   * @param pGameContainer  GameContainer, der geupdated wird
+   * @param pStateBasedGame StateBasedGame, das geupdated werden soll
+   * @param pDelta          Zeit seit dem letzen Frame, zur Interpolation der Werte
    * @throws TFHException Falls während dem Updaten ine Exception auftritt
    */
   protected abstract void updateState(@NotNull GameContainer pGameContainer, @NotNull StateBasedGame pStateBasedGame, int pDelta) throws TFHException;
@@ -152,11 +152,12 @@ public abstract class AbstractGameState extends NiftyOverlayBasicGameState
    * Initialisiert das Nifty-HUD. Zur besseren Kapselung sollte
    * alles nötige hier schon gemacht werden
    *
-   *
-   * @param pGameContainer
-   * @param pStateBasedGame
-   *@param pNifty  Nifty-Objekt für das HUD
-   * @param pScreen   @throws TFHException Falls dabei ein Fehler auftritt
+   * @param pGameContainer  GameContainer, der geupdated wird
+   * @param pStateBasedGame StateBasedGame, das geupdated werden soll
+   * @param pNifty          Nifty-Objekt für das HUD
+   * @param pScreen         ScreenBuilder
+   * @param pScreenID       ID des Screens
+   * @throws TFHException Falls dabei ein Fehler auftritt
    */
-  protected abstract void initGUI(GameContainer pGameContainer, StateBasedGame pStateBasedGame, @NotNull Nifty pNifty, ScreenBuilder pScreen) throws TFHException;
+  protected abstract void initGUI(GameContainer pGameContainer, StateBasedGame pStateBasedGame, @NotNull Nifty pNifty, ScreenBuilder pScreen, String pScreenID) throws TFHException;
 }

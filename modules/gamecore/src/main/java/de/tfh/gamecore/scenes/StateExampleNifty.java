@@ -43,7 +43,7 @@ public class StateExampleNifty extends AbstractGameState
   }
 
   @Override
-  protected void initGUI(GameContainer pGameContainer, StateBasedGame pStateBasedGame, @NotNull Nifty pNifty, ScreenBuilder pScreen) throws TFHException
+  protected void initGUI(GameContainer pGameContainer, StateBasedGame pStateBasedGame, @NotNull Nifty pNifty, ScreenBuilder pScreen, String pScreenID) throws TFHException
   {
     pScreen.controller(new DefaultScreenController());
 

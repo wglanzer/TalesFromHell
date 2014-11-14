@@ -4,16 +4,22 @@ import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.builder.LayerBuilder;
 import de.lessvoid.nifty.builder.PanelBuilder;
 import de.lessvoid.nifty.builder.ScreenBuilder;
-import de.lessvoid.nifty.tools.SizeValue;
+import de.lessvoid.nifty.controls.button.builder.ButtonBuilder;
+import de.lessvoid.nifty.elements.Element;
+import de.lessvoid.nifty.screen.Screen;
 import de.tfh.core.exceptions.TFHException;
 import de.tfh.core.i18n.Messages;
+import de.tfh.core.utils.ExceptionUtil;
 import de.tfh.nifty.AbstractGameState;
+import de.tfh.nifty.NiftyFactory;
 import de.tfh.nifty.RunnableRegistratorScreenController;
 import de.tfh.nifty.util.ButtonUtil;
 import org.jetbrains.annotations.NotNull;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * State: Hauptmenü
@@ -43,27 +49,91 @@ public class StateMainMenu extends AbstractGameState
   }
 
   @Override
-  protected void initGUI(GameContainer pGameContainer, final StateBasedGame pStateBasedGame, @NotNull Nifty pNifty, ScreenBuilder pScreen) throws TFHException
+  protected void initGUI(GameContainer pGameContainer, StateBasedGame pStateBasedGame, @NotNull Nifty pNifty, ScreenBuilder pScreen, String pScreenID) throws TFHException
   {
     pScreen.controller(new RunnableRegistratorScreenController());
 
-    LayerBuilder layer = new LayerBuilder();
-    layer.childLayoutVertical();
+    // Layer des kompletten Hauptmenüs
+    LayerBuilder layer = NiftyFactory.createLayer();
+    layer.childLayoutAbsolute();
 
-    PanelBuilder panel = new PanelBuilder();
-    panel.childLayoutAbsoluteInside();
-    panel.width(SizeValue.percentWidth(100));
-    panel.height(SizeValue.percentHeight(100));
+    // Panels, die angezeigt werden können
+    PanelBuilder defaultPanel = NiftyFactory.createPanel();
+    PanelBuilder settingsPanel = NiftyFactory.createPanel();
+    PanelBuilder loadPanel = NiftyFactory.createPanel();
 
-    ButtonUtil.addButtonBottomRight(Messages.get(0), panel, 5, null);
-    ButtonUtil.addButtonBottomRight(Messages.get(1), panel, 4, null);
-    ButtonUtil.addButtonBottomRight(Messages.get(2), panel, 3, null);
-    ButtonUtil.addButtonBottomRight(Messages.get(3), panel, 2, null);
-    ButtonUtil.addButtonBottomRight(Messages.get(4), panel, 1, null);
-    ButtonUtil.addButtonBottomRight(Messages.get(5), panel, 0, new _Exit(pGameContainer));
+    // Panels unsichtbar schalten
+    settingsPanel.visible(false);
+    loadPanel.visible(false);
 
-    layer.panel(panel);
+    // DefaultPanel, das am Anfang angezeigt wird
+    ButtonBuilder btnContinue = ButtonUtil.addButtonBottomRight(Messages.get(0), defaultPanel, 5, null);// Fortsetzen
+    ButtonBuilder btnNewCampaign = ButtonUtil.addButtonBottomRight(Messages.get(1), defaultPanel, 4, null);// Neue Kampagne
+    ButtonBuilder btnLoad = ButtonUtil.addButtonBottomRight(Messages.get(2), defaultPanel, 3, new _SwitchPanel(pScreenID, defaultPanel.getId(), loadPanel.getId()));// Laden
+    ButtonBuilder btnAdditionalContent = ButtonUtil.addButtonBottomRight(Messages.get(3), defaultPanel, 2, null);// Zustäzliche Inhalte
+    ButtonBuilder btnOptions = ButtonUtil.addButtonBottomRight(Messages.get(4), defaultPanel, 1, new _SwitchPanel(pScreenID, defaultPanel.getId(), settingsPanel.getId()));// Optionen
+    ButtonBuilder btnExit = ButtonUtil.addButtonBottomRight(Messages.get(5), defaultPanel, 0, new _Exit(pGameContainer));// Beenden
+    layer.panel(defaultPanel);
+
+    // Speicherstand laden
+    ButtonBuilder btnAutosave = ButtonUtil.addButtonBottomRight(Messages.get(9), loadPanel, 8, null);//autosave
+    ButtonBuilder btnQuicksave = ButtonUtil.addButtonBottomRight(Messages.get(8), loadPanel, 7, null);//quicksave
+    ButtonBuilder btnLoad1 = ButtonUtil.addButtonBottomRight("- " + Messages.get(7) + " -", loadPanel, 5, null);
+    ButtonBuilder btnLoad2 = ButtonUtil.addButtonBottomRight("- " + Messages.get(7) + " -", loadPanel, 4, null);
+    ButtonBuilder btnLoad3 = ButtonUtil.addButtonBottomRight("- " + Messages.get(7) + " -", loadPanel, 3, null);
+    ButtonBuilder btnLoad5 = ButtonUtil.addButtonBottomRight("- " + Messages.get(7) + " -", loadPanel, 2, null);
+    ButtonBuilder btnLoad6 = ButtonUtil.addButtonBottomRight("- " + Messages.get(7) + " -", loadPanel, 1, null);
+    ButtonBuilder btnBack2 = ButtonUtil.addButtonBottomRight(Messages.get(6), loadPanel, 0, new _SwitchPanel(pScreenID, loadPanel.getId(), defaultPanel.getId()));
+    layer.panel(loadPanel);
+
+    // SettingsPanel, für Optionen
+    ButtonBuilder btnDummy = ButtonUtil.addButtonBottomRight("_DUMMY_", settingsPanel, 1, null);
+    ButtonBuilder btnBack1 = ButtonUtil.addButtonBottomRight(Messages.get(6), settingsPanel, 0, new _SwitchPanel(pScreenID, settingsPanel.getId(), defaultPanel.getId()));
+    layer.panel(settingsPanel);
+
+    // Layer zum Screen hinzufügen
     pScreen.layer(layer);
+  }
+
+  /**
+   * Aufruf zum Switchen des Panels
+   */
+  private class _SwitchPanel implements Runnable
+  {
+    private final String screenID;
+    private final String from;
+    private final String to;
+    private final Logger logger = LoggerFactory.getLogger(_SwitchPanel.class);
+
+    public _SwitchPanel(String pScreenID, String pFrom, String pSwitchTo)
+    {
+      screenID = pScreenID;
+      from = pFrom;
+      to = pSwitchTo;
+    }
+
+    @Override
+    public void run()
+    {
+      Nifty nifty = getNifty();
+      if(nifty != null)
+      {
+        Screen screen = nifty.getScreen(screenID);
+        if(screen != null)
+        {
+          Element eleFrom = screen.findElementById(from);
+          Element eleTo = screen.findElementById(to);
+          if(eleFrom != null && eleTo != null)
+          {
+            eleFrom.setVisible(false);
+            eleTo.setVisible(true);
+            return;
+          }
+        }
+      }
+
+      ExceptionUtil.logError(logger, 9999, null, "to=" + to, "from=" + from, "screenID=" + screenID);
+    }
   }
 
   /**

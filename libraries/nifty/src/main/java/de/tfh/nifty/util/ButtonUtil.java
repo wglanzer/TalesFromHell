@@ -6,6 +6,8 @@ import de.lessvoid.nifty.tools.SizeValue;
 import de.tfh.nifty.NiftyFactory;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.UUID;
+
 /**
  * @author W.Glanzer, 14.11.2014
  */
@@ -20,9 +22,11 @@ public class ButtonUtil
    * @param pVerticalPosition  Position des Buttons
    * @param pOnClick           Runnable, das bei Klick auf den Button ausgeführt werden soll, oder <tt>null</tt>
    */
-  public static void addButtonBottomRight(String pName, PanelBuilder pPanel, int pVerticalPosition, @Nullable Runnable pOnClick)
+  public static ButtonBuilder addButtonBottomRight(String pName, PanelBuilder pPanel, int pVerticalPosition, @Nullable Runnable pOnClick)
   {
+    String id = UUID.randomUUID().toString();
     ButtonBuilder button = NiftyFactory.createButton(pName, pOnClick);
+    button.id(id);
     button.alignRight();
     button.valignBottom();
     button.x(SizeValue.percentWidth(85));
@@ -30,8 +34,9 @@ public class ButtonUtil
 
     button.height(SizeValue.percentHeight(5));
     button.width(SizeValue.percentWidth(15));
-    button.visibleToMouse(true);
     pPanel.control(button);
+
+    return button;
   }
 
 }

@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Locale;
 
 /**
- * EnthÃ¤lt alle Error-Meldungen
+ * Enthält alle Error-Meldungen
  *
  * W.Glanzer, 22.10.2014.
  */
@@ -15,10 +15,10 @@ public class Exceptions
 
   /**
    * Liefert eine ErrorMessage anhand einer ID.
-   * FAlls diese ID nicht vorhanden ist, wird die DUMMY_EXC-Exception zurÃ¼ckgegeben
+   * FAlls diese ID nicht vorhanden ist, wird die DUMMY_EXC-Exception zurückgegeben
    *
    * @param pID  ID der ErrorMessage
-   * @return die ErrorMessage als Ã¼bersetzten String
+   * @return die ErrorMessage als übersetzten String
    */
   @NotNull
   public static String get(int pID)

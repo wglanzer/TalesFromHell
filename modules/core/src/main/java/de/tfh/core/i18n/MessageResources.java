@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * EnthÃ¤lt Meldungen, die Ã¼bersetzt werden kÃ¶nnen.
+ * Enthält Meldungen, die übersetzt werden können.
  * Keine Exceptions!
  *
  * @see de.tfh.core.i18n.Messages
@@ -99,7 +99,7 @@ class MessageResources
   }
 
   /**
-   * Liefert die ErrorID, die der Ã¼bergebene Key beschreibt
+   * Liefert die ErrorID, die der übergebene Key beschreibt
    *
    * @param pKey  Key der ErrorMeldung im Bundle
    * @return Die ID der ErrorMeldung, oder <tt>null</tt>, wenn keine ID gefunden werden konnte

@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
 /**
- * Allgemeine Util-Klasse fÃ¼r Exceptions
+ * Allgemeine Util-Klasse für Exceptions
  *
  * W.Glanzer, 22.10.2014.
  */
@@ -16,7 +16,7 @@ public class ExceptionUtil
 
 
   /**
-   * Formatiert eine Fehlermeldung, um diese ausgeben zu kÃ¶nnen
+   * Formatiert eine Fehlermeldung, um diese ausgeben zu können
    *
    * @param pMessage  Nachricht, die formatiert werden soll
    * @return Formatierter String
@@ -42,7 +42,7 @@ public class ExceptionUtil
   }
 
   /**
-   * Gibt den String zurÃ¼ck, der die ID und die Details kombiniert
+   * Gibt den String zurück, der die ID und die Details kombiniert
    *
    * @param pID       ID der Fehlermeldung
    * @param pDetails  Details zur Fehlermeldung

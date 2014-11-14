@@ -1,7 +1,7 @@
 package de.tfh.core;
 
 /**
- * Enth√§lt alle statischen Ressourcen
+ * Enth‰lt alle statischen Ressourcen
  *
  * @author W.Glanzer, 25.10.2014
  */
@@ -15,7 +15,7 @@ public interface IStaticResources
 
   /**
    * Die Version des Spiels.
-   * Falls diese ge√§ndert wird, sollte in den pom.xmls die
+   * Falls diese ge‰ndert wird, sollte in den pom.xmls die
    * Version ebenfalls angepasst werden!
    */
   public static final String VERSION = "1.0";

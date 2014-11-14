@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * EnthÃ¤lt alle Nachrichten der Fehlermeldungen
+ * Enthält alle Nachrichten der Fehlermeldungen
  *
  * @see de.tfh.core.i18n.Exceptions
  * @author W.Glanzer, 26.10.2014
@@ -98,7 +98,7 @@ public class ExceptionResources
   }
 
   /**
-   * Liefert die ErrorID, die der Ã¼bergebene Key beschreibt
+   * Liefert die ErrorID, die der übergebene Key beschreibt
    *
    * @param pKey  Key der ErrorMeldung im Bundle
    * @return Die ID der ErrorMeldung, oder <tt>null</tt>, wenn keine ID gefunden werden konnte

@@ -14,10 +14,10 @@ public class Messages
 
   /**
    * Liefert eine ErrorMessage anhand einer ID.
-   * Falls die ID nicht vorhanden ist, wird eine Dummy-Message zurÃ¼ckgegeben
+   * Falls die ID nicht vorhanden ist, wird eine Dummy-Message zurückgegeben
    *
    * @param pID  ID der MessageResource
-   * @return die ErrorMessage als Ã¼bersetzten String
+   * @return die ErrorMessage als übersetzten String
    */
   @NotNull
   public static String get(int pID)

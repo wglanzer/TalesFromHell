@@ -3,7 +3,7 @@ package de.tfh.core.utils;
 import java.util.Arrays;
 
 /**
- * EnthÃ¤lt alle Aktionen, die mit Strings ausgefÃ¼hrt werden kÃ¶nnen
+ * Enthält alle Aktionen, die mit Strings ausgeführt werden können
  *
  * @author W.Glanzer, 04.11.2014
  */

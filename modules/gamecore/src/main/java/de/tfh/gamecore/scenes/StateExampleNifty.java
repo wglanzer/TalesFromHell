@@ -15,7 +15,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
 /**
- * State: Beispiel fÃ¼r die NiftyImplementierung
+ * State: Beispiel für die NiftyImplementierung
  *
  * @author W.Glanzer, 11.11.2014
  */

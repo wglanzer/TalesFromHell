@@ -6,6 +6,7 @@ import de.lessvoid.nifty.builder.PanelBuilder;
 import de.lessvoid.nifty.builder.ScreenBuilder;
 import de.lessvoid.nifty.tools.SizeValue;
 import de.tfh.core.exceptions.TFHException;
+import de.tfh.core.i18n.Messages;
 import de.tfh.nifty.AbstractGameState;
 import de.tfh.nifty.RunnableRegistratorScreenController;
 import de.tfh.nifty.util.ButtonUtil;
@@ -54,12 +55,12 @@ public class StateMainMenu extends AbstractGameState
     panel.width(SizeValue.percentWidth(100));
     panel.height(SizeValue.percentHeight(100));
 
-    ButtonUtil.addButtonBottomRight("Kampagne fortsetzen", panel, 5, null);
-    ButtonUtil.addButtonBottomRight("Neue Kampagne", panel, 4, null);
-    ButtonUtil.addButtonBottomRight("Speicherstand laden", panel, 3, null);
-    ButtonUtil.addButtonBottomRight("Zusätzliche Inhalte", panel, 2, null);
-    ButtonUtil.addButtonBottomRight("Optionen", panel, 1, null);
-    ButtonUtil.addButtonBottomRight("Beenden", panel, 0, new _Exit(pGameContainer));
+    ButtonUtil.addButtonBottomRight(Messages.get(0), panel, 5, null);
+    ButtonUtil.addButtonBottomRight(Messages.get(1), panel, 4, null);
+    ButtonUtil.addButtonBottomRight(Messages.get(2), panel, 3, null);
+    ButtonUtil.addButtonBottomRight(Messages.get(3), panel, 2, null);
+    ButtonUtil.addButtonBottomRight(Messages.get(4), panel, 1, null);
+    ButtonUtil.addButtonBottomRight(Messages.get(5), panel, 0, new _Exit(pGameContainer));
 
     layer.panel(panel);
     pScreen.layer(layer);

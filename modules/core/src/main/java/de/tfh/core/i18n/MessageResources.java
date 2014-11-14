@@ -10,19 +10,20 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Enthält alle Nachrichten der Fehlermeldungen
+ * Enthält Meldungen, die übersetzt werden können.
+ * Keine Exceptions!
  *
- * @see de.tfh.core.i18n.Exceptions
- * @author W.Glanzer, 26.10.2014
+ * @see de.tfh.core.i18n.Messages
+ * @author W.Glanzer, 14.11.2014
  */
-class ExceptionResources
+class MessageResources
 {
 
   private ResourceBundle bundle;
   private Map<Integer, String> messageCache;
 
-  private static final Pattern ERROR_REGEXP = Pattern.compile("e([0-9]+)");
-  private static final Logger logger = LoggerFactory.getLogger(ExceptionResources.class);
+  private static final Pattern MESSAGE_REGEXP = Pattern.compile("m([0-9]+)");
+  private static final Logger logger = LoggerFactory.getLogger(MessageResources.class);
 
   public static final int DEFAULT_NO_MESSAGE = 9999;
   private static final String DEFAULT_NO_MESSAGE_MESSAGE = "No message defined";
@@ -32,9 +33,9 @@ class ExceptionResources
    *
    * @param pLocale  Locale des Bundles, oder <tt>null</tt>
    */
-  public ExceptionResources(@Nullable Locale pLocale)
+  public MessageResources(@Nullable Locale pLocale)
   {
-    bundle = ResourceBundle.getBundle("de/tfh/core/i18n/ErrorMessages", pLocale == null ? Locale.getDefault() : pLocale);
+    bundle = ResourceBundle.getBundle("de/tfh/core/i18n/Messages", pLocale == null ? Locale.getDefault() : pLocale);
   }
 
   /**
@@ -105,7 +106,7 @@ class ExceptionResources
    */
   private Integer _getErrorID(String pKey)
   {
-    Matcher matcher = ERROR_REGEXP.matcher(pKey);
+    Matcher matcher = MESSAGE_REGEXP.matcher(pKey);
     if(matcher.find())
     {
       String id = matcher.group(1);
@@ -114,4 +115,5 @@ class ExceptionResources
 
     return null;
   }
+
 }

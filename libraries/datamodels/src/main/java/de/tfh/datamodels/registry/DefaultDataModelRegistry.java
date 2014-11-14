@@ -111,13 +111,14 @@ public class DefaultDataModelRegistry implements IDataModelRegistry
         }
       }
       else
-        throw new TFHDataModelException(9999); //Datenmodell nicht registriert
+        throw new TFHDataModelException(null, 18, "model=", pModel); //Datenmodell nicht registriert
 
       return null;
     }
     catch(Exception e)
     {
-      throw new TFHDataModelException(e, 9999);
+      // Fehler beim Instantiieren eines Datenmodells
+      throw new TFHDataModelException(e, 19, "model=", pModel);
     }
   }
 

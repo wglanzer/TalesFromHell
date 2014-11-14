@@ -5,7 +5,6 @@ import de.lessvoid.nifty.builder.LayerBuilder;
 import de.lessvoid.nifty.builder.PanelBuilder;
 import de.lessvoid.nifty.builder.ScreenBuilder;
 import de.lessvoid.nifty.controls.button.builder.ButtonBuilder;
-import de.lessvoid.nifty.screen.Screen;
 import de.tfh.core.exceptions.TFHException;
 import de.tfh.nifty.AbstractGameState;
 import de.tfh.nifty.DefaultScreenController;
@@ -44,10 +43,9 @@ public class StateExampleNifty extends AbstractGameState
   }
 
   @Override
-  protected void initGUI(@NotNull Nifty pNifty) throws TFHException
+  protected void initGUI(GameContainer pGameContainer, StateBasedGame pStateBasedGame, @NotNull Nifty pNifty, ScreenBuilder pScreen) throws TFHException
   {
-    ScreenBuilder screen = new ScreenBuilder("screen");
-    screen.controller(new DefaultScreenController());
+    pScreen.controller(new DefaultScreenController());
 
     LayerBuilder layer = new LayerBuilder();
     layer.childLayoutVertical();
@@ -72,10 +70,6 @@ public class StateExampleNifty extends AbstractGameState
 
     panel.control(button);
     layer.panel(panel);
-    screen.layer(layer);
-
-    Screen screenBuilded = screen.build(pNifty);
-    pNifty.addScreen("screen", screenBuilded);
-    pNifty.gotoScreen("screen");
+    pScreen.layer(layer);
   }
 }

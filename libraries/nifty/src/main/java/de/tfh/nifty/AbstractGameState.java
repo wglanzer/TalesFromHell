@@ -1,6 +1,8 @@
 package de.tfh.nifty;
 
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.builder.ScreenBuilder;
+import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.slick2d.NiftyOverlayBasicGameState;
 import de.lessvoid.nifty.slick2d.input.PlainSlickInputSystem;
 import de.lessvoid.nifty.slick2d.render.SlickRenderDevice;
@@ -14,6 +16,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.UUID;
 
 /**
  * Abstrakte Klasse für einen State des Games.
@@ -38,7 +42,6 @@ public abstract class AbstractGameState extends NiftyOverlayBasicGameState
     return id;
   }
 
-
   @Override
   protected void enterState(@NotNull GameContainer pGameContainer, @NotNull StateBasedGame pStateBasedGame)
   {
@@ -53,11 +56,22 @@ public abstract class AbstractGameState extends NiftyOverlayBasicGameState
       inputSystem.setInput(pGameContainer.getInput());
       initNifty(pGameContainer, pStateBasedGame, new SlickRenderDevice(pGameContainer), new SlickSoundDevice(), inputSystem, new AccurateTimeProvider());
 
-      pGameContainer.setAlwaysRender(true);
       Nifty nifty = getNifty();
       if(nifty != null)
-        initGUI(nifty);
+      {
+        // ScreenBuilder
+        ScreenBuilder screen = new ScreenBuilder(UUID.randomUUID().toString());
 
+        initGUI(pGameContainer, pStateBasedGame, nifty, screen);
+
+        // ScreenBuilder builden
+        Screen screenBuilded = screen.build(nifty);
+        String id = UUID.randomUUID().toString();
+        nifty.addScreen(id, screenBuilded);
+        nifty.gotoScreen(id);
+      }
+
+      // State initialisieren
       initState(pGameContainer, pStateBasedGame);
     }
     catch(Exception e)
@@ -138,8 +152,11 @@ public abstract class AbstractGameState extends NiftyOverlayBasicGameState
    * Initialisiert das Nifty-HUD. Zur besseren Kapselung sollte
    * alles nötige hier schon gemacht werden
    *
-   * @param pNifty  Nifty-Objekt für das HUD
-   * @throws TFHException Falls dabei ein Fehler auftritt
+   *
+   * @param pGameContainer
+   * @param pStateBasedGame
+   *@param pNifty  Nifty-Objekt für das HUD
+   * @param pScreen   @throws TFHException Falls dabei ein Fehler auftritt
    */
-  protected abstract void initGUI(@NotNull Nifty pNifty) throws TFHException;
+  protected abstract void initGUI(GameContainer pGameContainer, StateBasedGame pStateBasedGame, @NotNull Nifty pNifty, ScreenBuilder pScreen) throws TFHException;
 }

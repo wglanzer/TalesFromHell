@@ -19,7 +19,7 @@ public class TFHBasicGame extends NiftyStateBasedGame
 {
   public TFHBasicGame()
   {
-    super(MessageFormat.format(IStaticResources.WINDOW_TITLE, IStaticResources.MAIN_TITLE, IStaticResources.VERSION), true);
+    super(MessageFormat.format(IStaticResources.WINDOW_TITLE, IStaticResources.MAIN_TITLE, IStaticResources.VERSION));
   }
 
   @Override

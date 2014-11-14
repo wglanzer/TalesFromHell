@@ -1,6 +1,7 @@
 package de.tfh.nifty;
 
 import de.tfh.core.exceptions.TFHException;
+import de.tfh.core.utils.ExceptionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +31,7 @@ public class RunnableRegistratorScreenController extends DefaultScreenController
     }
     catch(TFHException e)
     {
-      e.printStackTrace();
+      ExceptionUtil.logError(logger, 17, e, "uuid=", pUUID);
     }
   }
 

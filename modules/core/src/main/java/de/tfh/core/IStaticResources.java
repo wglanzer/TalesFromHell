@@ -26,4 +26,9 @@ public interface IStaticResources
    * {1} = Version
    */
   public static final String WINDOW_TITLE = "{0} - {1}";
+
+  /**
+   * Relativer Pfad zur config.xml
+   */
+  public static final String CONFIG_RELATIVE_PATH = "config.xml";
 }

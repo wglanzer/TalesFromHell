@@ -3,10 +3,10 @@ package de.tfh.datamodels;
 import com.toddfast.util.convert.TypeConverter;
 import de.tfh.core.exceptions.TFHException;
 import de.tfh.core.i18n.Exceptions;
-import org.apache.log4j.Logger;
 import org.jdom2.Element;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -87,7 +87,8 @@ public abstract class AbstractDataModel implements IDataModel
       }
       catch(Exception e)
       {
-        Logger.getLogger(AbstractDataModel.class).error(Exceptions.get(9999), e);
+        // XML-Element konnte nicht ins Datenmodell aufgenommen werden
+        LoggerFactory.getLogger(AbstractDataModel.class).error(Exceptions.get(20), e, "ele=", pElement);
       }
     }
   }

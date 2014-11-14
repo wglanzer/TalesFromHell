@@ -3,9 +3,9 @@ package de.tfh.starter;
 import de.tfh.core.utils.ExceptionUtil;
 import de.tfh.datamodels.StaticDataModelRegistrator;
 import de.tfh.gamecore.TFHBasicGame;
+import de.tfh.gamecore.config.IConfigLoader;
+import de.tfh.gamecore.config.XMLConfigLoader;
 import de.tfh.slick.SlickInit;
-import de.tfh.starter.config.DefaultConfigLoader;
-import de.tfh.starter.config.IConfigLoader;
 import org.newdawn.slick.AppGameContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,16 +17,17 @@ import org.slf4j.LoggerFactory;
  */
 public class TFHStarter
 {
-
-  private static final IConfigLoader configLoader = DefaultConfigLoader.getDefault();
   private static final Logger logger = LoggerFactory.getLogger(TFHStarter.class);
+
+  private static IConfigLoader configLoader;
 
   public static void main(String[] args)
   {
     try
     {
-      SlickInit.installSlick();
       StaticDataModelRegistrator.registerAll(true);
+      SlickInit.installSlick();
+      configLoader =  XMLConfigLoader.getDefault();
       TFHBasicGame game = new TFHBasicGame();
       AppGameContainer container = new AppGameContainer(game);
       configLoader.applyConfig(container);

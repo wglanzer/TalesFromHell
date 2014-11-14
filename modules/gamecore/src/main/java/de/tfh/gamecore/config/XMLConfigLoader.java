@@ -1,5 +1,6 @@
-package de.tfh.starter.config;
+package de.tfh.gamecore.config;
 
+import de.tfh.core.IStaticResources;
 import de.tfh.core.exceptions.TFHException;
 import org.jetbrains.annotations.NotNull;
 import org.newdawn.slick.AppGameContainer;
@@ -10,10 +11,17 @@ import org.newdawn.slick.SlickException;
  *
  * @author W.Glanzer, 25.10.2014
  */
-public class DefaultConfigLoader implements IConfigLoader
+public class XMLConfigLoader implements IConfigLoader
 {
 
-  private static final IConfigLoader REF = new DefaultConfigLoader();
+  private static final IConfigLoader REF = new XMLConfigLoader();
+
+  private final IConfig config;
+
+  public XMLConfigLoader()
+  {
+    config = new Configuration(IStaticResources.CONFIG_RELATIVE_PATH);
+  }
 
   @Override
   public void applyConfig(AppGameContainer pContainer) throws TFHException
@@ -26,6 +34,13 @@ public class DefaultConfigLoader implements IConfigLoader
     {
       throw new TFHException(e, 11);
     }
+  }
+
+  @NotNull
+  @Override
+  public IConfig getConfig()
+  {
+    return config;
   }
 
   /**

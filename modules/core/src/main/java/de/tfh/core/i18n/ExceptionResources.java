@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  * @see de.tfh.core.i18n.Exceptions
  * @author W.Glanzer, 26.10.2014
  */
-class ExceptionResources
+public class ExceptionResources
 {
 
   private ResourceBundle bundle;

@@ -1,6 +1,7 @@
-package de.tfh.starter.config;
+package de.tfh.gamecore.config;
 
 import de.tfh.core.exceptions.TFHException;
+import org.jetbrains.annotations.NotNull;
 import org.newdawn.slick.AppGameContainer;
 
 /**
@@ -21,4 +22,11 @@ public interface IConfigLoader
    */
   void applyConfig(AppGameContainer pContainer) throws TFHException;
 
+  /**
+   * Liefert die Konfiguration als Objekt
+   *
+   * @return Config
+   */
+  @NotNull
+  IConfig getConfig();
 }

@@ -3,7 +3,7 @@ package de.tfh.datamodels.models;
 import de.tfh.datamodels.AbstractDataModel;
 
 /**
- * Datenmodell f?r die Config
+ * Datenmodell für die Config
  *
  * @author W.Glanzer, 25.10.2014
  */

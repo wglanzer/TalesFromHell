@@ -42,7 +42,7 @@
 
     <profiles>
         <profile>
-            <id>jenkins</id>
+            <id>starter_assembly_zip</id>
             <build>
                 <plugins>
                     <plugin>
@@ -89,7 +89,14 @@
                             </execution>
                         </executions>
                     </plugin>
+                   </plugins>
+                </build>
+            </profile>
 
+            <profile>
+                <id>starter_assembly_launch4j</id>
+                <build>
+                    <plugins>
                     <plugin>
                         <groupId>com.akathist.maven.plugins.launch4j</groupId>
                         <artifactId>launch4j-maven-plugin</artifactId>

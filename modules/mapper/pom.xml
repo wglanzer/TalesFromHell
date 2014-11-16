@@ -55,7 +55,7 @@
                                     <descriptorRefs>
                                         <descriptorRef>jar-with-dependencies</descriptorRef>
                                     </descriptorRefs>
-                                    <finalName>TalesFromHell_Mapper</finalName>
+                                    <finalName>Mapper</finalName>
                                     <appendAssemblyId>false</appendAssemblyId>
                                     <archive>
                                         <manifest>
@@ -91,8 +91,8 @@
                         <configuration>
                             <dontWrapJar>false</dontWrapJar>
                             <headerType>console</headerType>
-                            <jar>target/TalesFromHell_Mapper.jar</jar>
-                            <outfile>target/TalesFromHell_Mapper.exe</outfile>
+                            <jar>target/Mapper.jar</jar>
+                            <outfile>target/Mapper.exe</outfile>
                             <chdir>.</chdir>
                             <priority>normal</priority>
                             <jre>

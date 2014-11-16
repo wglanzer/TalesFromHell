@@ -31,6 +31,15 @@
             </includes>
         </fileSet>
 
+        <!-- MAPPER: Ausführbare exe-Datei -->
+        <fileSet>
+            <directory>${project.build.directory}/../../../modules/mapper/target</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>Mapper.exe</include>
+            </includes>
+        </fileSet>
+
         <!-- Etwaige andere Includes -->
         <fileSet>
             <directory>${project.build.directory}/../src/main/resources/assembly/zipIncludes</directory>

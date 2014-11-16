@@ -81,7 +81,7 @@ public abstract class AbstractDataModel implements IDataModel
         if(field != null)
         {
           Class<?> type = field.getType();
-          Object casted = TypeConverter.convert(type, _getValue(field));
+          Object casted = TypeConverter.convert(type, currChild.getValue());
           setValue(currChild.getName(), casted);
         }
       }

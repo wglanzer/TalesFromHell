@@ -1,2 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ConfigDataModel />
+<ConfigDataModel>
+  <onlyUpdateWhenVisible>true</onlyUpdateWhenVisible>
+  <fullscreen>false</fullscreen>
+  <screenHeight>900</screenHeight>
+  <vSync>false</vSync>
+  <musicEnabled>true</musicEnabled>
+  <screenWidth>1600</screenWidth>
+  <soundEnabled>true</soundEnabled>
+  <musicVolume>0.5</musicVolume>
+  <multisample>2</multisample>
+  <showFPS>true</showFPS>
+  <soundVolume>0.5</soundVolume>
+</ConfigDataModel>

@@ -20,4 +20,4 @@ target
 # shade-plugin dependency file
 
 dependency-reduced-pom.xml
-/*.iml
+/config.xml

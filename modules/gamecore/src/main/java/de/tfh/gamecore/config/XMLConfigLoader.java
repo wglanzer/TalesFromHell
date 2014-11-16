@@ -28,7 +28,15 @@ public class XMLConfigLoader implements IConfigLoader
   {
     try
     {
-      pContainer.setDisplayMode(1366, 768, false);
+      pContainer.setDisplayMode(config.getScreenWidth(), config.getScreenHeight(), config.isFullscreen());
+      pContainer.setMusicVolume((float) config.getMusicVolume());
+      pContainer.setMusicOn(config.isMusicEnabled());
+      pContainer.setSoundVolume((float) config.getSoundVolume());
+      pContainer.setSoundOn(config.isSoundEnabled());
+      pContainer.setShowFPS(config.isShowFPS());
+      pContainer.setUpdateOnlyWhenVisible(config.isOnlyUpdateWhenVisible());
+      pContainer.setMultiSample(config.getMultisamples());
+      pContainer.setVSync(config.isVSync());
     }
     catch(SlickException e)
     {

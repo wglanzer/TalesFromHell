@@ -21,9 +21,9 @@ import org.slf4j.LoggerFactory;
 import java.util.UUID;
 
 /**
- * Abstrakte Klasse fÃ¼r einen State des Games.
+ * Abstrakte Klasse für einen State des Games.
  * Kapselt die normale BasicGameState-Klasse, um Fehlermeldungen besser
- * nachvollziehen zu kÃ¶nnen.
+ * nachvollziehen zu können.
  *
  * @author W.Glanzer, 11.11.2014
  */
@@ -123,7 +123,7 @@ public abstract class AbstractGameState extends NiftyOverlayBasicGameState
 
   /**
    * Liefert den IGameController, um die Verbindung zw.
-   * TFHBasicGame und GameState herstellen zu kÃ¶nnen
+   * TFHBasicGame und GameState herstellen zu können
    *
    * @return IGameController
    */
@@ -138,7 +138,7 @@ public abstract class AbstractGameState extends NiftyOverlayBasicGameState
    *
    * @param pGameContainer  GameContainer, der initialisiert werden soll
    * @param pStateBasedGame StateBasedGame, das initialisiert werden soll
-   * @throws TFHException Falls wÃ¤hrend dem initialisieren ein Fehler aufgetreten ist
+   * @throws TFHException Falls während dem initialisieren ein Fehler aufgetreten ist
    */
   protected abstract void initState(@NotNull GameContainer pGameContainer, @NotNull StateBasedGame pStateBasedGame) throws TFHException;
 
@@ -148,7 +148,7 @@ public abstract class AbstractGameState extends NiftyOverlayBasicGameState
    * @param pGameContainer  GameContainer, der gerendert werden soll
    * @param pStateBasedGame StateBasedGame, das gerendert werden soll
    * @param pGraphics       GraphicsObject, auf das gerendert werden soll
-   * @throws TFHException Falls wÃ¤hrend dem Rendern eine Exception auftritt
+   * @throws TFHException Falls während dem Rendern eine Exception auftritt
    */
   protected abstract void renderState(@NotNull GameContainer pGameContainer, @NotNull StateBasedGame pStateBasedGame, @NotNull Graphics pGraphics) throws TFHException;
 
@@ -158,17 +158,17 @@ public abstract class AbstractGameState extends NiftyOverlayBasicGameState
    * @param pGameContainer  GameContainer, der geupdated wird
    * @param pStateBasedGame StateBasedGame, das geupdated werden soll
    * @param pDelta          Zeit seit dem letzen Frame, zur Interpolation der Werte
-   * @throws TFHException Falls wÃ¤hrend dem Updaten ine Exception auftritt
+   * @throws TFHException Falls während dem Updaten ine Exception auftritt
    */
   protected abstract void updateState(@NotNull GameContainer pGameContainer, @NotNull StateBasedGame pStateBasedGame, int pDelta) throws TFHException;
 
   /**
    * Initialisiert das Nifty-HUD. Zur besseren Kapselung sollte
-   * alles nÃ¶tige hier schon gemacht werden
+   * alles nötige hier schon gemacht werden
    *
    * @param pGameContainer  GameContainer, der geupdated wird
    * @param pStateBasedGame StateBasedGame, das geupdated werden soll
-   * @param pNifty          Nifty-Objekt fÃ¼r das HUD
+   * @param pNifty          Nifty-Objekt für das HUD
    * @param pScreen         ScreenBuilder
    * @param pScreenID       ID des Screens
    * @throws TFHException Falls dabei ein Fehler auftritt

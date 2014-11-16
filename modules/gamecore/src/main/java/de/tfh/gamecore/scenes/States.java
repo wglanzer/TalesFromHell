@@ -1,7 +1,7 @@
 package de.tfh.gamecore.scenes;
 
 /**
- * EnthÃ¤lt alle States und deren ID
+ * Enthält alle States und deren ID
  *
  * @author W.Glanzer, 12.11.2014
  */
@@ -9,7 +9,7 @@ public interface States
 {
 
   /**
-   * HauptmenÃ¼
+   * Hauptmenü
    */
   public static final int STATE_MAINMENU = 0;
 
@@ -19,7 +19,7 @@ public interface States
   public static final int STATE_GAME = 1;
 
   /**
-   * Beispielstate fÃ¼rs Nifty-Framework
+   * Beispielstate fürs Nifty-Framework
    */
   public static final int STATE_NIFTYEXAMPLE = 9999;
 

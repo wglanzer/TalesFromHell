@@ -24,7 +24,7 @@ public class DefaultDataModelRegistry implements IDataModelRegistry
   private static final Multimap<String, IDataModel> INSTANCES = ArrayListMultimap.create();
   private static final Map<String, Class<? extends IDataModel>> REGISTRY = new HashMap<>();
 
-  @SafeVarargs  //fÃ¼r IntelliJ
+  @SafeVarargs  //für IntelliJ
   @Override
   public final void registerDataModel(@NotNull Class<? extends IDataModel>... pModels) throws TFHDataModelException
   {
@@ -35,7 +35,7 @@ public class DefaultDataModelRegistry implements IDataModelRegistry
         if(REGISTRY.containsValue(currModel))
           throw new TFHDataModelException(1); //Bereits registriertes Datenmodell kann nicht neu registriert werden
 
-        //Datenmodell zur allg. Map hinzufÃ¼gen, damit darauf zugegriffen werden kann
+        //Datenmodell zur allg. Map hinzufügen, damit darauf zugegriffen werden kann
         REGISTRY.put(getString(currModel), currModel);
       }
       catch(Exception e)

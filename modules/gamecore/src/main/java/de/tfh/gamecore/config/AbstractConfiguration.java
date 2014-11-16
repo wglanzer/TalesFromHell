@@ -59,10 +59,10 @@ abstract class AbstractConfiguration implements IConfig
   }
 
   /**
-   * LÃ¤dt das ConfigDatenModell von einem Reader und
-   * gibt es zurÃ¼ck
+   * Lädt das ConfigDatenModell von einem Reader und
+   * gibt es zurück
    *
-   * @param pReader  Reader fÃ¼r das Datenmodell
+   * @param pReader  Reader f?r das Datenmodell
    * @return ConfigDataModel, oder <tt>null</tt>
    * @throws TFHException Wenn dabei ein Fehler aufgetreten ist
    */

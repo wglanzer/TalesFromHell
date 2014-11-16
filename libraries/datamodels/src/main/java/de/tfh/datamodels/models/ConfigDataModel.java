@@ -3,7 +3,7 @@ package de.tfh.datamodels.models;
 import de.tfh.datamodels.AbstractDataModel;
 
 /**
- * Datenmodell f√ºr die Config
+ * Datenmodell f?r die Config
  *
  * @author W.Glanzer, 25.10.2014
  */
@@ -11,12 +11,12 @@ public class ConfigDataModel extends AbstractDataModel
 {
 
   /**
-   * X-Aufl√∂sung
+   * X-Auflˆsung
    */
   public int screenWidth = 1600;
 
   /**
-   * Y-Aufl√∂sung
+   * Y-Auflˆsung
    */
   public int screenHeight = 900;
 
@@ -26,12 +26,12 @@ public class ConfigDataModel extends AbstractDataModel
   public int multisample = 2;
 
   /**
-   * Musik-Lautst√§rke, 0 - 1
+   * Musik-Lautst‰rke, 0 - 1
    */
   public double musicVolume = 0.5;
 
   /**
-   * Sound-Lautst√§rke, 0 - 1
+   * Sound-Lautst‰rke, 0 - 1
    */
   public double soundVolume = 0.5;
 

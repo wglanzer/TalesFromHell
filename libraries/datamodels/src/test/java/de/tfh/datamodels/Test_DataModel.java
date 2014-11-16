@@ -59,7 +59,7 @@ public class Test_DataModel
     }
     catch(Exception e)
     {
-      // Wir wollen, dass die Fehlermeldung aussagekr√§ftig ist!
+      // Wir wollen, dass die Fehlermeldung aussagekr‰ftig ist!
       Assert.assertTrue(e instanceof TFHDataModelException);
     }
   }

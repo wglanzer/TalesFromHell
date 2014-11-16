@@ -10,8 +10,8 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Hier kÃ¶nnen sich runnables registrieren und per
- * UUID wieder ausgefÃ¼hrt werden
+ * Hier können sich runnables registrieren und per
+ * UUID wieder ausgeführt werden
  *
  * @author W.Glanzer, 13.11.2014
  */
@@ -35,7 +35,7 @@ class RunnableRegistrator
   }
 
   /**
-   * Entfernt ein Runnable mit der Ã¼bergebenen UUID
+   * Entfernt ein Runnable mit der übergebenen UUID
    *
    * @param pUUID  UUID des Runnables, das deregistriert werden soll
    * @return <tt>true</tt>, wenn das Runnable entfernt wurde, andernfalls <tt>false</tt>
@@ -47,10 +47,10 @@ class RunnableRegistrator
   }
 
   /**
-   * FÃ¼hrt ein Runnable anhand der UUID aus
+   * Führt ein Runnable anhand der UUID aus
    *
    * @param pUUID  UUID des Runnables
-   * @throws TFHException Wenn ein Fehler wÃ¤hrend der AusfÃ¼hrung auftritt
+   * @throws TFHException Wenn ein Fehler während der Ausführung auftritt
    */
   public static void exec(String pUUID) throws TFHException
   {
@@ -65,7 +65,7 @@ class RunnableRegistrator
     }
     catch(Exception e)
     {
-      // Fehler beim AusfÃ¼hren des Runnables
+      // Fehler beim Ausführen des Runnables
       ExceptionUtil.logError(logger, 16, e, "uuid=", pUUID);
     }
   }

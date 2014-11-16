@@ -12,7 +12,7 @@ public interface IXMLable
 {
 
   /**
-   * Liefert das Objekt als XML-Element zurÃ¼ck
+   * Liefert das Objekt als XML-Element zurück
    *
    * @return XML-Element des Objektes
    * @throws TFHException Wenn dabei ein Fehler aufgetreten ist

@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Kann Runnables ausfÃ¼hren
+ * Kann Runnables ausführen
  *
  * @author W.Glanzer, 13.11.2014
  */
@@ -18,7 +18,7 @@ public class RunnableRegistratorScreenController extends DefaultScreenController
   private static final Logger logger = LoggerFactory.getLogger(RunnableRegistratorScreenController.class);
 
   /**
-   * FÃ¼hrt per Reflection ein Runnable aus
+   * Führt per Reflection ein Runnable aus
    *
    * @param pUUID  UUID des Runnables des Buttons
    */

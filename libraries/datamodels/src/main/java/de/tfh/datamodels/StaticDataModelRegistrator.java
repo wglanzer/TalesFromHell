@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Registriert alle verfÃ¼gbaren Datenmodelle
+ * Registriert alle verfügbaren Datenmodelle
  *
  * @author W.Glanzer, 25.10.2014
  */
@@ -23,7 +23,7 @@ public class StaticDataModelRegistrator
   private static boolean logging = true;
 
   /**
-   * Registriert alle verfÃ¼gbaren Datenmodelle bei der Registry
+   * Registriert alle verfügbaren Datenmodelle bei der Registry
    *
    * @param pLogErrors <tt>true</tt>, wenn evtl. auftretende Fehler geloggt werden sollen
    */

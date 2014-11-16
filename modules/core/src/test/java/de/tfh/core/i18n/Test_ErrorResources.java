@@ -9,7 +9,7 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * Tested, ob die Resourcen geladen werden kÃ¶nnen (fÃ¼r Exceptions)
+ * Tested, ob die Resourcen geladen werden können (für Exceptions)
  *
  * @author W.Glanzer, 26.10.2014
  */

@@ -15,12 +15,12 @@ public class ButtonUtil
 {
 
   /**
-   * FÃ¼gt einen Button auf ein Panel unten rechts ein
+   * Fügt einen Button auf ein Panel unten rechts ein
    *
    * @param pName              Name / Titel des Buttons
-   * @param pPanel             Panel auf dem der Button hinzugefÃ¼gt werden soll
+   * @param pPanel             Panel auf dem der Button hinzugefügt werden soll
    * @param pVerticalPosition  Position des Buttons
-   * @param pOnClick           Runnable, das bei Klick auf den Button ausgefÃ¼hrt werden soll, oder <tt>null</tt>
+   * @param pOnClick           Runnable, das bei Klick auf den Button ausgeführt werden soll, oder <tt>null</tt>
    */
   public static ButtonBuilder addButtonBottomRight(String pName, PanelBuilder pPanel, int pVerticalPosition, @Nullable Runnable pOnClick)
   {

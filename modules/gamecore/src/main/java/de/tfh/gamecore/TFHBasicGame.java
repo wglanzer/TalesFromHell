@@ -34,7 +34,7 @@ public class TFHBasicGame extends NiftyStateBasedGame
     addState(new StateMainMenu(controller));
     addState(new StateGame(controller));
 
-    // HauptmenÃ¼ aktivieren
+    // Hauptmenü aktivieren
     enterState(States.STATE_MAINMENU);
   }
 

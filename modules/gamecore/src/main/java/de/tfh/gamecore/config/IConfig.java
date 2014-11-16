@@ -9,42 +9,42 @@ public interface IConfig
 {
 
   /**
-   * Liefert die Breite der AuflÃ¶sung zurÃ¼ck
+   * Liefert die Breite der Auflösung zur?ck
    *
-   * @return Breite der AuflÃ¶sung
+   * @return Breite der Auflösung
    */
   int getScreenWidth();
 
   /**
-   * Liefert die HÃ¶he der AuflÃ¶sung zurÃ¼ck
+   * Liefert die Höhe der Auflösung zur?ck
    *
-   * @return HÃ¶he der AuflÃ¶sung
+   * @return Höhe der Auflösung
    */
   int getScreenHeight();
 
   /**
-   * Gibt zurÃ¼ck, wie oft gemultisamplet wird
+   * Gibt zurück, wie oft gemultisamplet wird
    *
    * @return Anzahl der Multisamples
    */
   int getMultisamples();
 
   /**
-   * Liefert die LautstÃ¤rke der Musik in Prozent, sprich von 0 - 1
+   * Liefert die Lautstärke der Musik in Prozent, sprich von 0 - 1
    *
-   * @return LautstÃ¤rke von 0 - 1
+   * @return Lautstärke von 0 - 1
    */
   double getMusicVolume();
 
   /**
-   * Liefert die LautstÃ¤rke des Sounds in Prozent, sprich von 0 - 1
+   * Liefert die Lautstärke des Sounds in Prozent, sprich von 0 - 1
    *
-   * @return LautstÃ¤rke von 0 - 1
+   * @return Lautstärke von 0 - 1
    */
   double getSoundVolume();
 
   /**
-   * Liefert zurÃ¼ck, ob der Vollbildmodus verwendet wird
+   * Liefert zurück, ob der Vollbildmodus verwendet wird
    *
    * @return <tt>true</tt>, wenn Vollbild
    */
@@ -59,28 +59,28 @@ public interface IConfig
   boolean isOnlyUpdateWhenVisible();
 
   /**
-   * Gibt zurÃ¼ck, ob die Musik aktiviert ist
+   * Gibt zurück, ob die Musik aktiviert ist
    *
    * @return <tt>true</tt>, wenn die Musik aktiviert ist
    */
   boolean isMusicEnabled();
 
   /**
-   * Gibt zurÃ¼ck, ob der Sound aktiviert ist
+   * Gibt zurück, ob der Sound aktiviert ist
    *
    * @return <tt>true</tt>, wenn der Sound aktiviert ist
    */
   boolean isSoundEnabled();
 
   /**
-   * Gibt zurÃ¼ck, ob die FPS-Zahlen angezeigt werden sollen
+   * Gibt zurück, ob die FPS-Zahlen angezeigt werden sollen
    *
    * @return <tt>true</tt>, wenn diese angezeigt werden sollen, andernfalls <tt>false</tt>
    */
   boolean isShowFPS();
 
   /**
-   * Gibt zurÃ¼ck, ob VSync aktiviert ist
+   * Gibt zurück, ob VSync aktiviert ist
    *
    * @return <tt>true</tt>, wenn VSync aktiviert ist
    */

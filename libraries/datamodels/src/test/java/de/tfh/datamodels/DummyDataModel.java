@@ -1,7 +1,7 @@
 package de.tfh.datamodels;
 
 /**
- * Ein DummyDatenmodell fÃ¼r Unittests
+ * Ein DummyDatenmodell für Unittests
  *
  * @author W.Glanzer, 25.10.2014
  */

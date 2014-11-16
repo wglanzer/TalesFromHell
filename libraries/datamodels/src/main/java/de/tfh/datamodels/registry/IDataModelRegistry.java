@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 
 /**
- * Hier kÃ¶nnen sich Datenmodelle registrieren
+ * Hier können sich Datenmodelle registrieren
  * und auch wieder geholt werden
  *
  * @author W.Glanzer, 25.10.2014
@@ -18,9 +18,9 @@ public interface IDataModelRegistry
 
   /**
    * Registriert ein Datenmodell in der Registry, sodass
-   * spÃ¤ter darauf zugegriffen werden kann
+   * später darauf zugegriffen werden kann
    *
-   * @param pModels Klasse der Datenmodelle, auf die zugegriffen werden kÃ¶nnen soll
+   * @param pModels Klasse der Datenmodelle, auf die zugegriffen werden können soll
    * @throws TFHDataModelException Wenn die Instanz des Datenmodells nicht erstellt werden konnte
    */
   @SuppressWarnings("unchecked") //IntelliJ
@@ -45,10 +45,10 @@ public interface IDataModelRegistry
   IDataModel newInstance(@NotNull Class<? extends IDataModel> pModel) throws TFHDataModelException;
 
   /**
-   * LÃ¶scht eine Instanz eines registrierten Datenmodells
+   * Löscht eine Instanz eines registrierten Datenmodells
    *
    * @param pModel Instanz des Datenmodells
-   * @return <tt>true</tt>, wenn etwas gelÃ¶scht wurde, andernfalls <tt>false</tt>
+   * @return <tt>true</tt>, wenn etwas gelöscht wurde, andernfalls <tt>false</tt>
    */
   boolean removeInstance(@NotNull IDataModel pModel);
 
@@ -71,9 +71,9 @@ public interface IDataModelRegistry
   Collection<IDataModel> getAllInstances(@NotNull Class<? extends IDataModel> pModel);
 
   /**
-   * LÃ¶scht alle Datenmodelle und deren Referenzen
+   * Löscht alle Datenmodelle und deren Referenzen
    *
-   * @return <tt>true</tt>, wenn sich etwas verÃ¤ndert hat
+   * @return <tt>true</tt>, wenn sich etwas veröndert hat
    */
   boolean clearAll();
 }

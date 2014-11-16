@@ -5,7 +5,7 @@ import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 
 /**
- * Implementierung fÃ¼r den ScreenController
+ * Implementierung für den ScreenController
  *
  * @author W.Glanzer, 11.11.2014
  */

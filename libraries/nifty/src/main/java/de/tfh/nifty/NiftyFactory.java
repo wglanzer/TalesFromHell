@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.UUID;
 
 /**
- * Ersteller fÃ¼r Nifty-Komponenten
+ * Ersteller für Nifty-Komponenten
  *
  * @author W.Glanzer, 11.11.2014
  */
@@ -17,7 +17,7 @@ public class NiftyFactory
 {
 
   /**
-   * Erstellt einen Layer und fÃ¼gt gleich eine ID an
+   * Erstellt einen Layer und fügt gleich eine ID an
    *
    * @return LayerBuilder-Instanz
    */
@@ -27,8 +27,8 @@ public class NiftyFactory
   }
 
   /**
-   * Erstellt ein Panel und fÃ¼gt gleich eine ID an.
-   * Ebenfalls wird das interne Layout bestimmt und die GrÃ¶ÃŸe
+   * Erstellt ein Panel und fügt gleich eine ID an.
+   * Ebenfalls wird das interne Layout bestimmt und die Größe
    * so angepasst, dass diese den ganzen Frame einnimmt
    *
    * @return PanelBuilder-Instanz
@@ -44,12 +44,12 @@ public class NiftyFactory
   }
 
   /**
-   * Erstellt einen Button und fÃ¼gt eine Runnable-Action dahinter ein
+   * Erstellt einen Button und fügt eine Runnable-Action dahinter ein
    *
    * @param pTitle   Titel des Buttons
-   * @param pOnClick Runnable, das beim Klick ausgefÃ¼hrt wird.
+   * @param pOnClick Runnable, das beim Klick ausgeführt wird.
    *                 Darf keine Referenz auf Dinge ausserhalb haben!! Oder <tt>null</tt>
-   * @return ButtonBuilder fÃ¼r den Button
+   * @return ButtonBuilder für den Button
    */
   public static ButtonBuilder createButton(String pTitle, @Nullable Runnable pOnClick)
   {

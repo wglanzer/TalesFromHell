@@ -23,7 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * State: HauptmenÃ¼
+ * State: Hauptmenü
  *
  * @author W.Glanzer, 12.11.2014
  */
@@ -54,11 +54,11 @@ public class StateMainMenu extends AbstractGameState
   {
     pScreen.controller(new RunnableRegistratorScreenController());
 
-    // Layer des kompletten HauptmenÃ¼s
+    // Layer des kompletten Hauptmenüs
     LayerBuilder layer = NiftyFactory.createLayer();
     layer.childLayoutAbsolute();
 
-    // Panels, die angezeigt werden kÃ¶nnen
+    // Panels, die angezeigt werden können
     PanelBuilder defaultPanel = NiftyFactory.createPanel();
     PanelBuilder settingsPanel = NiftyFactory.createPanel();
     PanelBuilder loadPanel = NiftyFactory.createPanel();
@@ -71,7 +71,7 @@ public class StateMainMenu extends AbstractGameState
     ButtonBuilder btnContinue = ButtonUtil.addButtonBottomRight(Messages.get(0), defaultPanel, 5, null);// Fortsetzen
     ButtonBuilder btnNewCampaign = ButtonUtil.addButtonBottomRight(Messages.get(1), defaultPanel, 4, new _LoadOtherState(States.STATE_GAME));// Neue Kampagne //todo
     ButtonBuilder btnLoad = ButtonUtil.addButtonBottomRight(Messages.get(2), defaultPanel, 3, new _SwitchPanel(pScreenID, defaultPanel.getId(), loadPanel.getId()));// Laden
-    ButtonBuilder btnAdditionalContent = ButtonUtil.addButtonBottomRight(Messages.get(3), defaultPanel, 2, null);// ZustÃ¤zliche Inhalte
+    ButtonBuilder btnAdditionalContent = ButtonUtil.addButtonBottomRight(Messages.get(3), defaultPanel, 2, null);// Zustäzliche Inhalte
     ButtonBuilder btnOptions = ButtonUtil.addButtonBottomRight(Messages.get(4), defaultPanel, 1, new _SwitchPanel(pScreenID, defaultPanel.getId(), settingsPanel.getId()));// Optionen
     ButtonBuilder btnExit = ButtonUtil.addButtonBottomRight(Messages.get(5), defaultPanel, 0, new _Exit(pGameContainer));// Beenden
     layer.panel(defaultPanel);
@@ -87,12 +87,12 @@ public class StateMainMenu extends AbstractGameState
     ButtonBuilder btnBack2 = ButtonUtil.addButtonBottomRight(Messages.get(6), loadPanel, 0, new _SwitchPanel(pScreenID, loadPanel.getId(), defaultPanel.getId()));
     layer.panel(loadPanel);
 
-    // SettingsPanel, fÃ¼r Optionen
+    // SettingsPanel, für Optionen
     ButtonBuilder btnDummy = ButtonUtil.addButtonBottomRight("_DUMMY_", settingsPanel, 1, null);
     ButtonBuilder btnBack1 = ButtonUtil.addButtonBottomRight(Messages.get(6), settingsPanel, 0, new _SwitchPanel(pScreenID, settingsPanel.getId(), defaultPanel.getId()));
     layer.panel(settingsPanel);
 
-    // Layer zum Screen hinzufÃ¼gen
+    // Layer zum Screen hinzufügen
     pScreen.layer(layer);
   }
 

@@ -18,7 +18,7 @@ public interface IConfigLoader
    *
    * @param pContainer Container, auf den die Config angewandt werden soll
    * @throws TFHException Wenn dabei ein Fehler aufgetreten ist und
-   *                      die Config nicht Ã¼bernommen werden kann
+   *                      die Config nicht übernommen werden kann
    */
   void applyConfig(AppGameContainer pContainer) throws TFHException;
 

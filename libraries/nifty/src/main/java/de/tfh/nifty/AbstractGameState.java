@@ -8,6 +8,7 @@ import de.lessvoid.nifty.slick2d.input.PlainSlickInputSystem;
 import de.lessvoid.nifty.slick2d.render.SlickRenderDevice;
 import de.lessvoid.nifty.slick2d.sound.SlickSoundDevice;
 import de.lessvoid.nifty.spi.time.impl.AccurateTimeProvider;
+import de.tfh.core.IGameController;
 import de.tfh.core.exceptions.TFHException;
 import de.tfh.core.utils.ExceptionUtil;
 import org.jetbrains.annotations.NotNull;
@@ -29,17 +30,13 @@ import java.util.UUID;
 public abstract class AbstractGameState extends NiftyOverlayBasicGameState
 {
   private final int id;
+  private final IGameController controller;
   private static final Logger logger = LoggerFactory.getLogger(AbstractGameState.class);
 
-  public AbstractGameState(int pID)
+  public AbstractGameState(int pID, IGameController pController)
   {
     id = pID;
-  }
-
-  @Override
-  public int getID()
-  {
-    return id;
+    controller = pController;
   }
 
   @Override
@@ -116,6 +113,23 @@ public abstract class AbstractGameState extends NiftyOverlayBasicGameState
   {
     pNifty.loadStyleFile("nifty-default-styles.xml");
     pNifty.loadControlFile("nifty-default-controls.xml");
+  }
+
+  @Override
+  public int getID()
+  {
+    return id;
+  }
+
+  /**
+   * Liefert den IGameController, um die Verbindung zw.
+   * TFHBasicGame und GameState herstellen zu können
+   *
+   * @return IGameController
+   */
+  protected IGameController getController()
+  {
+    return controller;
   }
 
   /**

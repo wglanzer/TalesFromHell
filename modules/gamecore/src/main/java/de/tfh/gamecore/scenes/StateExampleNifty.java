@@ -5,6 +5,7 @@ import de.lessvoid.nifty.builder.LayerBuilder;
 import de.lessvoid.nifty.builder.PanelBuilder;
 import de.lessvoid.nifty.builder.ScreenBuilder;
 import de.lessvoid.nifty.controls.button.builder.ButtonBuilder;
+import de.tfh.core.IGameController;
 import de.tfh.core.exceptions.TFHException;
 import de.tfh.nifty.AbstractGameState;
 import de.tfh.nifty.DefaultScreenController;
@@ -22,9 +23,9 @@ import org.newdawn.slick.state.StateBasedGame;
 public class StateExampleNifty extends AbstractGameState
 {
 
-  public StateExampleNifty()
+  public StateExampleNifty(IGameController pController)
   {
-    super(States.STATE_NIFTYEXAMPLE);
+    super(States.STATE_NIFTYEXAMPLE, pController);
   }
 
   @Override

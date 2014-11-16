@@ -19,15 +19,13 @@ public class TFHStarter
 {
   private static final Logger logger = LoggerFactory.getLogger(TFHStarter.class);
 
-  private static IConfigLoader configLoader;
-
   public static void main(String[] args)
   {
     try
     {
       StaticDataModelRegistrator.registerAll(true);
       SlickInit.installSlick();
-      configLoader =  XMLConfigLoader.getDefault();
+      IConfigLoader configLoader =  XMLConfigLoader.getDefault();
       TFHBasicGame game = new TFHBasicGame();
       AppGameContainer container = new AppGameContainer(game);
       configLoader.applyConfig(container);

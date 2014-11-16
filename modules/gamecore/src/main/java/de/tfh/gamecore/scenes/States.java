@@ -13,6 +13,10 @@ public interface States
    */
   public static final int STATE_MAINMENU = 0;
 
+  /**
+   * Spiel ansich
+   */
+  public static final int STATE_GAME = 1;
 
   /**
    * Beispielstate fürs Nifty-Framework

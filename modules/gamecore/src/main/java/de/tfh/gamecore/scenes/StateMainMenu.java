@@ -7,6 +7,7 @@ import de.lessvoid.nifty.builder.ScreenBuilder;
 import de.lessvoid.nifty.controls.button.builder.ButtonBuilder;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
+import de.tfh.core.IGameController;
 import de.tfh.core.exceptions.TFHException;
 import de.tfh.core.i18n.Messages;
 import de.tfh.core.utils.ExceptionUtil;
@@ -28,9 +29,9 @@ import org.slf4j.LoggerFactory;
  */
 public class StateMainMenu extends AbstractGameState
 {
-  public StateMainMenu()
+  public StateMainMenu(IGameController pController)
   {
-    super(States.STATE_MAINMENU);
+    super(States.STATE_MAINMENU, pController);
   }
 
   @Override
@@ -68,7 +69,7 @@ public class StateMainMenu extends AbstractGameState
 
     // DefaultPanel, das am Anfang angezeigt wird
     ButtonBuilder btnContinue = ButtonUtil.addButtonBottomRight(Messages.get(0), defaultPanel, 5, null);// Fortsetzen
-    ButtonBuilder btnNewCampaign = ButtonUtil.addButtonBottomRight(Messages.get(1), defaultPanel, 4, null);// Neue Kampagne
+    ButtonBuilder btnNewCampaign = ButtonUtil.addButtonBottomRight(Messages.get(1), defaultPanel, 4, new _LoadOtherState(States.STATE_GAME));// Neue Kampagne //todo
     ButtonBuilder btnLoad = ButtonUtil.addButtonBottomRight(Messages.get(2), defaultPanel, 3, new _SwitchPanel(pScreenID, defaultPanel.getId(), loadPanel.getId()));// Laden
     ButtonBuilder btnAdditionalContent = ButtonUtil.addButtonBottomRight(Messages.get(3), defaultPanel, 2, null);// Zustäzliche Inhalte
     ButtonBuilder btnOptions = ButtonUtil.addButtonBottomRight(Messages.get(4), defaultPanel, 1, new _SwitchPanel(pScreenID, defaultPanel.getId(), settingsPanel.getId()));// Optionen
@@ -93,6 +94,26 @@ public class StateMainMenu extends AbstractGameState
 
     // Layer zum Screen hinzufügen
     pScreen.layer(layer);
+  }
+
+  /**
+   * Wechselt den State
+   */
+  private class _LoadOtherState implements Runnable
+  {
+
+    private final int switchTo;
+
+    public _LoadOtherState(int pSwitchTo)
+    {
+      switchTo = pSwitchTo;
+    }
+
+    @Override
+    public void run()
+    {
+      getController().enterState(switchTo);
+    }
   }
 
   /**

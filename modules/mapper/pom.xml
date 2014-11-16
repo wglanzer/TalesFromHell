@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>de.tfh</groupId>
+        <artifactId>modules</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <artifactId>mapper</artifactId>
+    <name>TalesFromHell: Mapper</name>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>de.tfh</groupId>
+            <artifactId>core</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.tfh</groupId>
+            <artifactId>slick2D</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.tfh</groupId>
+            <artifactId>datamodels</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>jenkins</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>2.4.1</version>
+
+                        <!-- Jar packen -->
+                        <executions>
+                            <execution>
+                                <id>prePackage</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>assembly</goal>
+                                </goals>
+                                <configuration>
+                                    <descriptorRefs>
+                                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                                    </descriptorRefs>
+                                    <finalName>TalesFromHell_Mapper</finalName>
+                                    <appendAssemblyId>false</appendAssemblyId>
+                                    <archive>
+                                        <manifest>
+                                            <mainClass>de.tfh.mapper.MapperStarter</mainClass>
+                                        </manifest>
+                                    </archive>
+                                </configuration>
+
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                        <artifactId>launch4j-maven-plugin</artifactId>
+                        <version>1.7</version>
+                        <executions>
+                            <execution>
+                                <id>l4j</id>
+                                <phase>pre-integration-test</phase>  <!-- Eine Phase nachdem die .jar erstellt wurde -->
+                                <goals>
+                                    <goal>launch4j</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <dontWrapJar>false</dontWrapJar>
+                            <headerType>console</headerType>
+                            <jar>target/TalesFromHell_Mapper.jar</jar>
+                            <outfile>target/TalesFromHell_Mapper.exe</outfile>
+                            <chdir>.</chdir>
+                            <priority>normal</priority>
+                            <jre>
+                                <minVersion>1.7.0_51</minVersion>
+                                <maxVersion>1.8.0_99</maxVersion>
+                                <jdkPreference>preferJre</jdkPreference>
+                                <runtimeBits>64/32</runtimeBits>
+                                <initialHeapSize>256</initialHeapSize>
+                                <maxHeapSize>1024</maxHeapSize>
+                            </jre>
+                            <messages>
+                                <startupErr>Ein unerwarteter Fehler ist aufgetreten</startupErr>
+                                <bundledJreErr>Java Runtime Environment nicht gefunden</bundledJreErr>
+                                <jreVersionErr>Java Runtime Environment nicht gefunden</jreVersionErr>
+                                <launcherErr>Java Runtime Environment nicht gefunden</launcherErr>
+                                <instanceAlreadyExistsMsg>Eine Instanz der Applikation läuft noch</instanceAlreadyExistsMsg>
+                            </messages>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>

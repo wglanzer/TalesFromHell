@@ -12,6 +12,8 @@ public class DummyDataModel extends AbstractDataModel
 
   protected Boolean configBoolean = false;
 
+  protected String[] strings = new String[]{"hallo", "welt", "wie", "gehts"};
+
   @Override
   public String getName()
   {

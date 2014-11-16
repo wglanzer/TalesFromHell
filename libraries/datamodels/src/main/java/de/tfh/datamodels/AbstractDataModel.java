@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,7 +64,23 @@ public abstract class AbstractDataModel implements IDataModel
     for(Map.Entry<String, Object> currEntry : allFields.entrySet())
     {
       Element childEle = new Element(currEntry.getKey());
-      childEle.addContent(currEntry.getValue().toString());
+      Object value = currEntry.getValue();
+
+      //Spezialbehandlung der Arrays
+      if(value instanceof Object[])
+      {
+        Object[] arr = (Object[]) value;
+        for(Object currObject : arr)
+          if(currObject != null)
+          {
+            Element eleArr = new Element("ArrayEntry");
+            eleArr.addContent(currObject.toString());
+            childEle.addContent(eleArr);
+          }
+      }
+      else
+        childEle.addContent(value.toString());
+
       ele.addContent(childEle);
     }
     return ele;
@@ -81,7 +98,20 @@ public abstract class AbstractDataModel implements IDataModel
         if(field != null)
         {
           Class<?> type = field.getType();
-          Object casted = TypeConverter.convert(type, currChild.getValue());
+          Object casted = currChild.getValue();
+
+          // Arrays anders behandeln, da diese anders im Datenmodell stehen
+          if(type.isArray())
+          {
+            List<String> strings = new ArrayList<>();
+            List<Element> objectEles = currChild.getChildren();
+            for(Element currEle : objectEles)
+              strings.add(currEle.getText());
+            casted = strings.toArray(new String[strings.size()]);
+          }
+
+          casted = TypeConverter.convert(type, casted);
+
           setValue(currChild.getName(), casted);
         }
       }

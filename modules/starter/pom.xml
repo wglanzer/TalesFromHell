@@ -118,8 +118,8 @@
                             <chdir>.</chdir>
                             <priority>normal</priority>
                             <jre>
-                                <minVersion>1.7.0_51</minVersion>
-                                <maxVersion>1.8.0_99</maxVersion>
+                                <minVersion>1.8.0_00</minVersion>
+                                <maxVersion>1.9.0_99</maxVersion>
                                 <jdkPreference>preferJre</jdkPreference>
                                 <runtimeBits>64/32</runtimeBits>
                                 <initialHeapSize>256</initialHeapSize>

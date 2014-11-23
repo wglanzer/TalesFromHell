@@ -18,7 +18,7 @@ public interface IMap
    * @return Chunk, oder <tt>null</tt>
    */
   @Nullable
-  Chunk getChunk(int pX, int pY);
+  IChunk getChunk(int pX, int pY);
 
   /**
    * Liefert einen bestimmten Chunk, der eine Tileposition enhält, oder <tt>null</tt>
@@ -27,5 +27,47 @@ public interface IMap
    * @param pY  Chunk mit dem spieziellen Tile in Y-Richtung
    * @return Chunk, oder <tt>null</tt>
    */
-  Chunk getChunkContaining(int pX, int pY);
+  IChunk getChunkContaining(int pX, int pY);
+
+  /**
+   * Liefert die Anzahl der Chunks in X-Richtung
+   *
+   * @return Anzahl der Chunks in X-Richtung
+   */
+  int getChunkCountX();
+
+  /**
+   * Liefert die Anzahl der Chunks in Y-Richtung
+   *
+   * @return Anzahl der Chunks in Y-Richtung
+   */
+  int getChunkCountY();
+
+  /**
+   * Liefert die Breite der einzelnen Tiles in Pixel
+   *
+   * @return Breite der Tiles in Pixel
+   */
+  int getTileWidth();
+
+  /**
+   * Liefert die Höhe der einzelnen Tiles in Pixel
+   *
+   * @return Höhe der Tiles in Pixel
+   */
+  int getTileHeight();
+
+  /**
+   * Liefert die Anzahl der Tiles innerhalb eines Chunks in X-Richtung
+   *
+   * @return Anzahl der Tiles innerhalb eines Chunks in X-Richtung
+   */
+  int getTilesPerChunkX();
+
+  /**
+   * Liefert die Anzahl der Tiles innerhalb eines Chunks in Y-Richtung
+   *
+   * @return Anzahl der Tiles innerhalb eines Chunks in Y-Richtung
+   */
+  int getTilesPerChunkY();
 }

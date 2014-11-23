@@ -8,7 +8,7 @@ package de.tfh.gamecore.map;
  * @see de.tfh.gamecore.map.alterable.AlterableLayer
  * @author W.Glanzer, 17.11.2014
  */
-public class Layer
+public class Layer implements ILayer
 {
 
   /**
@@ -50,33 +50,19 @@ public class Layer
     tilesOnLayer = new TilePreference[tilesX * tilesY];
   }
 
-  /**
-   * Liefert ein Tile auf diesem Layer, oder <tt>null</tt>
-   *
-   * @param pX  X-Position des Tiles
-   * @param pY  Y-Position des Tiles
-   * @return Die TilePreferences, oder <tt>null</tt>
-   */
+  @Override
   public TilePreference getTile(int pX, int pY)
   {
     return tilesOnLayer[tilesX * pY + pX];
   }
 
-  /**
-   * Anzahl der Tiles in X-Richtung
-   *
-   * @return Anzahl der Tiles in X-Richtung
-   */
+  @Override
   public int getTilesX()
   {
     return tilesX;
   }
 
-  /**
-   * Anzahl der Tiles in Y-Richtung
-   *
-   * @return Anzahl der Tiles in Y-Richtung
-   */
+  @Override
   public int getTilesY()
   {
     return tilesY;

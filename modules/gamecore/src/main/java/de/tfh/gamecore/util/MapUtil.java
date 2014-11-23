@@ -1,10 +1,13 @@
-package de.tfh.gamecore.map;
+package de.tfh.gamecore.util;
 
 import de.tfh.core.exceptions.TFHException;
 import de.tfh.datamodels.IDataModel;
 import de.tfh.datamodels.models.ChunkDataModel;
 import de.tfh.datamodels.models.MapDescriptionDataModel;
 import de.tfh.datamodels.utils.DataModelIOUtil;
+import de.tfh.gamecore.map.Chunk;
+import de.tfh.gamecore.map.IChunk;
+import de.tfh.gamecore.map.Tileset;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.InputStream;
@@ -26,7 +29,7 @@ public class MapUtil
    * @return Den Chunk, oder <tt>null</tt>
    */
   @Nullable
-  public static Chunk chunkFromInputStream(InputStream pStream, MapDescriptionDataModel pMapDescription) throws TFHException
+  public static IChunk chunkFromInputStream(InputStream pStream, MapDescriptionDataModel pMapDescription) throws TFHException
   {
     try
     {

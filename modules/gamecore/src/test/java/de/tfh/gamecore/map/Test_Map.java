@@ -98,7 +98,7 @@ public class Test_Map
     Assert.assertTrue(map.getTilesPerChunkX() == 2);
     Assert.assertTrue(map.getTilesPerChunkY() == 2);
 
-    Chunk c00 = map.getChunk(0, 0);
+    IChunk c00 = map.getChunk(0, 0);
     Assert.assertNotNull(c00);
     Assert.assertTrue(c00.getLayers(true).size() == 4);
     Assert.assertTrue(c00.getTilesOn(0, 0).length == 4);
@@ -107,7 +107,7 @@ public class Test_Map
     Assert.assertTrue(c00.getTilesOn(0, 1)[0].getGraphicID() == 4L);
     Assert.assertTrue(c00.getTilesOn(1, 1)[0].getGraphicID() == 8L);
 
-    Chunk c11 = map.getChunk(1, 1);
+    IChunk c11 = map.getChunk(1, 1);
     Assert.assertNotNull(c11);
     Assert.assertTrue(c11.getTilesOn(1, 1)[0] == null);
     Assert.assertTrue(c11.getTilesOn(1, 1)[1] == null);

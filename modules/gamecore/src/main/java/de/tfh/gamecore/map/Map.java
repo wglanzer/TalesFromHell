@@ -2,10 +2,9 @@ package de.tfh.gamecore.map;
 
 import de.tfh.core.exceptions.TFHException;
 import de.tfh.core.utils.ExceptionUtil;
-import de.tfh.datamodels.TFHDataModelException;
 import de.tfh.datamodels.models.MapDescriptionDataModel;
-import de.tfh.datamodels.registry.DefaultDataModelRegistry;
 import de.tfh.datamodels.utils.DataModelIOUtil;
+import de.tfh.gamecore.util.MapUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,8 +24,8 @@ import java.util.zip.ZipFile;
 public class Map implements IMap
 {
   private Tileset graphicTiles = null;
-  private Chunk[] chunks;
-  private MapDescriptionDataModel mapDesc;
+  private IChunk[] chunks = new IChunk[0];
+  protected MapDescriptionDataModel mapDesc;
 
   private static final Logger logger = LoggerFactory.getLogger(IMap.class);
 
@@ -41,7 +40,7 @@ public class Map implements IMap
         if(_verifyZipFile(zip))
           _loadFromZipFile(zip);
         else
-          _newMap();
+          throw new RuntimeException("Map could not be loaded");
       }
     }
     catch(Exception e)
@@ -52,77 +51,73 @@ public class Map implements IMap
   }
 
   @Override
-  public Chunk getChunk(int pX, int pY)
+  public IChunk getChunk(int pX, int pY)
   {
     return chunks[pY * getChunkCountX() + pX];
   }
 
   @Override
-  public Chunk getChunkContaining(int pX, int pY)
+  public IChunk getChunkContaining(int pX, int pY)
   {
     int x = pX - pX / mapDesc.tilesPerChunkX;
     int y = pY - pY / mapDesc.tilesPerChunkY;
     return chunks[y * getChunkCountX() + x];
   }
 
-  /**
-   * Liefert die Anzahl der Chunks in X-Richtung
-   *
-   * @return Anzahl der Chunks in X-Richtung
-   */
+  @Override
   public int getChunkCountX()
   {
     return mapDesc.chunksX;
   }
 
-  /**
-   * Liefert die Anzahl der Chunks in Y-Richtung
-   *
-   * @return Anzahl der Chunks in Y-Richtung
-   */
+  @Override
   public int getChunkCountY()
   {
     return mapDesc.chunksY;
   }
 
-  /**
-   * Liefert die Breite der einzelnen Tiles in Pixel
-   *
-   * @return Breite der Tiles in Pixel
-   */
+  @Override
   public int getTileWidth()
   {
     return mapDesc.tileWidth;
   }
 
-  /**
-   * Liefert die Höhe der einzelnen Tiles in Pixel
-   *
-   * @return Höhe der Tiles in Pixel
-   */
+  @Override
   public int getTileHeight()
   {
     return mapDesc.tileHeight;
   }
 
-  /**
-   * Liefert die Anzahl der Tiles innerhalb eines Chunks in X-Richtung
-   *
-   * @return Anzahl der Tiles innerhalb eines Chunks in X-Richtung
-   */
+  @Override
   public int getTilesPerChunkX()
   {
     return mapDesc.tilesPerChunkX;
   }
 
-  /**
-   * Liefert die Anzahl der Tiles innerhalb eines Chunks in Y-Richtung
-   *
-   * @return Anzahl der Tiles innerhalb eines Chunks in Y-Richtung
-   */
+  @Override
   public int getTilesPerChunkY()
   {
     return mapDesc.tilesPerChunkY;
+  }
+
+  /**
+   * Überprüft ob das Chunk-Array "null"-Werte enthält.
+   * Ersetzt diese ggf. mit einer neuen Chunk-Instanz
+   *
+   * @param pDesc MapDescription
+   */
+  protected void validateChunkNulls(MapDescriptionDataModel pDesc)
+  {
+    for(int i = 0; i < chunks.length; i++)
+    {
+      IChunk currChunk = chunks[i];
+      if(currChunk == null)
+      {
+        int y = i / pDesc.chunksX;
+        int x = i - y * pDesc.chunksX;
+        chunks[i] = new Chunk(x, y, pDesc.tilesPerChunkX, pDesc.tilesPerChunkY, new Long[pDesc.tilesPerChunkX * pDesc.tilesPerChunkY]);
+      }
+    }
   }
 
   /**
@@ -139,10 +134,10 @@ public class Map implements IMap
 
       mapDesc = (MapDescriptionDataModel) DataModelIOUtil.readDataModelFromXML(pZip.getInputStream(descMap));
       if(mapDesc == null)
-        throw new TFHException(9999, "descMap=" + descMap.getName());
+        throw new TFHException(30, "descMap=" + descMap.getName());
 
       graphicTiles = MapUtil.tilesetFromInputStream(pZip.getInputStream(tilesPNG), mapDesc);
-      chunks = new Chunk[mapDesc.chunksX * mapDesc.chunksY];
+      chunks = new IChunk[mapDesc.chunksX * mapDesc.chunksY];
 
       // Alle Zip-Einträge durchgehen, darauf
       Enumeration<? extends ZipEntry> allZipEntries = pZip.entries();
@@ -165,7 +160,7 @@ public class Map implements IMap
         }
       }
 
-      _validateChunkNulls(mapDesc);
+      validateChunkNulls(mapDesc);
     }
     catch(Exception e)
     {
@@ -176,7 +171,7 @@ public class Map implements IMap
   /**
    * Fügt eine Klasse zur Map hinzu
    *
-   * @param pClassStream  InputStream der Klasse, die hinzugefügt werden soll
+   * @param pClassStream InputStream der Klasse, die hinzugefügt werden soll
    */
   private void _addClass(InputStream pClassStream)
   {
@@ -187,41 +182,21 @@ public class Map implements IMap
    * Fügt einen Chunk auf die Map ein.
    * Die Positionen sind schon im Chunk gespeichert
    *
-   * @param pChunkStream  InputStream des Chunks
-   * @param pMapDesc      MapDescription
+   * @param pChunkStream InputStream des Chunks
+   * @param pMapDesc     MapDescription
    * @throws TFHException Wenn dabei ein Fehler aufgetreten ist
    */
   private void _addChunk(InputStream pChunkStream, MapDescriptionDataModel pMapDesc) throws TFHException
   {
-    Chunk chunkToAdd = MapUtil.chunkFromInputStream(pChunkStream, pMapDesc);
+    IChunk chunkToAdd = MapUtil.chunkFromInputStream(pChunkStream, pMapDesc);
     if(chunkToAdd != null)
       chunks[chunkToAdd.getY() * pMapDesc.chunksX + chunkToAdd.getX()] = chunkToAdd;
   }
 
   /**
-   * Überprüft ob das Chunk-Array "null"-Werte enthält.
-   * Ersetzt diese ggf. mit einer neuen Chunk-Instanz
-   *
-   * @param pDesc  MapDescription
-   */
-  private void _validateChunkNulls(MapDescriptionDataModel pDesc)
-  {
-    for(int i = 0; i < chunks.length; i++)
-    {
-      Chunk currChunk = chunks[i];
-      if(currChunk == null)
-      {
-        int y = i / pDesc.chunksX;
-        int x = i - y * pDesc.chunksX;
-        chunks[i] = new Chunk(x, y, pDesc.tilesPerChunkX, pDesc.tilesPerChunkY, new Long[pDesc.tilesPerChunkX * pDesc.tilesPerChunkY]);
-      }
-    }
-  }
-
-  /**
    * Verifiziert das ZipFile, ob auch wirklich alle nötigen Einträge vorhanden sind
    *
-   * @param pZipFile  ZipFile, das verifiziert werden soll
+   * @param pZipFile ZipFile, das verifiziert werden soll
    * @return <tt>true</tt>, wenn alles OK ist, andernfalls <tt>false</tt>
    */
   private boolean _verifyZipFile(ZipFile pZipFile)
@@ -230,16 +205,5 @@ public class Map implements IMap
     ZipEntry descMap = pZipFile.getEntry(IMapConstants.DESC_MAP);
 
     return tilesPNG != null && descMap != null;
-  }
-
-  /**
-   * Erstellt eine neue Map-Instanz
-   *
-   * @throws TFHDataModelException Wenn beim Erstellen der MapDescription ein Fehler aufgetreten ist
-   */
-  private void _newMap() throws TFHDataModelException
-  {
-    mapDesc = (MapDescriptionDataModel) DefaultDataModelRegistry.getDefault().newInstance(MapDescriptionDataModel.class);
-    _validateChunkNulls(mapDesc);
   }
 }

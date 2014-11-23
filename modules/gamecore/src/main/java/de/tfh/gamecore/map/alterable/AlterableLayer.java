@@ -1,5 +1,6 @@
 package de.tfh.gamecore.map.alterable;
 
+import de.tfh.gamecore.map.ILayer;
 import de.tfh.gamecore.map.Layer;
 import de.tfh.gamecore.map.TilePreference;
 
@@ -8,7 +9,7 @@ import de.tfh.gamecore.map.TilePreference;
  *
  * @author W.Glanzer, 23.11.2014
  */
-public class AlterableLayer extends Layer
+public class AlterableLayer extends Layer implements ILayer
 {
   public AlterableLayer(int pTilesX, int pTilesY)
   {

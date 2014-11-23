@@ -1,7 +1,7 @@
 package de.tfh.mapper.facade;
 
 import de.tfh.gamecore.map.TilePreference;
-import de.tfh.mapper.AlterableMap;
+import de.tfh.gamecore.map.alterable.AlterableMap;
 import de.tfh.mapper.TFHMappperException;
 import org.jetbrains.annotations.NotNull;
 

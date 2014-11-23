@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author W.Glanzer, 16.11.2014
  */
-public class Chunk
+public class Chunk implements IChunk
 {
    // Das dahinterliegende Datenmodell
   private final ChunkDataModel dataModel;
@@ -25,7 +25,7 @@ public class Chunk
   private final int yTileCount;
 
   // Gecachte Layer, damit diese nicht neu aufgebaut werden müssen
-  private List<Layer> cachedLayers;
+  private List<ILayer> cachedLayers;
 
   /**
    * Konstruktor
@@ -62,34 +62,20 @@ public class Chunk
     getLayers(true);
   }
 
-  /**
-   * Liefert die X-Position des Chunks
-   *
-   * @return X-Position des Chunks
-   */
+  @Override
   public int getX()
   {
     return dataModel.x;
   }
 
-  /**
-   * Liefert die Y-Position des Chunks
-   *
-   * @return Y-Position des Chunks
-   */
+  @Override
   public int getY()
   {
     return dataModel.y;
   }
 
-  /**
-   * Liefert die Layer des Chunks zurück.
-   *
-   * @param pForceRecalculate
-   * @return
-   * @throws TFHException
-   */
-  public List<Layer> getLayers(boolean pForceRecalculate)
+  @Override
+  public List<ILayer> getLayers(boolean pForceRecalculate)
   {
     if(cachedLayers == null || pForceRecalculate)
     {
@@ -134,23 +120,16 @@ public class Chunk
     return cachedLayers;
   }
 
-  /**
-   * Liefert alle Tiles, die auf einem bestimmten Punkt sind
-   *
-   * @param pX  X-Position
-   * @param pY  Y-Position
-   * @return Tile-Array mit den Tiles, die auf diesem Punkt sind
-   * @throws TFHException Falls dabei ein Fehler aufgetreten ist
-   */
+  @Override
   public TilePreference[] getTilesOn(int pX, int pY) throws TFHException
   {
     try
     {
-      List<Layer> layers = getLayers(false);
+      List<ILayer> layers = getLayers(false);
       TilePreference[] tiles = new TilePreference[layers.size()];
       for(int i = 0; i < layers.size(); i++)
       {
-        Layer currLayer = layers.get(i);
+        ILayer currLayer = layers.get(i);
         tiles[i] = currLayer.getTile(pX, pY);
       }
 

@@ -53,11 +53,11 @@ public class MapUtil
    * @param pMapDescription  MapDescription
    * @return TileSet
    */
-  public static TileSet tilesetFromInputStream(InputStream pPNGStream, MapDescriptionDataModel pMapDescription) throws TFHException
+  public static Tileset tilesetFromInputStream(InputStream pPNGStream, MapDescriptionDataModel pMapDescription) throws TFHException
   {
     try
     {
-      return new TileSet(pPNGStream, pMapDescription.tileWidth, pMapDescription.tileHeight);
+      return new Tileset(pPNGStream, pMapDescription.tileWidth, pMapDescription.tileHeight);
     }
     catch(Exception e)
     {

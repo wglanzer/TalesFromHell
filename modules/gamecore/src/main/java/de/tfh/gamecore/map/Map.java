@@ -24,7 +24,7 @@ import java.util.zip.ZipFile;
  */
 public class Map implements IMap
 {
-  private TileSet graphicTiles = null;
+  private Tileset graphicTiles = null;
   private Chunk[] chunks;
   private MapDescriptionDataModel mapDesc;
 

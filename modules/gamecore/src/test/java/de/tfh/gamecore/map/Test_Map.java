@@ -13,10 +13,8 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URL;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -29,13 +27,14 @@ import java.util.zip.ZipOutputStream;
 public class Test_Map
 {
 
-  private File file;
+  public static File file;
 
   @Test
   public void test_load() throws IOException, TFHDataModelException
   {
     StaticDataModelRegistrator.registerAll(false);
-    file = File.createTempFile("test", ".zip");
+    file = new File("target/test-classes/test.zip");
+    file.deleteOnExit();
 
     IDataModelRegistry reg = DefaultDataModelRegistry.getDefault();
 
@@ -80,10 +79,8 @@ public class Test_Map
     DataModelIOUtil.writeDataModelXML(mapDesc, outputStream);
     outputStream.closeEntry();
 
-    URL urlTiles = Test_Map.class.getResource("static/tiles.png");
-    File file1 = new File(urlTiles.getPath());
     outputStream.putNextEntry(new ZipEntry("tiles.png"));
-    IOUtils.copy(new FileInputStream(file1), outputStream);
+    IOUtils.copy(this.getClass().getResourceAsStream("tiles.png"), outputStream);
     outputStream.closeEntry();
 
     outputStream.flush();

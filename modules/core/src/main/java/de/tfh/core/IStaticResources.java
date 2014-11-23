@@ -1,5 +1,7 @@
 package de.tfh.core;
 
+import java.awt.*;
+
 /**
  * Enthält alle statischen Ressourcen
  *
@@ -31,4 +33,16 @@ public interface IStaticResources
    * Relativer Pfad zur config.xml
    */
   public static final String CONFIG_RELATIVE_PATH = "config.xml";
+
+  /**
+   * Standardgröße des Mappers
+   */
+  public static final Dimension MAPPER_SIZE = new Dimension(1600, 900);
+
+  /**
+   * Titel des Fensters des Mappers
+   * {0} = Titel
+   * {1} = Version
+   */
+  public static final String MAPPER_TITLE = "{0} - {1} - Mapper";
 }

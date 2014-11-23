@@ -2,7 +2,8 @@ package de.tfh.datamodels;
 
 import com.toddfast.util.convert.TypeConverter;
 import de.tfh.core.exceptions.TFHException;
-import de.tfh.core.i18n.Exceptions;
+import de.tfh.core.utils.ExceptionUtil;
+import de.tfh.datamodels.utils.TypeConversionUtil;
 import org.jdom2.Element;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -22,6 +23,9 @@ import java.util.Map;
  */
 public abstract class AbstractDataModel implements IDataModel
 {
+  static {
+    TypeConversionUtil.installAdditional(); //Bspw. String[] -> Long[]
+  }
 
   private final Map<String, Field> cachedFields = new HashMap<>();
 
@@ -118,7 +122,7 @@ public abstract class AbstractDataModel implements IDataModel
       catch(Exception e)
       {
         // XML-Element konnte nicht ins Datenmodell aufgenommen werden
-        LoggerFactory.getLogger(AbstractDataModel.class).error(Exceptions.get(20), e, "ele=", pElement);
+        ExceptionUtil.logError(LoggerFactory.getLogger(AbstractDataModel.class), 20, e, "ele=" + pElement);
       }
     }
   }

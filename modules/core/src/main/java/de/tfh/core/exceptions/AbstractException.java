@@ -15,6 +15,11 @@ public class AbstractException extends Exception
     this(null, pID < 0 ? ExceptionResources.DEFAULT_NO_MESSAGE : pID);
   }
 
+  public AbstractException(int pID, Object... pDetails)
+  {
+    this(null, pID < 0 ? ExceptionResources.DEFAULT_NO_MESSAGE : pID, pDetails);
+  }
+
   public AbstractException(@Nullable Throwable pCause, int pID, Object... pDetails)
   {
     super(ExceptionUtil.getErrorString(pID, pDetails), pCause);

@@ -73,12 +73,13 @@ public abstract class DataModelIOUtil
   /**
    * Liest ein Datenmodell anhand eines InputStreams ein
    *
-   * @param pStream  Stream, von dem das Datenmodell gelesen wird
+   * @param pStream         Stream, von dem das Datenmodell gelesen wird
+   * @param pSaveInRegistry <tt>true</tt>, wenn das Datenmodell in der REgistry gespeichert werden soll
    * @return Das IDataModel, oder <tt>null</tt> wenn nichts gefunden wird
    * @throws TFHDataModelException Wenn dabei ein Fehler aufgetreten ist
    */
   @Nullable
-  public static IDataModel readDataModelFromXML(@Nullable InputStream pStream) throws TFHDataModelException
+  public static IDataModel readDataModelFromXML(@Nullable InputStream pStream, boolean pSaveInRegistry) throws TFHDataModelException
   {
     try
     {
@@ -97,6 +98,9 @@ public abstract class DataModelIOUtil
           if(model != null)
           {
             model.fromXMLElement(root);
+            if(!pSaveInRegistry)
+              DefaultDataModelRegistry.getDefault().removeInstance(model);
+
             return model;
           }
         }
@@ -108,5 +112,18 @@ public abstract class DataModelIOUtil
     {
       throw new TFHDataModelException(e, 9);
     }
+  }
+
+  /**
+   * Liest ein Datenmodell anhand eines InputStreams ein
+   *
+   * @param pStream Stream, von dem das Datenmodell gelesen wird
+   * @return Das IDataModel, oder <tt>null</tt> wenn nichts gefunden wird
+   * @throws TFHDataModelException Wenn dabei ein Fehler aufgetreten ist
+   */
+  @Nullable
+  public static IDataModel readDataModelFromXML(@Nullable InputStream pStream) throws TFHDataModelException
+  {
+    return readDataModelFromXML(pStream, false);
   }
 }

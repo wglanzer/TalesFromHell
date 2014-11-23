@@ -10,7 +10,6 @@ import de.tfh.datamodels.registry.IDataModelRegistry;
 import de.tfh.datamodels.utils.DataModelIOUtil;
 import junit.framework.Assert;
 import org.apache.commons.io.IOUtils;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
@@ -32,8 +31,8 @@ public class Test_Map
 
   private File file;
 
-  @Before
-  public void before() throws IOException, TFHDataModelException
+  @Test
+  public void test_load() throws IOException, TFHDataModelException
   {
     StaticDataModelRegistrator.registerAll(false);
     file = File.createTempFile("test", ".zip");

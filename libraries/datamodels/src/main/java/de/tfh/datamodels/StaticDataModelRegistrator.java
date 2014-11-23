@@ -1,7 +1,9 @@
 package de.tfh.datamodels;
 
 import de.tfh.core.i18n.Exceptions;
+import de.tfh.datamodels.models.ChunkDataModel;
 import de.tfh.datamodels.models.ConfigDataModel;
+import de.tfh.datamodels.models.MapDescriptionDataModel;
 import de.tfh.datamodels.registry.DefaultDataModelRegistry;
 import de.tfh.datamodels.registry.IDataModelRegistry;
 import org.slf4j.Logger;
@@ -32,6 +34,8 @@ public class StaticDataModelRegistrator
     logging = pLogErrors;
 
     _register(ConfigDataModel.class);
+    _register(ChunkDataModel.class);
+    _register(MapDescriptionDataModel.class);
   }
 
   /**

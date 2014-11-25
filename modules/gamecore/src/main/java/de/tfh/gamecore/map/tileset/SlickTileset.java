@@ -44,7 +44,8 @@ public class SlickTileset implements ITileset<Image>
       }
       catch(SlickException e)
       {
-        ExceptionUtil.logError(logger, 9999, e, "stream=" + stream);
+        // Spritesheet konnte nicht erstellt werden
+        ExceptionUtil.logError(logger, 33, e, "stream=" + stream);
       }
 
     return spriteSheet;

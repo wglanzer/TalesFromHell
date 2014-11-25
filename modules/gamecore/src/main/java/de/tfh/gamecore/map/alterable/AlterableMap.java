@@ -30,7 +30,8 @@ public class AlterableMap extends Map implements IMap
     }
     catch(TFHException e)
     {
-      ExceptionUtil.logError(logger, 9999, e);
+      // Neue Map konnte nicht erstellt werden
+      ExceptionUtil.logError(logger, 32, e);
     }
   }
 
@@ -67,7 +68,7 @@ public class AlterableMap extends Map implements IMap
   {
     mapDesc = (MapDescriptionDataModel) DefaultDataModelRegistry.getDefault().newInstance(MapDescriptionDataModel.class);
     if(mapDesc == null)
-      throw new TFHException(9999);
+      throw new TFHException(31);
 
     chunks = new AlterableChunk[mapDesc.chunksX * mapDesc.chunksY];
     for(int i = 0; i < chunks.length; i++)

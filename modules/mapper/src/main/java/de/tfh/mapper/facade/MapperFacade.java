@@ -47,7 +47,7 @@ public class MapperFacade implements IMapperFacade
   public void setTile(int pX, int pY, int pLayer, TilePreference pTilePreference) throws TFHMappperException
   {
     if(pLayer < 0)
-      throw new TFHMappperException(9999, "layer=" + pLayer);
+      throw new TFHMappperException(36, "layer=" + pLayer);
 
     map.setTile(pX, pY, pLayer, pTilePreference);
   }
@@ -63,7 +63,8 @@ public class MapperFacade implements IMapperFacade
     }
     catch(Exception e)
     {
-      throw new TFHException(e, 9999, "x=" + pX, "y=" + pY, "layer=" + pLayer);
+      // Tile konnte nicht erstellt werden
+      throw new TFHException(e, 35, "x=" + pX, "y=" + pY, "layer=" + pLayer);
     }
   }
 

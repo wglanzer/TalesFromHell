@@ -153,7 +153,7 @@ public class StateMainMenu extends AbstractGameState
         }
       }
 
-      ExceptionUtil.logError(logger, 9999, null, "to=" + to, "from=" + from, "screenID=" + screenID);
+      ExceptionUtil.logError(logger, 34, null, "to=" + to, "from=" + from, "screenID=" + screenID);
     }
   }
 

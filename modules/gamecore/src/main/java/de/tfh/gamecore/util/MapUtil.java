@@ -7,7 +7,7 @@ import de.tfh.datamodels.models.MapDescriptionDataModel;
 import de.tfh.datamodels.utils.DataModelIOUtil;
 import de.tfh.gamecore.map.Chunk;
 import de.tfh.gamecore.map.IChunk;
-import de.tfh.gamecore.map.Tileset;
+import de.tfh.gamecore.map.tileset.SlickTileset;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.InputStream;
@@ -56,11 +56,11 @@ public class MapUtil
    * @param pMapDescription  MapDescription
    * @return TileSet
    */
-  public static Tileset tilesetFromInputStream(InputStream pPNGStream, MapDescriptionDataModel pMapDescription) throws TFHException
+  public static SlickTileset tilesetFromInputStream(InputStream pPNGStream, MapDescriptionDataModel pMapDescription) throws TFHException
   {
     try
     {
-      return new Tileset(pPNGStream, pMapDescription.tileWidth, pMapDescription.tileHeight);
+      return new SlickTileset(pPNGStream, pMapDescription.tileWidth, pMapDescription.tileHeight);
     }
     catch(Exception e)
     {

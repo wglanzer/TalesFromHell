@@ -2,8 +2,10 @@ package de.tfh.mapper.gui;
 
 import de.tfh.core.IStaticResources;
 import de.tfh.core.i18n.Messages;
+import de.tfh.mapper.facade.IMapperFacade;
 import de.tfh.mapper.gui.containers.DummyContainer;
 import de.tfh.mapper.gui.containers.MapEditorContainer;
+import de.tfh.mapper.gui.containers.MapTilesContainer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,14 +19,16 @@ import java.text.MessageFormat;
 public class MapperFrame extends JFrame
 {
 
+  private final IMapperFacade facade;
   private Container mapEditorContainer;
   private Container maptilesContainer;
   private Container preferencesContainer;
   private Container classEditorContainer;
   private Container classTreeContainer;
 
-  public MapperFrame(boolean pShow)
+  public MapperFrame(boolean pShow, IMapperFacade pFacade)
   {
+    facade = pFacade;
     setTitle(MessageFormat.format(IStaticResources.MAPPER_TITLE, IStaticResources.MAIN_TITLE, IStaticResources.VERSION));
     setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     setSize(IStaticResources.MAPPER_SIZE);
@@ -33,14 +37,9 @@ public class MapperFrame extends JFrame
     setLayout(new BorderLayout());
 
     if(pShow)
-      SwingUtilities.invokeLater(new Runnable()
-      {
-        @Override
-        public void run()
-        {
-          _initGui();
-          setVisible(true);
-        }
+      SwingUtilities.invokeLater(() -> {
+        _initGui();
+        setVisible(true);
       });
   }
 
@@ -52,7 +51,7 @@ public class MapperFrame extends JFrame
     try
     {
       mapEditorContainer = new MapEditorContainer();
-      maptilesContainer = new DummyContainer();
+      maptilesContainer = new JScrollPane(new MapTilesContainer(facade), ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
       preferencesContainer = new DummyContainer();
       classEditorContainer = new DummyContainer();
       classTreeContainer = new DummyContainer();
@@ -112,14 +111,7 @@ public class MapperFrame extends JFrame
     horizSplitpane.setLeftComponent(pClassTreeContainer);
     horizSplitpane.setRightComponent(pClassEditorContainer);
 
-    SwingUtilities.invokeLater(new Runnable()
-    {
-      @Override
-      public void run()
-      {
-        horizSplitpane.setDividerLocation(0.18);
-      }
-    });
+    SwingUtilities.invokeLater(() -> horizSplitpane.setDividerLocation(0.18));
 
     panel.add(horizSplitpane, BorderLayout.CENTER);
     return panel;

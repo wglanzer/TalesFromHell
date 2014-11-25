@@ -4,6 +4,7 @@ import de.tfh.core.exceptions.TFHException;
 import de.tfh.core.utils.ExceptionUtil;
 import de.tfh.datamodels.models.MapDescriptionDataModel;
 import de.tfh.datamodels.utils.DataModelIOUtil;
+import de.tfh.gamecore.map.tileset.ITileset;
 import de.tfh.gamecore.util.MapUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +24,8 @@ import java.util.zip.ZipFile;
  */
 public class Map implements IMap
 {
-  private Tileset graphicTiles = null;
-  private IChunk[] chunks = new IChunk[0];
+  protected ITileset graphicTiles = null;
+  protected IChunk[] chunks = new IChunk[0];
   protected MapDescriptionDataModel mapDesc;
 
   private static final Logger logger = LoggerFactory.getLogger(IMap.class);
@@ -100,13 +101,25 @@ public class Map implements IMap
     return mapDesc.tilesPerChunkY;
   }
 
+  @Override
+  public void setTileSet(ITileset<?> pSet)
+  {
+    graphicTiles = pSet;
+  }
+
+  @Override
+  public ITileset getTileSet()
+  {
+    return graphicTiles;
+  }
+
   /**
    * Überprüft ob das Chunk-Array "null"-Werte enthält.
    * Ersetzt diese ggf. mit einer neuen Chunk-Instanz
    *
    * @param pDesc MapDescription
    */
-  protected void validateChunkNulls(MapDescriptionDataModel pDesc)
+  private void _validateChunkNulls(MapDescriptionDataModel pDesc)
   {
     for(int i = 0; i < chunks.length; i++)
     {
@@ -160,7 +173,7 @@ public class Map implements IMap
         }
       }
 
-      validateChunkNulls(mapDesc);
+      _validateChunkNulls(mapDesc);
     }
     catch(Exception e)
     {

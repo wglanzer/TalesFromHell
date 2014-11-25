@@ -1,5 +1,6 @@
 package de.tfh.gamecore.map;
 
+import de.tfh.gamecore.map.tileset.ITileset;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -70,4 +71,18 @@ public interface IMap
    * @return Anzahl der Tiles innerhalb eines Chunks in Y-Richtung
    */
   int getTilesPerChunkY();
+
+  /**
+   * Setzt das Tileset für die Map
+   *
+   * @param pSet  Tileset, das gesetzt werden soll
+   */
+  void setTileSet(ITileset<?> pSet);
+
+  /**
+   * Liefert das Tileset
+   *
+   * @return Tileset
+   */
+  ITileset getTileSet();
 }

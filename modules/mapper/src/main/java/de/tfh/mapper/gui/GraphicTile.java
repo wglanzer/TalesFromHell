@@ -1,5 +1,7 @@
 package de.tfh.mapper.gui;
 
+import de.tfh.mapper.facade.IMapperFacade;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
@@ -15,12 +17,16 @@ import java.awt.event.MouseEvent;
 public class GraphicTile extends JLabel
 {
 
-  private static final Color SELECTION_COLOR = new Color(0, 0, 255, 64);
+  private static final Color SELECTION_COLOR = new Color(0, 0, 255, 64);  //todo raus hier!
 
+  private final IMapperFacade facade;
+  private final int id;
   private final Image image;
 
-  public GraphicTile(Image pImage)
+  public GraphicTile(IMapperFacade pFacade, int pId, Image pImage)
   {
+    facade = pFacade;
+    id = pId;
     image = pImage;
 
     setLayout(new OverlayLayout(this));
@@ -41,6 +47,7 @@ public class GraphicTile extends JLabel
       public void focusGained(FocusEvent e)
       {
         _repaint();
+        facade.setSelectedMapTileID(id);
       }
 
       @Override
@@ -51,14 +58,9 @@ public class GraphicTile extends JLabel
 
       private void _repaint()
       {
-        SwingUtilities.invokeLater(new Runnable()
-        {
-          @Override
-          public void run()
-          {
-            revalidate();
-            repaint();
-          }
+        SwingUtilities.invokeLater(() -> {
+          revalidate();
+          repaint();
         });
       }
     });

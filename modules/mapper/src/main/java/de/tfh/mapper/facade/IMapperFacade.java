@@ -14,9 +14,13 @@ public interface IMapperFacade
 {
 
   /**
-   * Generiert im Hintergrund eine neue, leere Map
+   * Erstellt eine neue Map mit den übergebenen Parametern
+   *
+   * @param pName           Name der Map
+   * @param pMapSavingPath  Speicher-Pfad der Map
+   * @param pTilesetPath    Pfad zum Tileset
    */
-  void generateNewMap();
+  void generateNewMap(String pName, String pMapSavingPath, String pTilesetPath) throws TFHException;
 
   /**
    * Setzt die ID eines Tiles auf einer bestimmten Position
@@ -94,4 +98,27 @@ public interface IMapperFacade
    * @return die selektierte ID des Tilesets, oder <tt>-1</tt>, wenn kein Tile selektiert ist
    */
   int getSelectedMapTileID();
+
+  /**
+   * Fügt einen neuen IChangeListener hinzu
+   *
+   * @param pListener  IChangeListener, der hinzugefügt werden soll
+   */
+  void addChangeListener(IChangeListener pListener);
+
+  /**
+   * Feuert, dass ich die Facade geändert hat
+   */
+  void fireFacadeChanged();
+
+  /**
+   * ChangeListener für die Facade
+   */
+  public interface IChangeListener
+  {
+    /**
+     * Wird aufgerufen, wenn sich die Facade geändert hat
+     */
+    void facadeChanged();
+  }
 }

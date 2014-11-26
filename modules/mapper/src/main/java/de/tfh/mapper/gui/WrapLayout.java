@@ -1,4 +1,4 @@
-package de.tfh.core.guicommon;
+package de.tfh.mapper.gui;
 
 import javax.swing.*;
 import java.awt.*;

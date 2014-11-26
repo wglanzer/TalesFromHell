@@ -45,4 +45,9 @@ public interface IStaticResources
    * {1} = Version
    */
   public static final String MAPPER_TITLE = "{0} - {1} - Mapper";
+
+  /**
+   * Dateiendung der Map-Datei
+   */
+  public static final String MAP_FILEENDING = "map";
 }

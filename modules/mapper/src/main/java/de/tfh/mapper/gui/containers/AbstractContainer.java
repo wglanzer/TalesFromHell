@@ -1,5 +1,7 @@
 package de.tfh.mapper.gui.containers;
 
+import de.tfh.mapper.facade.IMapperFacade;
+
 import javax.swing.*;
 
 /**
@@ -7,6 +9,32 @@ import javax.swing.*;
  *
  * @author W.Glanzer, 19.11.2014
  */
-public class AbstractContainer extends JPanel
+public abstract class AbstractContainer extends JPanel
 {
+
+  private final IMapperFacade facade;
+
+  public AbstractContainer(IMapperFacade pFacade)
+  {
+    facade = pFacade;
+    if(facade != null)
+      facade.addChangeListener(() -> reinit());
+
+    reinit();
+  }
+
+  /**
+   * Initialisiert den Container (neu)
+   */
+  protected abstract void reinit();
+
+  /**
+   * Liefert die MapperFacade
+   *
+   * @return MapperFacade, oder <tt>null</tt>
+   */
+  protected IMapperFacade getFacade()
+  {
+    return facade;
+  }
 }

@@ -21,12 +21,13 @@ public class AlterableMap extends Map implements IMap
 {
   private static final Logger logger = LoggerFactory.getLogger(AlterableMap.class);
 
-  public AlterableMap()
+  public AlterableMap(boolean pGenerateNewMap)
   {
     super(null);
     try
     {
-      _newMap();
+      if(pGenerateNewMap)
+        _newMap();
     }
     catch(TFHException e)
     {

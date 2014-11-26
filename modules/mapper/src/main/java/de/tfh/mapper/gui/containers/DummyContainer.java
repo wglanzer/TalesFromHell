@@ -1,5 +1,7 @@
 package de.tfh.mapper.gui.containers;
 
+import de.tfh.mapper.facade.IMapperFacade;
+
 import java.awt.*;
 
 /**
@@ -11,6 +13,11 @@ public class DummyContainer extends AbstractContainer
 {
   private static final int SIZE = 16;
   private static final Color INVALID = new Color(0xFF00FF);
+
+  public DummyContainer(IMapperFacade pFacade)
+  {
+    super(pFacade);
+  }
 
   @Override
   public void paintComponent(Graphics g)
@@ -27,4 +34,8 @@ public class DummyContainer extends AbstractContainer
         g.fillRect(j * SIZE, i * SIZE, SIZE, SIZE);
   }
 
+  @Override
+  protected void reinit()
+  {
+  }
 }

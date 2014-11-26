@@ -11,7 +11,11 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Beschreibt die Facade des Mappers.
@@ -23,23 +27,32 @@ public class MapperFacade implements IMapperFacade
 {
   private AlterableMap map;
   private int selectedID = -1;
+  private String mapSavingPath;
+  private String tilesetPath;
+  private final Set<IChangeListener> changeListeners = new HashSet<>();
 
   public MapperFacade()
   {
-    generateNewMap();
+    map = new AlterableMap(false);
   }
 
   @Override
-  public void generateNewMap()
+  public void generateNewMap(String pName, String pMapSavingPath, String pTilesetPath) throws TFHException
   {
-    map = new AlterableMap();
     try
     {
-      map.setTileSet(new MapperTileset(ImageIO.read(MapperFacade.class.getResource("tiles.png")), 32, 32));  //todo
+      mapSavingPath = pMapSavingPath;
+      tilesetPath = pTilesetPath;
+      map = new AlterableMap(true);
+      BufferedImage image = ImageIO.read(new File(pTilesetPath));
+      map.setTileSet(new MapperTileset(image, image.getWidth() / 16, image.getHeight() / 16));
+
+      fireFacadeChanged();
     }
     catch(IOException e)
     {
-      e.printStackTrace();
+      // Map konnte nicht neu generiert werden
+      throw new TFHException(e, 37, "name=" + pName, "path=" + pMapSavingPath, "tilesetPath=" + pTilesetPath);
     }
   }
 
@@ -105,13 +118,21 @@ public class MapperFacade implements IMapperFacade
   @Override
   public int getTileCount()
   {
-    return map.getTileSet().getTileCountX() * map.getTileSet().getTileCountY();
+    ITileset tileset = map.getTileSet();
+    if(tileset != null)
+      return tileset.getTileCountX() * tileset.getTileCountY();
+
+    return 0;
   }
 
   @Override
   public GraphicTile getTile(int pTileID)
   {
-    return new GraphicTile(this, pTileID, (Image) map.getTileSet().getTileForID(pTileID));
+    ITileset tileSet = map.getTileSet();
+    if(tileSet != null)
+      return new GraphicTile(this, pTileID, (Image) tileSet.getTileForID(pTileID));
+
+    return null;
   }
 
   @Override
@@ -124,5 +145,24 @@ public class MapperFacade implements IMapperFacade
   public int getSelectedMapTileID()
   {
     return selectedID;
+  }
+
+  @Override
+  public void addChangeListener(IChangeListener pListener)
+  {
+    synchronized(changeListeners)
+    {
+      changeListeners.add(pListener);
+    }
+  }
+
+  @Override
+  public void fireFacadeChanged()
+  {
+    synchronized(changeListeners)
+    {
+      for(IChangeListener currListener : changeListeners)
+        currListener.facadeChanged();
+    }
   }
 }

@@ -33,7 +33,7 @@ public class MapperFrame extends JFrame
     setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     setSize(IStaticResources.MAPPER_SIZE);
     setLocationRelativeTo(null);
-    setMenuBar(new MapperMenuBar());
+    setMenuBar(new MapperMenuBar(facade));
     setLayout(new BorderLayout());
 
     if(pShow)
@@ -50,11 +50,11 @@ public class MapperFrame extends JFrame
   {
     try
     {
-      mapEditorContainer = new MapEditorContainer();
-      maptilesContainer = new JScrollPane(new MapTilesContainer(facade), ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-      preferencesContainer = new DummyContainer();
-      classEditorContainer = new DummyContainer();
-      classTreeContainer = new DummyContainer();
+      mapEditorContainer = new MapEditorContainer(facade);
+      maptilesContainer = new MapTilesContainer(facade);
+      preferencesContainer = new DummyContainer(facade);
+      classEditorContainer = new DummyContainer(facade);
+      classTreeContainer = new DummyContainer(facade);
 
       JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
 
@@ -79,20 +79,15 @@ public class MapperFrame extends JFrame
 
     final JSplitPane horizSplitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
     final JSplitPane verticSplitpane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-    verticSplitpane.setTopComponent(pMaptilesContainer);
+    verticSplitpane.setTopComponent(new JScrollPane(pMaptilesContainer, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER));
     verticSplitpane.setBottomComponent(pPreferencesContainer);
     horizSplitpane.setLeftComponent(verticSplitpane);
     horizSplitpane.setRightComponent(pMapEditorContainer);
     panel.add(horizSplitpane, BorderLayout.CENTER);
 
-    SwingUtilities.invokeLater(new Runnable()
-    {
-      @Override
-      public void run()
-      {
-        horizSplitpane.setDividerLocation(0.18);
-        verticSplitpane.setDividerLocation(0.6);
-      }
+    SwingUtilities.invokeLater(() -> {
+      horizSplitpane.setDividerLocation(0.18);
+      verticSplitpane.setDividerLocation(0.6);
     });
 
     return panel;

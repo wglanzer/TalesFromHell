@@ -60,21 +60,27 @@ public class Map implements IMap
   @Override
   public IChunk getChunkContaining(int pX, int pY)
   {
-    int x = pX - pX / mapDesc.tilesPerChunkX;
-    int y = pY - pY / mapDesc.tilesPerChunkY;
+    int x = pX / mapDesc.tilesPerChunkX;
+    int y = pY / mapDesc.tilesPerChunkY;
     return chunks[y * getChunkCountX() + x];
   }
 
   @Override
   public int getChunkCountX()
   {
-    return mapDesc.chunksX;
+    if(mapDesc != null)
+      return mapDesc.chunksX;
+
+    return 0;
   }
 
   @Override
   public int getChunkCountY()
   {
-    return mapDesc.chunksY;
+    if(mapDesc != null)
+      return mapDesc.chunksY;
+
+    return 0;
   }
 
   @Override

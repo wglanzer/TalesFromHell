@@ -10,7 +10,12 @@ import java.util.BitSet;
 public class TilePreference
 {
 
-  private final int graphicID;
+  private int graphicID;
+
+  public TilePreference(int pGraphicID)
+  {
+    graphicID = pGraphicID;
+  }
 
   public TilePreference(BitSet pBits)
   {
@@ -29,6 +34,16 @@ public class TilePreference
   public int getGraphicID()
   {
     return graphicID;
+  }
+
+  /**
+   * Setzt die grafische ID
+   *
+   * @param pGraphicID   ID, die gesetzt werden soll
+   */
+  public void setGraphicID(int pGraphicID)
+  {
+    graphicID = pGraphicID;
   }
 
   /**

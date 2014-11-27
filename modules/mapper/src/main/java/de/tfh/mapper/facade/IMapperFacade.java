@@ -5,6 +5,8 @@ import de.tfh.gamecore.map.TilePreference;
 import de.tfh.mapper.TFHMappperException;
 import de.tfh.mapper.gui.GraphicTile;
 
+import java.awt.*;
+
 /**
  * Stellt die Verbindung zw. GUI und Backend her
  *
@@ -33,14 +35,14 @@ public interface IMapperFacade
   void setTile(int pX, int pY, int pLayer, TilePreference pTilePreference) throws TFHMappperException;
 
   /**
-   * Gibt das GraphicTile zurück, das gezeichnet werden kann
+   * Gibt die ID zurück
    *
    * @param pX      X-Position des Tiles
    * @param pY      Y-Position des Tiles
    * @param pLayer  Layer, der gezeichnet werden soll
-   * @return GraphicTile-Instanz
+   * @return ID des Tiles
    */
-  GraphicTile getTilePaintableOnMap(int pX, int pY, int pLayer) throws TFHException;
+  int getTileIDOnMap(int pX, int pY, int pLayer) throws TFHException;
 
   /**
    * Liefert das Tile für die bestimmte ID
@@ -49,6 +51,25 @@ public interface IMapperFacade
    * @return Graphictile-Instanz
    */
   GraphicTile getTile(int pTileID);
+
+  /**
+   * Liefert das Bild des Tiles für die angegebene ID
+   *
+   * @param pTileID  ID für die das Bild zurückgegeben werden soll
+   * @return Image
+   */
+  Image getImageForTile(int pTileID);
+
+  /**
+   * Liefert die derzeitigen TilePreferences auf einer besimmten Position
+   *
+   * @param pXTile   X-Tileposition
+   * @param pYTile   Y-Tileposition
+   * @param pChunkX  Chunk, auf dem das Tile was in X-Richtung
+   * @param pChunkY  Chunk, auf dem das Tile war in Y-Richtung
+   * @return derzeiteigen TilePreferences
+   */
+  TilePreference getPreference(int pXTile, int pYTile, int pChunkX, int pChunkY, int pLayer) throws TFHException;
 
   /**
    * Liefert die Tile-Breite
@@ -84,6 +105,20 @@ public interface IMapperFacade
    * @return Anzahl der Tiles
    */
   int getTileCount();
+
+  /**
+   * Liefert die Anzahl der Chunks in X-Richtung
+   *
+   * @return Anzahl der Chunks in X-Richtung
+   */
+  int getChunkCountX();
+
+  /**
+   * Liefert die Anzahl der Chunks in Y-Richtung
+   *
+   * @return Anzahl der Chunks in Y-Richtung
+   */
+  int getChunkCountY();
 
   /**
    * Setzt die ID des selektierten Tiles

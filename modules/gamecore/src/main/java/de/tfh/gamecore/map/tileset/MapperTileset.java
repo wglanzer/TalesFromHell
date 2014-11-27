@@ -2,6 +2,8 @@ package de.tfh.gamecore.map.tileset;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Beschreibt ein Tileset für den Mapper.
@@ -14,6 +16,7 @@ public class MapperTileset implements ITileset<Image>
 {
 
   private final BufferedImage image;
+  private Map<Integer, Image> imageCache = new HashMap<>();
   private final int tileWidth;
   private final int tileHeight;
   private final int tilesX;
@@ -29,11 +32,16 @@ public class MapperTileset implements ITileset<Image>
   }
 
   @Override
-  public Image getTileForID(int pLayer)
+  public Image getTileForID(int pID)
   {
-    int y = pLayer / getTileCountX();
-    int x = pLayer - y * getTileCountX();
-    return image.getSubimage(x * getTileWidth(), y * getTileHeight(), getTileWidth(), getTileHeight());
+    if(!imageCache.containsKey(pID))
+    {
+      int y = pID / getTileCountX();
+      int x = pID - y * getTileCountX();
+      imageCache.put(pID, image.getSubimage(x * getTileWidth(), y * getTileHeight(), getTileWidth(), getTileHeight()));
+    }
+
+    return imageCache.get(pID);
   }
 
   @Override

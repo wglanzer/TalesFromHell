@@ -101,14 +101,10 @@ public class Chunk implements IChunk
         BitSet bitSL = currBits.get(33, 48);
         BitSet bitFG = currBits.get(49, 64);
 
-        if(!bitBG.isEmpty())
-          background.addTile(x, y, new TilePreference(bitBG));
-        if(!bitMG.isEmpty())
-          midground.addTile(x, y, new TilePreference(bitMG));
-        if(!bitSL.isEmpty())
-          specialLayer.addTile(x, y, new TilePreference(bitSL));
-        if(!bitFG.isEmpty())
-          foreground.addTile(x, y, new TilePreference(bitFG));
+        background.addTile(x, y, new TilePreference(bitBG));
+        midground.addTile(x, y, new TilePreference(bitMG));
+        specialLayer.addTile(x, y, new TilePreference(bitSL));
+        foreground.addTile(x, y, new TilePreference(bitFG));
       }
 
       cachedLayers.add(Layer.BACKGROUND, background);

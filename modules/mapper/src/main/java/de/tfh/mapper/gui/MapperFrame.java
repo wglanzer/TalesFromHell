@@ -82,7 +82,7 @@ public class MapperFrame extends JFrame
     verticSplitpane.setTopComponent(new JScrollPane(pMaptilesContainer, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER));
     verticSplitpane.setBottomComponent(pPreferencesContainer);
     horizSplitpane.setLeftComponent(verticSplitpane);
-    horizSplitpane.setRightComponent(pMapEditorContainer);
+    horizSplitpane.setRightComponent(new JScrollPane(pMapEditorContainer));
     panel.add(horizSplitpane, BorderLayout.CENTER);
 
     SwingUtilities.invokeLater(() -> {

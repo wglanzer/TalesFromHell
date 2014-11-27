@@ -1,7 +1,11 @@
 package de.tfh.mapper.facade;
 
 import de.tfh.core.exceptions.TFHException;
+import de.tfh.gamecore.map.IChunk;
+import de.tfh.gamecore.map.ILayer;
 import de.tfh.gamecore.map.TilePreference;
+import de.tfh.gamecore.map.alterable.AlterableChunk;
+import de.tfh.gamecore.map.alterable.AlterableLayer;
 import de.tfh.gamecore.map.alterable.AlterableMap;
 import de.tfh.gamecore.map.tileset.ITileset;
 import de.tfh.gamecore.map.tileset.MapperTileset;
@@ -65,14 +69,17 @@ public class MapperFacade implements IMapperFacade
     map.setTile(pX, pY, pLayer, pTilePreference);
   }
 
-  public GraphicTile getTilePaintableOnMap(int pX, int pY, int pLayer) throws TFHException
+  public int getTileIDOnMap(int pX, int pY, int pLayer) throws TFHException
   {
     try
     {
-      int x = pX - pX / map.getTilesPerChunkX();
-      int y = pY - pY / map.getTilesPerChunkY();
+      int x = pX % map.getTilesPerChunkX();
+      int y = pY % map.getTilesPerChunkY();
       TilePreference tilePref = map.getChunkContaining(pX, pY).getTilesOn(x, y)[pLayer];
-      return new GraphicTile(this, tilePref.getGraphicID(), getImageForID(tilePref.getGraphicID()));
+      if(tilePref != null)
+        return tilePref.getGraphicID();
+
+      return -1;
     }
     catch(Exception e)
     {
@@ -126,11 +133,69 @@ public class MapperFacade implements IMapperFacade
   }
 
   @Override
+  public int getChunkCountX()
+  {
+    return map.getChunkCountX();
+  }
+
+  @Override
+  public int getChunkCountY()
+  {
+    return map.getChunkCountY();
+  }
+
+  @Override
   public GraphicTile getTile(int pTileID)
   {
     ITileset tileSet = map.getTileSet();
     if(tileSet != null)
-      return new GraphicTile(this, pTileID, (Image) tileSet.getTileForID(pTileID));
+      return new GraphicTile(pTileID, (Image) tileSet.getTileForID(pTileID));
+
+    return null;
+  }
+
+  @Override
+  public Image getImageForTile(int pTileID)
+  {
+    ITileset tileSet = map.getTileSet();
+    if(tileSet != null)
+      return (Image) tileSet.getTileForID(pTileID);
+
+    return null;
+  }
+
+  @Override
+  public TilePreference getPreference(int pXTile, int pYTile, int pChunkX, int pChunkY, int pLayer) throws TFHException
+  {
+    try
+    {
+      IChunk chunk = map.getChunk(pChunkX, pChunkY);
+      if(chunk != null)
+      {
+        AlterableChunk alterable = (AlterableChunk) chunk;
+        TilePreference[] tiles = alterable.getTilesOn(pXTile, pYTile);
+
+        if(tiles != null && tiles.length == 4)
+        {
+          TilePreference pref = tiles[pLayer];
+
+          if(tiles[pLayer] == null)
+          {
+            ILayer layer = alterable.getLayers(false).get(pLayer);
+            AlterableLayer alterableLayer = (AlterableLayer) layer;
+
+            pref = new TilePreference(-1);
+            alterableLayer.addTile(pXTile, pYTile, pref);
+          }
+
+          return pref;
+        }
+      }
+    }
+    catch(Exception e)
+    {
+      throw new TFHException(e, 9999, "xTile=" + pXTile, "yTile=" + pYTile, "chunkx=" + pChunkX, "chunky=" + pChunkY);
+    }
 
     return null;
   }

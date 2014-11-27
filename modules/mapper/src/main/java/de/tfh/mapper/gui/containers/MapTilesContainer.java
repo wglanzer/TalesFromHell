@@ -1,6 +1,8 @@
 package de.tfh.mapper.gui.containers;
 
 import de.tfh.mapper.facade.IMapperFacade;
+import de.tfh.mapper.gui.GraphicTile;
+import de.tfh.mapper.gui.SelectableTile;
 import de.tfh.mapper.gui.WrapLayout;
 
 import javax.swing.*;
@@ -28,7 +30,10 @@ public class MapTilesContainer extends AbstractContainer implements Scrollable
   {
     IMapperFacade facade = getFacade();
     for(int i = 0; i < facade.getTileCount(); i++)
-      add(facade.getTile(i));   //Alle Tiles hinzufügen
+    {
+      GraphicTile tile = facade.getTile(i);
+      add(new SelectableTile(facade, tile.getId(), tile.getImage()));   //Alle Tiles hinzufügen
+    }
 
     SwingUtilities.invokeLater(() -> {
       revalidate();

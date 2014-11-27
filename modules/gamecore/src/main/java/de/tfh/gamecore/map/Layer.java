@@ -45,9 +45,14 @@ public class Layer implements ILayer
 
   public Layer(int pTilesX, int pTilesY)
   {
+    this(pTilesX, pTilesY, new TilePreference[pTilesX * pTilesY]);
+  }
+
+  public Layer(int pTilesX, int pTilesY, TilePreference[] pTiles)
+  {
     tilesX = pTilesX;
     tilesY = pTilesY;
-    tilesOnLayer = new TilePreference[tilesX * tilesY];
+    tilesOnLayer = pTiles;
   }
 
   @Override

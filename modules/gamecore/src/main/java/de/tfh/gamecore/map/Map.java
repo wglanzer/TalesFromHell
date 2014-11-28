@@ -11,9 +11,13 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Enumeration;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import java.util.zip.ZipOutputStream;
 
 /**
  * Stellt eine normale Map dar, auf der gespielt werden kann.
@@ -28,6 +32,7 @@ public class Map implements IMap
   protected IChunk[] chunks = new IChunk[0];
   protected MapDescriptionDataModel mapDesc;
 
+  private final Object SAVE_LOCK = new Object();
   private static final Logger logger = LoggerFactory.getLogger(IMap.class);
 
   public Map(File pZipFile)
@@ -117,6 +122,74 @@ public class Map implements IMap
   public ITileset getTileSet()
   {
     return graphicTiles;
+  }
+
+  @Override
+  public void save(OutputStream pOutputStream, int pThreadCount) throws TFHException
+  {
+    try
+    {
+      // chunks[], mapDesc, graphicTiles
+      final ZipOutputStream zip = new ZipOutputStream(pOutputStream);
+
+      ExecutorService pool = Executors.newFixedThreadPool(4);
+
+      //chunks speichern
+      for(int i = 0; i < chunks.length; i++)
+      {
+        final int finalI = i;
+        pool.submit(() -> {
+          try
+          {
+            IChunk currChunk = chunks[finalI];
+            if(currChunk != null)
+            {
+              currChunk.synchronizeModel(); //Damit Chunk und Datenmodell synchron sind
+
+              synchronized(SAVE_LOCK)
+              {
+                ZipEntry entry = new ZipEntry(IMapConstants.CHUNK_FOLDER + "chunk" + finalI + ".chunk");
+                zip.putNextEntry(entry);
+                DataModelIOUtil.writeDataModelXML(currChunk.getModel(), zip);
+                zip.closeEntry();
+
+                System.out.println("chunk " + finalI + " wrote");
+              }
+            }
+          }
+          catch(Exception e)
+          {
+            ExceptionUtil.logError(logger, 9999, e);
+          }
+        });
+      }
+
+      while(!pool.isTerminated())
+        Thread.sleep(100);
+
+      synchronized(SAVE_LOCK)
+      {
+        try
+        {
+          ZipEntry entry = new ZipEntry(IMapConstants.DESC_MAP);
+          zip.putNextEntry(entry);
+          DataModelIOUtil.writeDataModelXML(mapDesc, zip);
+          zip.closeEntry();
+        }
+        catch(Exception e)
+        {
+          ExceptionUtil.logError(logger, 9999, e);
+        }
+      }
+
+      zip.flush();
+      zip.close();
+    }
+    catch(Exception e)
+    {
+      //Map konnte nicht gespeichert werden
+      throw new TFHException(e, 9999);
+    }
   }
 
   /**

@@ -6,6 +6,7 @@ import de.tfh.mapper.TFHMappperException;
 import de.tfh.mapper.gui.GraphicTile;
 
 import java.awt.*;
+import java.io.OutputStream;
 
 /**
  * Stellt die Verbindung zw. GUI und Backend her
@@ -19,10 +20,9 @@ public interface IMapperFacade
    * Erstellt eine neue Map mit den übergebenen Parametern
    *
    * @param pName           Name der Map
-   * @param pMapSavingPath  Speicher-Pfad der Map
    * @param pTilesetPath    Pfad zum Tileset
    */
-  void generateNewMap(String pName, String pMapSavingPath, String pTilesetPath) throws TFHException;
+  void generateNewMap(String pName, String pTilesetPath) throws TFHException;
 
   /**
    * Setzt die ID eines Tiles auf einer bestimmten Position
@@ -135,6 +135,13 @@ public interface IMapperFacade
   int getSelectedMapTileID();
 
   /**
+   * Speichert die Map auf einem Outputstream
+   *
+   * @param pStream Stream, auf dem die Map gespeichert werden soll
+   */
+  void save(OutputStream pStream);
+
+  /**
    * Fügt einen neuen IChangeListener hinzu
    *
    * @param pListener  IChangeListener, der hinzugefügt werden soll
@@ -145,6 +152,11 @@ public interface IMapperFacade
    * Feuert, dass ich die Facade geändert hat
    */
   void fireFacadeChanged();
+
+  /**
+   * Beendet den Mapper
+   */
+  void shutdown();
 
   /**
    * ChangeListener für die Facade

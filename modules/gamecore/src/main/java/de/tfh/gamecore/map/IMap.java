@@ -1,7 +1,10 @@
 package de.tfh.gamecore.map;
 
+import de.tfh.core.exceptions.TFHException;
 import de.tfh.gamecore.map.tileset.ITileset;
 import org.jetbrains.annotations.Nullable;
+
+import java.io.OutputStream;
 
 /**
  * Beschreibt eine Map
@@ -85,4 +88,12 @@ public interface IMap
    * @return Tileset
    */
   ITileset getTileSet();
+
+  /**
+   * Schreibt die Map auf den Outputstream
+   *
+   * @param pOutputStream  Stream, auf den geschrieben werden soll
+   * @param pThreadCount   Anzahl der Threads zum Speichern
+   */
+  void save(OutputStream pOutputStream, int pThreadCount) throws TFHException;
 }

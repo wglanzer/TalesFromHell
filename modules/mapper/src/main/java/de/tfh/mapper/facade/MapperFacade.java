@@ -1,6 +1,7 @@
 package de.tfh.mapper.facade;
 
 import de.tfh.core.exceptions.TFHException;
+import de.tfh.core.utils.ExceptionUtil;
 import de.tfh.gamecore.map.IChunk;
 import de.tfh.gamecore.map.ILayer;
 import de.tfh.gamecore.map.TilePreference;
@@ -12,12 +13,15 @@ import de.tfh.gamecore.map.tileset.MapperTileset;
 import de.tfh.mapper.TFHMappperException;
 import de.tfh.mapper.gui.GraphicTile;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,9 +33,10 @@ import java.util.Set;
  */
 public class MapperFacade implements IMapperFacade
 {
+  private static final Logger logger = LoggerFactory.getLogger(MapperFacade.class);
+
   private AlterableMap map;
   private int selectedID = -1;
-  private String mapSavingPath;
   private String tilesetPath;
   private final Set<IChangeListener> changeListeners = new HashSet<>();
 
@@ -41,11 +46,10 @@ public class MapperFacade implements IMapperFacade
   }
 
   @Override
-  public void generateNewMap(String pName, String pMapSavingPath, String pTilesetPath) throws TFHException
+  public void generateNewMap(String pName, String pTilesetPath) throws TFHException
   {
     try
     {
-      mapSavingPath = pMapSavingPath;
       tilesetPath = pTilesetPath;
       map = new AlterableMap(true);
       BufferedImage image = ImageIO.read(new File(pTilesetPath));
@@ -56,7 +60,7 @@ public class MapperFacade implements IMapperFacade
     catch(IOException e)
     {
       // Map konnte nicht neu generiert werden
-      throw new TFHException(e, 37, "name=" + pName, "path=" + pMapSavingPath, "tilesetPath=" + pTilesetPath);
+      throw new TFHException(e, 37, "name=" + pName, "tilesetPath=" + pTilesetPath);
     }
   }
 
@@ -210,6 +214,26 @@ public class MapperFacade implements IMapperFacade
   public int getSelectedMapTileID()
   {
     return selectedID;
+  }
+
+  @Override
+  public void save(OutputStream pStream)
+  {
+    try
+    {
+      if(map != null)
+        map.save(pStream, 8);
+    }
+    catch(TFHException e)
+    {
+      ExceptionUtil.logError(logger, 9999, e);
+    }
+  }
+
+  @Override
+  public void shutdown()
+  {
+    System.exit(0);
   }
 
   @Override

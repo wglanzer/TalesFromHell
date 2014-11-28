@@ -30,6 +30,7 @@ public abstract class AbstractDialog extends JDialog
     buttonPanel.add(buttonCancel);
     add(buttonPanel, BorderLayout.SOUTH);
 
+    textPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(3, 3, 0, 3), textPanel.getBorder()));
     add(textPanel, BorderLayout.CENTER);
 
     buttonCancel.addActionListener(e -> dispose());

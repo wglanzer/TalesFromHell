@@ -10,7 +10,7 @@ import java.util.BitSet;
 public class TilePreference
 {
 
-  private int graphicID;
+  private int graphicID = -1;
 
   public TilePreference(int pGraphicID)
   {
@@ -22,8 +22,11 @@ public class TilePreference
     BitSet bitID = pBits.get(0, 8);
     BitSet bitAttr = pBits.get(9, 16);
 
-    graphicID = (int) bitID.toLongArray()[0];
-    _analyzeAttributeBits(bitAttr);
+    if(!bitID.isEmpty())
+      graphicID = (int) bitID.toLongArray()[0];
+
+    if(!bitAttr.isEmpty())
+      _analyzeAttributeBits(bitAttr);
   }
 
   /**
@@ -51,5 +54,16 @@ public class TilePreference
    */
   private void _analyzeAttributeBits(BitSet pAttributes)
   {
+  }
+
+  /**
+   * Liefert das repräsentierende BitSet zurück
+   *
+   * @return BitSet
+   */
+  public BitSet getBitSet()
+  {
+    BitSet bitSet = BitSet.valueOf(new long[]{graphicID});
+    return bitSet;
   }
 }

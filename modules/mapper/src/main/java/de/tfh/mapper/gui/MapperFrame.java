@@ -33,7 +33,7 @@ public class MapperFrame extends JFrame
     setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     setSize(IStaticResources.MAPPER_SIZE);
     setLocationRelativeTo(null);
-    setMenuBar(new MapperMenuBar(facade));
+    setJMenuBar(new MapperMenuBar(facade));
     setLayout(new BorderLayout());
 
     if(pShow)

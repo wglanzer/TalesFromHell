@@ -1,9 +1,12 @@
 package de.tfh.gamecore.map;
 
 import de.tfh.core.exceptions.TFHException;
+import de.tfh.core.utils.ExceptionUtil;
 import de.tfh.datamodels.models.ChunkDataModel;
 import de.tfh.gamecore.map.alterable.AlterableLayer;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -26,6 +29,7 @@ public class Chunk implements IChunk
 
   // Gecachte Layer, damit diese nicht neu aufgebaut werden müssen
   private List<ILayer> cachedLayers;
+  private static final Logger logger = LoggerFactory.getLogger(Chunk.class);
 
   /**
    * Konstruktor
@@ -43,6 +47,7 @@ public class Chunk implements IChunk
     dataModel.y = pY;
     dataModel.tiles = pTiles;
 
+    _verifiyTileNulls();
     // Neu berechnen
     getLayers(true);
   }
@@ -59,6 +64,8 @@ public class Chunk implements IChunk
     dataModel = pDataModel;
     xTileCount = pXTileCount;
     yTileCount = pYTileCount;
+
+    _verifiyTileNulls();
     getLayers(true);
   }
 
@@ -136,5 +143,64 @@ public class Chunk implements IChunk
       // Tile konnte nicht bestimmt werden
       throw new TFHException(e, 25, "x=" + pX, "y=" + pY);
     }
+  }
+
+  @Override
+  public ChunkDataModel getModel()
+  {
+    return dataModel;
+  }
+
+  @Override
+  public void synchronizeModel()
+  {
+    Long[] tileArr = new Long[dataModel.tiles.length];
+    for(int x = 0; x < xTileCount; x++)
+    {
+      for(int y = 0; y < yTileCount; y++)
+      {
+        try
+        {
+          TilePreference[] tiles = getTilesOn(x, y);
+          tileArr[y * xTileCount + x] = _toLong(tiles);
+        }
+        catch(TFHException e)
+        {
+          ExceptionUtil.logError(logger, 9999, e);
+        }
+      }
+    }
+
+    dataModel.tiles = tileArr;
+    dataModel.x = getX();
+    dataModel.y = getY();
+  }
+
+  private Long _toLong(TilePreference[] pPreferences)
+  {
+    BitSet currBitSet = new BitSet();
+
+    for(int i = 0; i < pPreferences.length; i++)
+    {
+      int offset = 16 * i;
+      TilePreference currTile = pPreferences[i];
+      BitSet bitSet = currTile.getBitSet();
+      for(int j = 0; j < 16; j++)
+        currBitSet.set(j + offset, bitSet.get(j));
+    }
+
+    return currBitSet.toLongArray()[0];
+  }
+
+  private void _verifiyTileNulls()
+  {
+    Long[] tiles = dataModel.tiles;
+    for(int i = 0; i < tiles.length; i++)
+    {
+      Long currLong = tiles[i];
+      if(currLong == null)
+        dataModel.tiles[i] = 0L;
+    }
+
   }
 }

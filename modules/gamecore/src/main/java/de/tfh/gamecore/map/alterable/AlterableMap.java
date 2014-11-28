@@ -76,7 +76,7 @@ public class AlterableMap extends Map implements IMap
     {
       int y = i / mapDesc.chunksX;
       int x = i - y * mapDesc.chunksX;
-      chunks[i] = new AlterableChunk(x, y, mapDesc.tilesPerChunkX, mapDesc.tilesPerChunkY, new Long[0]);
+      chunks[i] = new AlterableChunk(x, y, mapDesc.tilesPerChunkX, mapDesc.tilesPerChunkY, new Long[mapDesc.tilesPerChunkX * mapDesc.tilesPerChunkY]);
     }
 
   }

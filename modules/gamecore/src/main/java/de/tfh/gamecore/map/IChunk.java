@@ -1,6 +1,7 @@
 package de.tfh.gamecore.map;
 
 import de.tfh.core.exceptions.TFHException;
+import de.tfh.datamodels.models.ChunkDataModel;
 
 import java.util.List;
 
@@ -42,4 +43,17 @@ public interface IChunk
    * @throws de.tfh.core.exceptions.TFHException Falls dabei ein Fehler aufgetreten ist
    */
   TilePreference[] getTilesOn(int pX, int pY) throws TFHException;
+
+  /**
+   * Liefert das ChunkDataModel, das dahinter liegt
+   *
+   * @return ChunkDataModel
+   */
+  ChunkDataModel getModel();
+
+  /**
+   * Synchronisiert das Model mit dem dahinterliegenden Datenmodell.
+   * Alle Änderungen im Chunk werden ins Datenmodell geschrieben
+   */
+  void synchronizeModel();
 }

@@ -31,6 +31,8 @@ public class GraphicChunk extends JPanel
   private int tileCountX;
   private int tileCountY;
 
+  private static final BasicStroke DASHED = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, new float[]{10.0f}, 0.0f);
+
   public GraphicChunk(int pPosX, int pPosY, IMapperFacade pFacade)
   {
     posX = pPosX;
@@ -76,6 +78,9 @@ public class GraphicChunk extends JPanel
   {
     super.paintComponent(g);
 
+    int width = getWidth();
+    int height = getHeight();
+
     g.setColor(Color.GRAY.brighter());
 
     try
@@ -101,6 +106,11 @@ public class GraphicChunk extends JPanel
     {
       ExceptionUtil.logError(LoggerFactory.getLogger(GraphicChunk.class), 47, e);
     }
+
+    g.setColor(Color.BLACK);
+    ((Graphics2D) g).setStroke(DASHED);
+    g.drawLine(0, 0, width, 0);
+    g.drawLine(0, 0, 0, height);
   }
 
   /**

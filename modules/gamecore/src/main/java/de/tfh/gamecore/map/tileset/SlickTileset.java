@@ -1,5 +1,7 @@
 package de.tfh.gamecore.map.tileset;
 
+import de.tfh.core.exceptions.TFHException;
+import de.tfh.core.exceptions.TFHUnsupportedOperationException;
 import de.tfh.core.utils.ExceptionUtil;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -87,5 +89,11 @@ public class SlickTileset implements ITileset<Image>
       return spriteSheet.getVerticalCount();
 
     return -1;
+  }
+
+  @Override
+  public InputStream getImageInputStream() throws TFHException
+  {
+    throw new TFHUnsupportedOperationException(9999);
   }
 }

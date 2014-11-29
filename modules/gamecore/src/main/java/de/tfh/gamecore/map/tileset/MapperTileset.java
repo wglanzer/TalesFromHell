@@ -1,7 +1,13 @@
 package de.tfh.gamecore.map.tileset;
 
+import de.tfh.core.exceptions.TFHException;
+
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,5 +72,20 @@ public class MapperTileset implements ITileset<Image>
   public int getTileCountY()
   {
     return tilesY;
+  }
+
+  @Override
+  public InputStream getImageInputStream() throws TFHException
+  {
+    try
+    {
+      ByteArrayOutputStream os = new ByteArrayOutputStream();
+      ImageIO.write(image, "png", os);
+      return new ByteArrayInputStream(os.toByteArray());
+    }
+    catch(Exception e)
+    {
+      throw new TFHException(e, 9999);
+    }
   }
 }

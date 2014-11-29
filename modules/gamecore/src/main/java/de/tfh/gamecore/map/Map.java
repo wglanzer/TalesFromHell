@@ -6,15 +6,18 @@ import de.tfh.datamodels.models.MapDescriptionDataModel;
 import de.tfh.datamodels.utils.DataModelIOUtil;
 import de.tfh.gamecore.map.tileset.ITileset;
 import de.tfh.gamecore.util.MapUtil;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.awt.*;
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
@@ -28,7 +31,7 @@ import java.util.zip.ZipOutputStream;
  */
 public class Map implements IMap
 {
-  protected ITileset graphicTiles = null;
+  protected ITileset<Image> graphicTiles = null;
   protected IChunk[] chunks = new IChunk[0];
   protected MapDescriptionDataModel mapDesc;
 
@@ -115,7 +118,7 @@ public class Map implements IMap
   @Override
   public void setTileSet(ITileset<?> pSet)
   {
-    graphicTiles = pSet;
+    graphicTiles = (ITileset<Image>) pSet;
   }
 
   @Override
@@ -125,14 +128,13 @@ public class Map implements IMap
   }
 
   @Override
-  public void save(OutputStream pOutputStream, int pThreadCount) throws TFHException
+  public MapSaveObject save(OutputStream pOutputStream, int pThreadCount) throws TFHException
   {
     try
     {
-      // chunks[], mapDesc, graphicTiles
       final ZipOutputStream zip = new ZipOutputStream(pOutputStream);
-
-      ExecutorService pool = Executors.newFixedThreadPool(4);
+      MapSaveObject obj = new MapSaveObject();
+      ExecutorService pool = Executors.newFixedThreadPool(pThreadCount);
 
       //chunks speichern
       for(int i = 0; i < chunks.length; i++)
@@ -152,10 +154,17 @@ public class Map implements IMap
                 zip.putNextEntry(entry);
                 DataModelIOUtil.writeDataModelXML(currChunk.getModel(), zip);
                 zip.closeEntry();
-
-                System.out.println("chunk " + finalI + " wrote");
               }
             }
+
+            if(((ThreadPoolExecutor) pool).getActiveCount() == 1 && finalI > 0)
+            {
+              _saveOthers(zip);
+              obj.setFinished();
+              zip.close();
+            }
+            else
+              obj.setProgress((100.0D / (double) chunks.length) * (double) finalI);
           }
           catch(Exception e)
           {
@@ -164,30 +173,32 @@ public class Map implements IMap
         });
       }
 
-      while(!pool.isTerminated())
-        Thread.sleep(100);
-
-      synchronized(SAVE_LOCK)
-      {
-        try
-        {
-          ZipEntry entry = new ZipEntry(IMapConstants.DESC_MAP);
-          zip.putNextEntry(entry);
-          DataModelIOUtil.writeDataModelXML(mapDesc, zip);
-          zip.closeEntry();
-        }
-        catch(Exception e)
-        {
-          ExceptionUtil.logError(logger, 9999, e);
-        }
-      }
-
-      zip.flush();
-      zip.close();
+      return obj;
     }
     catch(Exception e)
     {
       //Map konnte nicht gespeichert werden
+      throw new TFHException(e, 9999);
+    }
+  }
+
+  private void _saveOthers(ZipOutputStream pStream) throws TFHException
+  {
+    try
+    {
+      ZipEntry entry = new ZipEntry(IMapConstants.DESC_MAP);
+      pStream.putNextEntry(entry);
+      DataModelIOUtil.writeDataModelXML(mapDesc, pStream);
+      pStream.closeEntry();
+
+      //Tiles.png speichern
+      ZipEntry entryTiles = new ZipEntry(IMapConstants.TILES);
+      pStream.putNextEntry(entryTiles);
+      IOUtils.copy(graphicTiles.getImageInputStream(), pStream);
+      pStream.closeEntry();
+    }
+    catch(Exception e)
+    {
       throw new TFHException(e, 9999);
     }
   }

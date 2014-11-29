@@ -1,5 +1,9 @@
 package de.tfh.gamecore.map.tileset;
 
+import de.tfh.core.exceptions.TFHException;
+
+import java.io.InputStream;
+
 /**
  * Beschreibt ein Tileset für die Map
  *
@@ -44,4 +48,11 @@ public interface ITileset<T>
    * @return Anzahl in Y-Richtung
    */
   int getTileCountY();
+
+  /**
+   * Liefert das zugehörige Bild
+   *
+   * @return dazugehöriges Bild
+   */
+  InputStream getImageInputStream() throws TFHException;
 }

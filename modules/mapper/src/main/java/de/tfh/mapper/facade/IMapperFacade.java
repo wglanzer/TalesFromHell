@@ -1,6 +1,7 @@
 package de.tfh.mapper.facade;
 
 import de.tfh.core.exceptions.TFHException;
+import de.tfh.gamecore.map.MapSaveObject;
 import de.tfh.gamecore.map.TilePreference;
 import de.tfh.mapper.TFHMappperException;
 import de.tfh.mapper.gui.GraphicTile;
@@ -19,8 +20,8 @@ public interface IMapperFacade
   /**
    * Erstellt eine neue Map mit den übergebenen Parametern
    *
-   * @param pName           Name der Map
-   * @param pTilesetPath    Pfad zum Tileset
+   * @param pName        Name der Map
+   * @param pTilesetPath Pfad zum Tileset
    */
   void generateNewMap(String pName, String pTilesetPath) throws TFHException;
 
@@ -37,9 +38,9 @@ public interface IMapperFacade
   /**
    * Gibt die ID zurück
    *
-   * @param pX      X-Position des Tiles
-   * @param pY      Y-Position des Tiles
-   * @param pLayer  Layer, der gezeichnet werden soll
+   * @param pX     X-Position des Tiles
+   * @param pY     Y-Position des Tiles
+   * @param pLayer Layer, der gezeichnet werden soll
    * @return ID des Tiles
    */
   int getTileIDOnMap(int pX, int pY, int pLayer) throws TFHException;
@@ -47,7 +48,7 @@ public interface IMapperFacade
   /**
    * Liefert das Tile für die bestimmte ID
    *
-   * @param pTileID  Die ID des Tiles
+   * @param pTileID Die ID des Tiles
    * @return Graphictile-Instanz
    */
   GraphicTile getTile(int pTileID);
@@ -55,7 +56,7 @@ public interface IMapperFacade
   /**
    * Liefert das Bild des Tiles für die angegebene ID
    *
-   * @param pTileID  ID für die das Bild zurückgegeben werden soll
+   * @param pTileID ID für die das Bild zurückgegeben werden soll
    * @return Image
    */
   Image getImageForTile(int pTileID);
@@ -63,10 +64,10 @@ public interface IMapperFacade
   /**
    * Liefert die derzeitigen TilePreferences auf einer besimmten Position
    *
-   * @param pXTile   X-Tileposition
-   * @param pYTile   Y-Tileposition
-   * @param pChunkX  Chunk, auf dem das Tile was in X-Richtung
-   * @param pChunkY  Chunk, auf dem das Tile war in Y-Richtung
+   * @param pXTile  X-Tileposition
+   * @param pYTile  Y-Tileposition
+   * @param pChunkX Chunk, auf dem das Tile was in X-Richtung
+   * @param pChunkY Chunk, auf dem das Tile war in Y-Richtung
    * @return derzeiteigen TilePreferences
    */
   TilePreference getPreference(int pXTile, int pYTile, int pChunkX, int pChunkY, int pLayer) throws TFHException;
@@ -123,7 +124,7 @@ public interface IMapperFacade
   /**
    * Setzt die ID des selektierten Tiles
    *
-   * @param pID  ID des selektierten Tiles, oder <tt>-1</tt>
+   * @param pID ID des selektierten Tiles, oder <tt>-1</tt>
    */
   void setSelectedMapTileID(int pID);
 
@@ -139,12 +140,12 @@ public interface IMapperFacade
    *
    * @param pStream Stream, auf dem die Map gespeichert werden soll
    */
-  void save(OutputStream pStream);
+  MapSaveObject save(OutputStream pStream);
 
   /**
    * Fügt einen neuen IChangeListener hinzu
    *
-   * @param pListener  IChangeListener, der hinzugefügt werden soll
+   * @param pListener IChangeListener, der hinzugefügt werden soll
    */
   void addChangeListener(IChangeListener pListener);
 
@@ -167,5 +168,11 @@ public interface IMapperFacade
      * Wird aufgerufen, wenn sich die Facade geändert hat
      */
     void facadeChanged();
+
+    /**
+     * Wird aufgerufen, wenn sich die Map speichert
+     * @param pObject
+     */
+    void mapSaved(MapSaveObject pObject);
   }
 }

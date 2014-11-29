@@ -1,5 +1,6 @@
 package de.tfh.mapper.gui.containers;
 
+import de.tfh.gamecore.map.MapSaveObject;
 import de.tfh.mapper.facade.IMapperFacade;
 
 import javax.swing.*;
@@ -18,7 +19,19 @@ public abstract class AbstractContainer extends JPanel
   {
     facade = pFacade;
     if(facade != null)
-      facade.addChangeListener(() -> reinit());
+      facade.addChangeListener(new IMapperFacade.IChangeListener()
+      {
+        @Override
+        public void facadeChanged()
+        {
+          reinit();
+        }
+
+        @Override
+        public void mapSaved(MapSaveObject pObject)
+        {
+        }
+      });
 
     reinit();
   }

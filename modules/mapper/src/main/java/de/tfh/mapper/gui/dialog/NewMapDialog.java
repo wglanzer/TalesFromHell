@@ -63,13 +63,13 @@ public class NewMapDialog extends AbstractDialog
     public boolean accept(File f)
     {
       String name = f.getName();
-      return name.endsWith(".png") || name.endsWith(".jpg") || f.isDirectory();
+      return name.endsWith(".png") || f.isDirectory();
     }
 
     @Override
     public String getDescription()
     {
-      return "Tilesets (*.png, *.jpg)";
+      return "Tilesets (*.png)";
     }
   }
 }

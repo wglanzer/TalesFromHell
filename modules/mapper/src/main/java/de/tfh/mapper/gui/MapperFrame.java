@@ -2,7 +2,9 @@ package de.tfh.mapper.gui;
 
 import de.tfh.core.IStaticResources;
 import de.tfh.core.i18n.Messages;
+import de.tfh.gamecore.map.MapSaveObject;
 import de.tfh.mapper.facade.IMapperFacade;
+import de.tfh.mapper.gui.common.ComponentGlassPane;
 import de.tfh.mapper.gui.containers.DummyContainer;
 import de.tfh.mapper.gui.containers.MapEditorContainer;
 import de.tfh.mapper.gui.containers.MapTilesContainer;
@@ -29,6 +31,8 @@ public class MapperFrame extends JFrame
   public MapperFrame(boolean pShow, IMapperFacade pFacade)
   {
     facade = pFacade;
+    pFacade.addChangeListener(new _MapSaveListener());
+
     setTitle(MessageFormat.format(IStaticResources.MAPPER_TITLE, IStaticResources.MAIN_TITLE, IStaticResources.VERSION));
     setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     setSize(IStaticResources.MAPPER_SIZE);
@@ -112,4 +116,49 @@ public class MapperFrame extends JFrame
     return panel;
   }
 
+  /**
+   * ChangeListener, der die GlassPane darstellt,
+   * wenn mit dem Map-Speichern begonnen wird
+   */
+  private class _MapSaveListener implements IMapperFacade.IChangeListener
+  {
+    final JProgressBar bar = new JProgressBar();
+    final ComponentGlassPane pane = new ComponentGlassPane(bar);
+    Component oldGlassPane = null;
+
+    @Override
+    public void facadeChanged()
+    {
+    }
+
+    @Override
+    public void mapSaved(MapSaveObject pObject)
+    {
+      JRootPane rootpane = SwingUtilities.getRootPane(MapperFrame.this);
+      oldGlassPane = rootpane.getGlassPane();
+      rootpane.setGlassPane(pane);
+      pane.activate();
+
+      SwingUtilities.invokeLater(MapperFrame.this::repaint);
+
+      pObject.addProgressListener(new MapSaveObject.IProgressListener()
+      {
+        @Override
+        public void progressChanged(double pNew)
+        {
+          bar.setValue((int) pNew);
+          SwingUtilities.invokeLater(MapperFrame.this::repaint);
+        }
+
+        @Override
+        public void finished()
+        {
+          pane.deactivate();
+          rootpane.setGlassPane(oldGlassPane);
+
+          SwingUtilities.invokeLater(MapperFrame.this::repaint);
+        }
+      });
+    }
+  }
 }

@@ -4,6 +4,7 @@ import de.tfh.core.exceptions.TFHException;
 import de.tfh.core.utils.ExceptionUtil;
 import de.tfh.gamecore.map.IChunk;
 import de.tfh.gamecore.map.ILayer;
+import de.tfh.gamecore.map.MapSaveObject;
 import de.tfh.gamecore.map.TilePreference;
 import de.tfh.gamecore.map.alterable.AlterableChunk;
 import de.tfh.gamecore.map.alterable.AlterableLayer;
@@ -217,17 +218,22 @@ public class MapperFacade implements IMapperFacade
   }
 
   @Override
-  public void save(OutputStream pStream)
+  public MapSaveObject save(OutputStream pStream)
   {
     try
     {
       if(map != null)
-        map.save(pStream, 8);
+      {
+        MapSaveObject object = map.save(pStream, 4);
+        _fireMapSaved(object);
+      }
     }
     catch(TFHException e)
     {
       ExceptionUtil.logError(logger, 9999, e);
     }
+
+    return null;
   }
 
   @Override
@@ -252,6 +258,15 @@ public class MapperFacade implements IMapperFacade
     {
       for(IChangeListener currListener : changeListeners)
         currListener.facadeChanged();
+    }
+  }
+
+  private void _fireMapSaved(MapSaveObject pObject)
+  {
+    synchronized(changeListeners)
+    {
+      for(IChangeListener currListener : changeListeners)
+        currListener.mapSaved(pObject);
     }
   }
 }

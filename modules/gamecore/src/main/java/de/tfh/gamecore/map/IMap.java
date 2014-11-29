@@ -96,4 +96,11 @@ public interface IMap
    * @param pThreadCount   Anzahl der Threads zum Speichern
    */
   MapSaveObject save(OutputStream pOutputStream, int pThreadCount) throws TFHException;
+
+  /**
+   * Gibt zurück, ob die Map gespeichert werden kann, oder nicht
+   *
+   * @return <tt>true</tt>, wenn die Map gespeichert werden kann
+   */
+  boolean isSavable();
 }

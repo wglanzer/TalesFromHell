@@ -90,6 +90,7 @@ public class MapperMenuBar extends JMenuBar
   private JMenuItem _createSaveItem()
   {
     JMenuItem item = new JMenuItem(Messages.get(21));
+    item.addPropertyChangeListener(evt -> item.setEnabled(facade.isSavable()));
     item.addActionListener(e -> {
       try
       {

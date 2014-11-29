@@ -34,6 +34,7 @@ public class Map implements IMap
   protected ITileset<Image> graphicTiles = null;
   protected IChunk[] chunks = new IChunk[0];
   protected MapDescriptionDataModel mapDesc;
+  protected boolean isSavable = false;
 
   private final Object SAVE_LOCK = new Object();
   private static final Logger logger = LoggerFactory.getLogger(IMap.class);
@@ -152,6 +153,18 @@ public class Map implements IMap
     }
   }
 
+  @Override
+  public boolean isSavable()
+  {
+    return isSavable;
+  }
+
+  /**
+   * Speichert den zusätzlichen Inhalt
+   *
+   * @param pStream  Stream, auf den geschrieben werden soll
+   * @throws TFHException wenn dabei ein Fehler aufgetreten ist
+   */
   private void _saveOthers(ZipOutputStream pStream) throws TFHException
   {
     try

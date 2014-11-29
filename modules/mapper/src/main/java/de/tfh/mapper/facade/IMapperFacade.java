@@ -143,6 +143,13 @@ public interface IMapperFacade
   MapSaveObject save(OutputStream pStream);
 
   /**
+   * Gibt zurück, ob die Map gespeichert werden kann
+   *
+   * @return <tt>true</tt>, wenn die Map gespeichert werden kann
+   */
+  boolean isSavable();
+
+  /**
    * Fügt einen neuen IChangeListener hinzu
    *
    * @param pListener IChangeListener, der hinzugefügt werden soll

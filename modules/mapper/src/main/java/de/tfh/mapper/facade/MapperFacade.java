@@ -44,6 +44,7 @@ public class MapperFacade implements IMapperFacade
   public MapperFacade()
   {
     map = new AlterableMap(false);
+    map.setSavable(false);
   }
 
   @Override
@@ -53,6 +54,7 @@ public class MapperFacade implements IMapperFacade
     {
       tilesetPath = pTilesetPath;
       map = new AlterableMap(true);
+      map.setSavable(true);
       BufferedImage image = ImageIO.read(new File(pTilesetPath));
       map.setTileSet(new MapperTileset(image, image.getWidth() / 16, image.getHeight() / 16));
 
@@ -234,6 +236,12 @@ public class MapperFacade implements IMapperFacade
     }
 
     return null;
+  }
+
+  @Override
+  public boolean isSavable()
+  {
+    return map != null && map.isSavable();
   }
 
   @Override

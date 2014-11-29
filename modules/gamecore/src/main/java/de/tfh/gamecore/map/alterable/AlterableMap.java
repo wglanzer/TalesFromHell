@@ -37,6 +37,16 @@ public class AlterableMap extends Map implements IMap
   }
 
   /**
+   * Setzt, ob die Map gespeichert werden kann
+   *
+   * @param pIsSavable  <tt>true</tt>, wenn die Map gespeichert werden kann
+   */
+  public void setSavable(boolean pIsSavable)
+  {
+    isSavable = pIsSavable;
+  }
+
+  /**
    * Setzt ein Tile auf einem Layer
    *
    * @param pX      X-Position des Tiles auf der Map

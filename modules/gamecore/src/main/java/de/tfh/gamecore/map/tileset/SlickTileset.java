@@ -94,6 +94,6 @@ public class SlickTileset implements ITileset<Image>
   @Override
   public InputStream getImageInputStream() throws TFHException
   {
-    throw new TFHUnsupportedOperationException(9999);
+    throw new TFHUnsupportedOperationException(44);
   }
 }

@@ -140,37 +140,7 @@ public class Map implements IMap
       for(int i = 0; i < chunks.length; i++)
       {
         final int finalI = i;
-        pool.submit(() -> {
-          try
-          {
-            IChunk currChunk = chunks[finalI];
-            if(currChunk != null)
-            {
-              currChunk.synchronizeModel(); //Damit Chunk und Datenmodell synchron sind
-
-              synchronized(SAVE_LOCK)
-              {
-                ZipEntry entry = new ZipEntry(IMapConstants.CHUNK_FOLDER + "chunk" + finalI + ".chunk");
-                zip.putNextEntry(entry);
-                DataModelIOUtil.writeDataModelXML(currChunk.getModel(), zip);
-                zip.closeEntry();
-              }
-            }
-
-            if(((ThreadPoolExecutor) pool).getActiveCount() == 1 && finalI > 0)
-            {
-              _saveOthers(zip);
-              obj.setFinished();
-              zip.close();
-            }
-            else
-              obj.setProgress((100.0D / (double) chunks.length) * (double) finalI);
-          }
-          catch(Exception e)
-          {
-            ExceptionUtil.logError(logger, 9999, e);
-          }
-        });
+        pool.submit(() -> new _SaveRunnable(finalI, zip, (ThreadPoolExecutor) pool, obj));
       }
 
       return obj;
@@ -178,7 +148,7 @@ public class Map implements IMap
     catch(Exception e)
     {
       //Map konnte nicht gespeichert werden
-      throw new TFHException(e, 9999);
+      throw new TFHException(e, 42);
     }
   }
 
@@ -199,7 +169,7 @@ public class Map implements IMap
     }
     catch(Exception e)
     {
-      throw new TFHException(e, 9999);
+      throw new TFHException(e, 40);
     }
   }
 
@@ -308,5 +278,58 @@ public class Map implements IMap
     ZipEntry descMap = pZipFile.getEntry(IMapConstants.DESC_MAP);
 
     return tilesPNG != null && descMap != null;
+  }
+
+  /**
+   * Runnable zum Speichern eines Chunks
+   */
+  private class _SaveRunnable implements Runnable
+  {
+    private final int chunkNr;
+    private final ZipOutputStream stream;
+    private final ThreadPoolExecutor pool;
+    private final MapSaveObject object;
+
+    public _SaveRunnable(int pChunkNr, ZipOutputStream pStream, ThreadPoolExecutor pPool, MapSaveObject pObject)
+    {
+      chunkNr = pChunkNr;
+      stream = pStream;
+      pool = pPool;
+      object = pObject;
+    }
+
+    @Override
+    public void run()
+    {
+      try
+      {
+        IChunk currChunk = chunks[chunkNr];
+        if(currChunk != null)
+        {
+          currChunk.synchronizeModel(); //Damit Chunk und Datenmodell synchron sind
+
+          synchronized(SAVE_LOCK)
+          {
+            ZipEntry entry = new ZipEntry(IMapConstants.CHUNK_FOLDER + "chunk" + chunkNr + ".chunk");
+            stream.putNextEntry(entry);
+            DataModelIOUtil.writeDataModelXML(currChunk.getModel(), stream);
+            stream.closeEntry();
+          }
+        }
+
+        if(pool.getActiveCount() == 1 && chunkNr > 0)
+        {
+          _saveOthers(stream);
+          object.setFinished();
+          stream.close();
+        }
+        else
+          object.setProgress((100.0D / (double) chunks.length) * (double) chunkNr);
+      }
+      catch(Exception e)
+      {
+        ExceptionUtil.logError(logger, 41, e);
+      }
+    }
   }
 }

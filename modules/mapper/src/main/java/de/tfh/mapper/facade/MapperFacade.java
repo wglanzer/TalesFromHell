@@ -199,7 +199,7 @@ public class MapperFacade implements IMapperFacade
     }
     catch(Exception e)
     {
-      throw new TFHException(e, 9999, "xTile=" + pXTile, "yTile=" + pYTile, "chunkx=" + pChunkX, "chunky=" + pChunkY);
+      throw new TFHException(e, 45, "xTile=" + pXTile, "yTile=" + pYTile, "chunkx=" + pChunkX, "chunky=" + pChunkY);
     }
 
     return null;
@@ -230,7 +230,7 @@ public class MapperFacade implements IMapperFacade
     }
     catch(TFHException e)
     {
-      ExceptionUtil.logError(logger, 9999, e);
+      ExceptionUtil.logError(logger, 46, e);
     }
 
     return null;

@@ -166,7 +166,7 @@ public class Chunk implements IChunk
         }
         catch(TFHException e)
         {
-          ExceptionUtil.logError(logger, 9999, e);
+          ExceptionUtil.logError(logger, 39, e, "x=" + x, "y=" + y);
         }
       }
     }

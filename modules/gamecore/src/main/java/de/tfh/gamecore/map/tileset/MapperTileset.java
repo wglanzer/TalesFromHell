@@ -85,7 +85,7 @@ public class MapperTileset implements ITileset<Image>
     }
     catch(Exception e)
     {
-      throw new TFHException(e, 9999);
+      throw new TFHException(e, 43);
     }
   }
 }

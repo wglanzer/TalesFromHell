@@ -128,7 +128,7 @@ public class MapperMenuBar extends JMenuBar
       }
       catch(Exception ex)
       {
-        ExceptionUtil.logError(logger, 9999, ex);
+        ExceptionUtil.logError(logger, 48, ex);
       }
     });
 

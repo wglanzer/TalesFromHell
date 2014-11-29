@@ -99,7 +99,7 @@ public class GraphicChunk extends JPanel
     }
     catch(Exception e)
     {
-      ExceptionUtil.logError(LoggerFactory.getLogger(GraphicChunk.class), 9999, e);
+      ExceptionUtil.logError(LoggerFactory.getLogger(GraphicChunk.class), 47, e);
     }
   }
 

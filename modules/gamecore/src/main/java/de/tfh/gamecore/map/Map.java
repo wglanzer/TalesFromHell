@@ -51,7 +51,7 @@ public class Map implements IMap
 
         if(_verifyZipFile(zip))
         {
-          _loadFromZipFile(zip, pLoadObj != null ? pLoadObj : new ProgressObject());
+          _loadFromZipFile(zip, pLoadObj);
           if(pRunAfterSuccess != null)
             pRunAfterSuccess.run();
         }
@@ -187,7 +187,7 @@ public class Map implements IMap
   /**
    * Lädt das Tileset anhand eines Entries
    *
-   * @param pStream  Stream des Zips
+   * @param pStream Stream des Zips
    * @return Tileset
    */
   protected ITileset loadTileset(ZipFile pStream) throws TFHException
@@ -222,7 +222,7 @@ public class Map implements IMap
   /**
    * Speichert den zusätzlichen Inhalt
    *
-   * @param pStream  Stream, auf den geschrieben werden soll
+   * @param pStream Stream, auf den geschrieben werden soll
    * @throws TFHException wenn dabei ein Fehler aufgetreten ist
    */
   private void _saveOthers(ZipOutputStream pStream) throws TFHException
@@ -274,7 +274,7 @@ public class Map implements IMap
    * Ab hier kann sichergestellt sein, dass die Zip-Datei
    * die richtige Stuktur enthält.
    */
-  private void _loadFromZipFile(ZipFile pZip, ProgressObject pLoadObj) throws TFHException
+  private void _loadFromZipFile(ZipFile pZip, @Nullable ProgressObject pLoadObj) throws TFHException
   {
     try
     {
@@ -294,34 +294,49 @@ public class Map implements IMap
       {
         ZipEntry currEle = list.get(i);
         final int finalI = i;
-        exec.execute(() -> {
+
+        // Runnable zum Laden eines Chunks
+        Runnable loadable = () -> {
           try
           {
             _handleZipEntry(currEle, pZip.getInputStream(currEle));
-            pLoadObj.setProgress(100.0D / (double) list.size() * (double) finalI);
+            if(pLoadObj != null)
+              pLoadObj.setProgress(100.0D / (double) list.size() * (double) finalI);
           }
           catch(IOException e)
           {
             ExceptionUtil.logError(logger, 50, e);
           }
-        });
+        };
+
+        // Entscheidung, ob gleich geladen werden soll, oder in einem extra Threadpool
+        if(pLoadObj != null)
+          exec.execute(loadable);
+        else
+          loadable.run();
       }
 
-      new Thread(() -> {
-        while(exec.getQueue().size() > 0)
-        {
-          try
+      // Wurde gleich geladen, oder wurde es im ThreadPoolExecutor geladen?
+      if(pLoadObj != null)
+      {
+        new Thread(() -> {
+          while(exec.getQueue().size() > 0)
           {
-            Thread.sleep(100);
-            _validateChunkNulls(mapDesc);
-            pLoadObj.setFinished();
+            try
+            {
+              Thread.sleep(100);
+              _validateChunkNulls(mapDesc);
+              pLoadObj.setFinished();
+            }
+            catch(Exception e)
+            {
+              ExceptionUtil.logError(logger, 51, e);
+            }
           }
-          catch(Exception e)
-          {
-            ExceptionUtil.logError(logger, 51, e);
-          }
-        }
-      }).start();
+        }).start();
+      }
+      else
+        _validateChunkNulls(mapDesc);
     }
     catch(Exception e)
     {
@@ -332,8 +347,8 @@ public class Map implements IMap
   /**
    * Handlet die ZipEntries
    *
-   * @param pNext    Nächstes Element
-   * @param pStream  Stream des Elements
+   * @param pNext   Nächstes Element
+   * @param pStream Stream des Elements
    */
   private void _handleZipEntry(ZipEntry pNext, InputStream pStream)
   {

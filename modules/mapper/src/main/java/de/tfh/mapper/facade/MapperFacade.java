@@ -232,17 +232,30 @@ public class MapperFacade implements IMapperFacade
   }
 
   @Override
-  public ProgressObject load(File pFile) throws TFHException
+  public void load(File pFile) throws TFHException
   {
     try
     {
       ProgressObject loadObj = new ProgressObject();
-      map = new AlterableMap(pFile, loadObj, (Runnable) () -> fireFacadeChanged());
-      return loadObj;
+      map = new AlterableMap(pFile, loadObj, this::fireFacadeChanged);
+      loadObj.addProgressListener(new ProgressObject.IProgressListener()
+      {
+        @Override
+        public void progressChanged(double pNew)
+        {
+        }
+
+        @Override
+        public void finished()
+        {
+          fireFacadeChanged();
+        }
+      });
+      _fireMapLoaded(loadObj);
     }
     catch(Exception e)
     {
-      throw new TFHException(e, 9999, "file=" + pFile);
+      throw new TFHException(e, 54, "file=" + pFile);
     }
   }
 
@@ -277,6 +290,15 @@ public class MapperFacade implements IMapperFacade
     {
       for(IChangeListener currListener : changeListeners)
         currListener.mapSaved(pObject);
+    }
+  }
+
+  private void _fireMapLoaded(ProgressObject pObject)
+  {
+    synchronized(changeListeners)
+    {
+      for(IChangeListener currListener : changeListeners)
+        currListener.mapLoaded(pObject);
     }
   }
 }

@@ -3,6 +3,7 @@ package de.tfh.mapper.gui;
 import de.tfh.core.IStaticResources;
 import de.tfh.core.i18n.Messages;
 import de.tfh.gamecore.map.ProgressObject;
+import de.tfh.mapper.ChangeListenerAdapter;
 import de.tfh.mapper.facade.IMapperFacade;
 import de.tfh.mapper.gui.common.ComponentGlassPane;
 import de.tfh.mapper.gui.containers.DummyContainer;
@@ -120,19 +121,25 @@ public class MapperFrame extends JFrame
    * ChangeListener, der die GlassPane darstellt,
    * wenn mit dem Map-Speichern begonnen wird
    */
-  private class _MapSaveListener implements IMapperFacade.IChangeListener
+  private class _MapSaveListener extends ChangeListenerAdapter
   {
     final JProgressBar bar = new JProgressBar();
     final ComponentGlassPane pane = new ComponentGlassPane(bar);
     Component oldGlassPane = null;
 
     @Override
-    public void facadeChanged()
+    public void mapSaved(ProgressObject pObject)
     {
+      _addBar(pObject);
     }
 
     @Override
-    public void mapSaved(ProgressObject pObject)
+    public void mapLoaded(ProgressObject pObject)
+    {
+      _addBar(pObject);
+    }
+
+    private void _addBar(ProgressObject pObject)
     {
       JRootPane rootpane = SwingUtilities.getRootPane(MapperFrame.this);
       oldGlassPane = rootpane.getGlassPane();

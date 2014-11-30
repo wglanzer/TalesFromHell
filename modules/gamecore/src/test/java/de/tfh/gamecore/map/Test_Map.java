@@ -90,7 +90,7 @@ public class Test_Map
   @Test
   public void test_LoadMap() throws TFHException
   {
-    Map map = new Map(file, new ProgressObject(), () -> {});
+    Map map = new Map(file);
     Assert.assertTrue(map.getChunkCountX() == 2);
     Assert.assertTrue(map.getChunkCountY() == 2);
     Assert.assertTrue(map.getTileHeight() == 32);

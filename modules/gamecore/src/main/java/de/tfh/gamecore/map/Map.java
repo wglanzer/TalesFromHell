@@ -8,6 +8,7 @@ import de.tfh.gamecore.map.alterable.AlterableChunk;
 import de.tfh.gamecore.map.tileset.ITileset;
 import de.tfh.gamecore.util.MapUtil;
 import org.apache.commons.io.IOUtils;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +16,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Enumeration;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.zip.ZipEntry;
@@ -39,7 +41,7 @@ public class Map implements IMap
   private final Object SAVE_LOCK = new Object();
   private static final Logger logger = LoggerFactory.getLogger(IMap.class);
 
-  public Map(File pZipFile, ProgressObject pLoadObj, Runnable pRunAfterSuccess)
+  public Map(File pZipFile, @Nullable ProgressObject pLoadObj, @Nullable Runnable pRunAfterSuccess)
   {
     try
     {
@@ -49,8 +51,9 @@ public class Map implements IMap
 
         if(_verifyZipFile(zip))
         {
-          _loadFromZipFile(zip, pLoadObj);
-          pRunAfterSuccess.run();
+          _loadFromZipFile(zip, pLoadObj != null ? pLoadObj : new ProgressObject());
+          if(pRunAfterSuccess != null)
+            pRunAfterSuccess.run();
         }
         else
           throw new RuntimeException("Map could not be loaded");
@@ -61,6 +64,11 @@ public class Map implements IMap
       // Map konnte nicht erstellt werden
       ExceptionUtil.logError(logger, 26, e, "zip=" + pZipFile);
     }
+  }
+
+  public Map(File pZipFile)
+  {
+    this(pZipFile, null, null);
   }
 
   @Override
@@ -190,7 +198,7 @@ public class Map implements IMap
     }
     catch(IOException e)
     {
-      throw new TFHException(e, 9999);
+      throw new TFHException(e, 52);
     }
   }
 
@@ -281,23 +289,22 @@ public class Map implements IMap
       chunks = new IChunk[mapDesc.chunksX * mapDesc.chunksY];
 
       // Alle Zip-Einträge durchgehen, darauf
-      Enumeration<? extends ZipEntry> allZipEntries = pZip.entries();
-      int count = 0;
-      while(allZipEntries.hasMoreElements())
+      ArrayList<? extends ZipEntry> list = Collections.list(pZip.entries());
+      for(int i = 0; i < list.size(); i++)
       {
-        ZipEntry ele = allZipEntries.nextElement();
+        ZipEntry currEle = list.get(i);
+        final int finalI = i;
         exec.execute(() -> {
           try
           {
-            _handleZipEntry(ele, pZip.getInputStream(ele));
-            pLoadObj.setProgress(20D);
+            _handleZipEntry(currEle, pZip.getInputStream(currEle));
+            pLoadObj.setProgress(100.0D / (double) list.size() * (double) finalI);
           }
           catch(IOException e)
           {
-            ExceptionUtil.logError(logger, 9999, e);
+            ExceptionUtil.logError(logger, 50, e);
           }
         });
-        count++;
       }
 
       new Thread(() -> {
@@ -306,12 +313,13 @@ public class Map implements IMap
           try
           {
             Thread.sleep(100);
+            _validateChunkNulls(mapDesc);
+            pLoadObj.setFinished();
           }
-          catch(InterruptedException e)
+          catch(Exception e)
           {
+            ExceptionUtil.logError(logger, 51, e);
           }
-
-          _validateChunkNulls(mapDesc);
         }
       }).start();
     }

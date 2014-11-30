@@ -1,6 +1,6 @@
 package de.tfh.mapper.gui.containers;
 
-import de.tfh.gamecore.map.ProgressObject;
+import de.tfh.mapper.ChangeListenerAdapter;
 import de.tfh.mapper.facade.IMapperFacade;
 
 import javax.swing.*;
@@ -19,17 +19,12 @@ public abstract class AbstractContainer extends JPanel
   {
     facade = pFacade;
     if(facade != null)
-      facade.addChangeListener(new IMapperFacade.IChangeListener()
+      facade.addChangeListener(new ChangeListenerAdapter()
       {
         @Override
         public void facadeChanged()
         {
           reinit();
-        }
-
-        @Override
-        public void mapSaved(ProgressObject pObject)
-        {
         }
       });
 

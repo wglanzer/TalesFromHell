@@ -30,7 +30,7 @@ public class AlterableMap extends Map implements IMap
 
   public AlterableMap(boolean pGenerateNewMap)
   {
-    super(null, null, null);
+    super(null);
     try
     {
       if(pGenerateNewMap)
@@ -60,7 +60,7 @@ public class AlterableMap extends Map implements IMap
     }
     catch(Exception e)
     {
-      throw new TFHException(e, 9999);
+      throw new TFHException(e, 53);
     }
   }
 

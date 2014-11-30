@@ -43,11 +43,11 @@ public class MapperMenuBar extends JMenuBar
    */
   private JMenuItem _createLoadItem()
   {
-    JMenuItem item = new JMenuItem("LOAD...");
+    JMenuItem item = new JMenuItem(Messages.get(23));
     item.addActionListener((e) -> {
       JFileChooser chooser = new JFileChooser();
       chooser.setFileFilter(new _MapFileFilter());
-      int result = chooser.showDialog(SwingUtilities.getRoot(this), "Load");
+      int result = chooser.showDialog(SwingUtilities.getRoot(this), Messages.get(23));
       File file = chooser.getSelectedFile();
       if(result == JFileChooser.APPROVE_OPTION && file != null)
         try
@@ -56,7 +56,7 @@ public class MapperMenuBar extends JMenuBar
         }
         catch(TFHException e1)
         {
-          ExceptionUtil.logError(logger, 9999, e1, "selectedFile=" + file);
+          ExceptionUtil.logError(logger, 55, e1, "selectedFile=" + file);
         }
     });
     return item;

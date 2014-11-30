@@ -155,7 +155,7 @@ public interface IMapperFacade
    *
    * @param pFile  File, das geladen werden kann / soll
    */
-  ProgressObject load(File pFile) throws TFHException;
+  void load(File pFile) throws TFHException;
 
   /**
    * Fügt einen neuen IChangeListener hinzu
@@ -186,8 +186,14 @@ public interface IMapperFacade
 
     /**
      * Wird aufgerufen, wenn sich die Map speichert
-     * @param pObject MapSaveObject, aus dem man den Progress herauslesen kann
+     * @param pObject ProgressObject, aus dem man den Progress herauslesen kann
      */
     void mapSaved(ProgressObject pObject);
+
+    /**
+     * Wird aufgerufen, wenn eine Map geladen wird
+     * @param pObject ProgressObject, aus dem man den Progress herauslesen kann
+     */
+    void mapLoaded(ProgressObject pObject);
   }
 }

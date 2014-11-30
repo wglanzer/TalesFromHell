@@ -29,7 +29,7 @@ public class SelectableTile extends GraphicTile
     id = pId;
 
     setLayout(new OverlayLayout(this));
-    setFocusable(true);
+    setFocusable(id > 0);
     setPreferredSize(new Dimension(32, 32));
     addMouseListener(new MouseAdapter()
     {
@@ -76,6 +76,12 @@ public class SelectableTile extends GraphicTile
     if(isFocusOwner())
     {
       g.setColor(SELECTION_COLOR);
+      g.fillRect(0, 0, width, height);
+    }
+
+    if(id <= 0)
+    {
+      g.setColor(new Color(0, 0, 0, 128));
       g.fillRect(0, 0, width, height);
     }
   }

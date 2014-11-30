@@ -95,7 +95,7 @@ public interface IMap
    * @param pOutputStream  Stream, auf den geschrieben werden soll
    * @param pThreadCount   Anzahl der Threads zum Speichern
    */
-  MapSaveObject save(OutputStream pOutputStream, int pThreadCount) throws TFHException;
+  ProgressObject save(OutputStream pOutputStream, int pThreadCount) throws TFHException;
 
   /**
    * Gibt zurück, ob die Map gespeichert werden kann, oder nicht

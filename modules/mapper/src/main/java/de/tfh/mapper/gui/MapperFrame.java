@@ -2,7 +2,7 @@ package de.tfh.mapper.gui;
 
 import de.tfh.core.IStaticResources;
 import de.tfh.core.i18n.Messages;
-import de.tfh.gamecore.map.MapSaveObject;
+import de.tfh.gamecore.map.ProgressObject;
 import de.tfh.mapper.facade.IMapperFacade;
 import de.tfh.mapper.gui.common.ComponentGlassPane;
 import de.tfh.mapper.gui.containers.DummyContainer;
@@ -132,7 +132,7 @@ public class MapperFrame extends JFrame
     }
 
     @Override
-    public void mapSaved(MapSaveObject pObject)
+    public void mapSaved(ProgressObject pObject)
     {
       JRootPane rootpane = SwingUtilities.getRootPane(MapperFrame.this);
       oldGlassPane = rootpane.getGlassPane();
@@ -141,7 +141,7 @@ public class MapperFrame extends JFrame
 
       SwingUtilities.invokeLater(MapperFrame.this::repaint);
 
-      pObject.addProgressListener(new MapSaveObject.IProgressListener()
+      pObject.addProgressListener(new ProgressObject.IProgressListener()
       {
         @Override
         public void progressChanged(double pNew)

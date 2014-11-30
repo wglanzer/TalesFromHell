@@ -19,8 +19,8 @@ public class TilePreference
 
   public TilePreference(BitSet pBits)
   {
-    BitSet bitID = pBits.get(0, 8);
-    BitSet bitAttr = pBits.get(9, 16);
+    BitSet bitID = pBits.get(0, 7);
+    BitSet bitAttr = pBits.get(8, 16);
 
     if(!bitID.isEmpty())
       graphicID = (int) bitID.toLongArray()[0];

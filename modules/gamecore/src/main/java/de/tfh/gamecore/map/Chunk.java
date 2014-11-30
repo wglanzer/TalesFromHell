@@ -103,10 +103,10 @@ public class Chunk implements IChunk
 
         BitSet currBits = BitSet.valueOf(new long[]{currDMTile});
 
-        BitSet bitBG = currBits.get(0, 16);
-        BitSet bitMG = currBits.get(17, 32);
-        BitSet bitSL = currBits.get(33, 48);
-        BitSet bitFG = currBits.get(49, 64);
+        BitSet bitBG = currBits.get(0, 15);
+        BitSet bitMG = currBits.get(16, 31);
+        BitSet bitSL = currBits.get(32, 47);
+        BitSet bitFG = currBits.get(48, 63);
 
         if(!bitBG.isEmpty())
           background.addTile(x, y, new TilePreference(bitBG));

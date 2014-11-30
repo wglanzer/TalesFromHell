@@ -1,6 +1,6 @@
 package de.tfh.mapper.gui.containers;
 
-import de.tfh.gamecore.map.MapSaveObject;
+import de.tfh.gamecore.map.ProgressObject;
 import de.tfh.mapper.facade.IMapperFacade;
 
 import javax.swing.*;
@@ -28,7 +28,7 @@ public abstract class AbstractContainer extends JPanel
         }
 
         @Override
-        public void mapSaved(MapSaveObject pObject)
+        public void mapSaved(ProgressObject pObject)
         {
         }
       });

@@ -2,14 +2,21 @@ package de.tfh.gamecore.map.alterable;
 
 import de.tfh.core.exceptions.TFHException;
 import de.tfh.core.utils.ExceptionUtil;
+import de.tfh.datamodels.models.ChunkDataModel;
 import de.tfh.datamodels.models.MapDescriptionDataModel;
 import de.tfh.datamodels.registry.DefaultDataModelRegistry;
-import de.tfh.gamecore.map.IChunk;
-import de.tfh.gamecore.map.IMap;
-import de.tfh.gamecore.map.Map;
-import de.tfh.gamecore.map.TilePreference;
+import de.tfh.gamecore.map.*;
+import de.tfh.gamecore.map.tileset.ITileset;
+import de.tfh.gamecore.map.tileset.MapperTileset;
+import de.tfh.gamecore.util.MapUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.InputStream;
+import java.util.zip.ZipFile;
 
 /**
  * Diese Map dient dazu, etwas innerhalb verändern zu können.
@@ -23,7 +30,7 @@ public class AlterableMap extends Map implements IMap
 
   public AlterableMap(boolean pGenerateNewMap)
   {
-    super(null);
+    super(null, null, null);
     try
     {
       if(pGenerateNewMap)
@@ -34,6 +41,41 @@ public class AlterableMap extends Map implements IMap
       // Neue Map konnte nicht erstellt werden
       ExceptionUtil.logError(logger, 32, e);
     }
+  }
+
+  public AlterableMap(File pZipFile, ProgressObject pLoadObj, Runnable pRunAfterSuccess)
+  {
+    super(pZipFile, pLoadObj, pRunAfterSuccess);
+    setSavable(true);
+  }
+
+  @Override
+  protected ITileset loadTileset(ZipFile pStream) throws TFHException
+  {
+    try
+    {
+      InputStream imageStream = pStream.getInputStream(pStream.getEntry(IMapConstants.TILES));
+      BufferedImage tilesetImage = ImageIO.read(imageStream);
+      return new MapperTileset(tilesetImage, mapDesc.tileWidth, mapDesc.tileHeight);
+    }
+    catch(Exception e)
+    {
+      throw new TFHException(e, 9999);
+    }
+  }
+
+  @Override
+  protected IChunk getChunk(InputStream pChunkStream, MapDescriptionDataModel pMapDesc) throws TFHException
+  {
+    IChunk chunk = MapUtil.chunkFromInputStream(pChunkStream, pMapDesc);
+    if(chunk != null)
+    {
+      ChunkDataModel model = chunk.getModel();
+      if(model != null)
+        return new AlterableChunk(model, mapDesc.tilesPerChunkX, mapDesc.tilesPerChunkY);
+    }
+
+    return null;
   }
 
   /**

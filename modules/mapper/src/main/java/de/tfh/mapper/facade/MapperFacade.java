@@ -4,7 +4,7 @@ import de.tfh.core.exceptions.TFHException;
 import de.tfh.core.utils.ExceptionUtil;
 import de.tfh.gamecore.map.IChunk;
 import de.tfh.gamecore.map.ILayer;
-import de.tfh.gamecore.map.MapSaveObject;
+import de.tfh.gamecore.map.ProgressObject;
 import de.tfh.gamecore.map.TilePreference;
 import de.tfh.gamecore.map.alterable.AlterableChunk;
 import de.tfh.gamecore.map.alterable.AlterableLayer;
@@ -207,13 +207,13 @@ public class MapperFacade implements IMapperFacade
   }
 
   @Override
-  public MapSaveObject save(OutputStream pStream)
+  public ProgressObject save(OutputStream pStream)
   {
     try
     {
       if(map != null)
       {
-        MapSaveObject object = map.save(pStream, 4);
+        ProgressObject object = map.save(pStream, 4);
         _fireMapSaved(object);
       }
     }
@@ -229,6 +229,21 @@ public class MapperFacade implements IMapperFacade
   public boolean isSavable()
   {
     return map != null && map.isSavable();
+  }
+
+  @Override
+  public ProgressObject load(File pFile) throws TFHException
+  {
+    try
+    {
+      ProgressObject loadObj = new ProgressObject();
+      map = new AlterableMap(pFile, loadObj, (Runnable) () -> fireFacadeChanged());
+      return loadObj;
+    }
+    catch(Exception e)
+    {
+      throw new TFHException(e, 9999, "file=" + pFile);
+    }
   }
 
   @Override
@@ -256,7 +271,7 @@ public class MapperFacade implements IMapperFacade
     }
   }
 
-  private void _fireMapSaved(MapSaveObject pObject)
+  private void _fireMapSaved(ProgressObject pObject)
   {
     synchronized(changeListeners)
     {

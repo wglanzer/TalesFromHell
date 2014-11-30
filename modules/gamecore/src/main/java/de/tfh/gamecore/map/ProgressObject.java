@@ -8,7 +8,7 @@ import java.util.Set;
  *
  * @author W.Glanzer, 28.11.2014
  */
-public class MapSaveObject
+public class ProgressObject
 {
 
   private final Set<IProgressListener> listeners = new HashSet<>();
@@ -53,7 +53,7 @@ public class MapSaveObject
   {
     synchronized(listeners)
     {
-      listeners.forEach(MapSaveObject.IProgressListener::finished);
+      listeners.forEach(ProgressObject.IProgressListener::finished);
     }
   }
 

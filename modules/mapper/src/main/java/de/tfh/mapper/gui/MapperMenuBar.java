@@ -29,10 +29,37 @@ public class MapperMenuBar extends JMenuBar
     facade = pFacade;
     JMenu menu = new JMenu(Messages.get(11));  //Datei
     menu.add(_createNewMapItem());
+    menu.add(_createLoadItem());
     menu.add(_createSaveItem());
     menu.add(new JSeparator());
     menu.add(_createExitItem());
     add(menu);
+  }
+
+  /**
+   * Erstellt das "Laden..."-Item
+   *
+   * @return "Laden..."-Item
+   */
+  private JMenuItem _createLoadItem()
+  {
+    JMenuItem item = new JMenuItem("LOAD...");
+    item.addActionListener((e) -> {
+      JFileChooser chooser = new JFileChooser();
+      chooser.setFileFilter(new _MapFileFilter());
+      int result = chooser.showDialog(SwingUtilities.getRoot(this), "Load");
+      File file = chooser.getSelectedFile();
+      if(result == JFileChooser.APPROVE_OPTION && file != null)
+        try
+        {
+          facade.load(file);
+        }
+        catch(TFHException e1)
+        {
+          ExceptionUtil.logError(logger, 9999, e1, "selectedFile=" + file);
+        }
+    });
+    return item;
   }
 
   /**
@@ -95,26 +122,7 @@ public class MapperMenuBar extends JMenuBar
       try
       {
         JFileChooser chooser = new JFileChooser();
-        chooser.setFileFilter(new FileFilter()
-        {
-          @Override
-          public boolean accept(File f)
-          {
-            if(f != null)
-            {
-              if(f.isDirectory() || f.getName().endsWith("." + IStaticResources.MAP_FILEENDING))
-                return true;
-            }
-
-            return false;
-          }
-
-          @Override
-          public String getDescription()
-          {
-            return "Map (*." + IStaticResources.MAP_FILEENDING + ")";
-          }
-        });
+        chooser.setFileFilter(new _MapFileFilter());
 
         int result = chooser.showSaveDialog(SwingUtilities.getRoot(this));
         if(result == JFileChooser.APPROVE_OPTION)
@@ -134,5 +142,26 @@ public class MapperMenuBar extends JMenuBar
     });
 
     return item;
+  }
+
+  private static class _MapFileFilter extends FileFilter
+  {
+    @Override
+    public boolean accept(File f)
+    {
+      if(f != null)
+      {
+        if(f.isDirectory() || f.getName().endsWith("." + IStaticResources.MAP_FILEENDING))
+          return true;
+      }
+
+      return false;
+    }
+
+    @Override
+    public String getDescription()
+    {
+      return "Map (*." + IStaticResources.MAP_FILEENDING + ")";
+    }
   }
 }

@@ -1,12 +1,13 @@
 package de.tfh.mapper.facade;
 
 import de.tfh.core.exceptions.TFHException;
-import de.tfh.gamecore.map.MapSaveObject;
+import de.tfh.gamecore.map.ProgressObject;
 import de.tfh.gamecore.map.TilePreference;
 import de.tfh.mapper.TFHMappperException;
 import de.tfh.mapper.gui.GraphicTile;
 
 import java.awt.*;
+import java.io.File;
 import java.io.OutputStream;
 
 /**
@@ -140,7 +141,7 @@ public interface IMapperFacade
    *
    * @param pStream Stream, auf dem die Map gespeichert werden soll
    */
-  MapSaveObject save(OutputStream pStream);
+  ProgressObject save(OutputStream pStream);
 
   /**
    * Gibt zurück, ob die Map gespeichert werden kann
@@ -148,6 +149,13 @@ public interface IMapperFacade
    * @return <tt>true</tt>, wenn die Map gespeichert werden kann
    */
   boolean isSavable();
+
+  /**
+   * Lädt die Map aus einem File
+   *
+   * @param pFile  File, das geladen werden kann / soll
+   */
+  ProgressObject load(File pFile) throws TFHException;
 
   /**
    * Fügt einen neuen IChangeListener hinzu
@@ -180,6 +188,6 @@ public interface IMapperFacade
      * Wird aufgerufen, wenn sich die Map speichert
      * @param pObject MapSaveObject, aus dem man den Progress herauslesen kann
      */
-    void mapSaved(MapSaveObject pObject);
+    void mapSaved(ProgressObject pObject);
   }
 }

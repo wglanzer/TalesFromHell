@@ -13,7 +13,6 @@ import de.tfh.gamecore.map.tileset.ITileset;
 import de.tfh.gamecore.map.tileset.MapperTileset;
 import de.tfh.mapper.TFHMappperException;
 import de.tfh.mapper.gui.GraphicTile;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +37,6 @@ public class MapperFacade implements IMapperFacade
 
   private AlterableMap map;
   private int selectedID = -1;
-  private String tilesetPath;
   private final Set<IChangeListener> changeListeners = new HashSet<>();
 
   public MapperFacade()
@@ -52,7 +50,6 @@ public class MapperFacade implements IMapperFacade
   {
     try
     {
-      tilesetPath = pTilesetPath;
       map = new AlterableMap(true);
       map.setSavable(true);
       BufferedImage image = ImageIO.read(new File(pTilesetPath));
@@ -93,16 +90,6 @@ public class MapperFacade implements IMapperFacade
       // Tile konnte nicht erstellt werden
       throw new TFHException(e, 35, "x=" + pX, "y=" + pY, "layer=" + pLayer);
     }
-  }
-
-  @Nullable
-  private Image getImageForID(int pTileID)
-  {
-    ITileset tileset = map.getTileSet();
-    if(tileset != null)
-      return (Image) tileset.getTileForID(pTileID);
-
-    return null;
   }
 
   @Override

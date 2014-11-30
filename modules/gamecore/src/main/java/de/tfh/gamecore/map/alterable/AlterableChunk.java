@@ -3,7 +3,10 @@ package de.tfh.gamecore.map.alterable;
 import de.tfh.datamodels.models.ChunkDataModel;
 import de.tfh.gamecore.map.Chunk;
 import de.tfh.gamecore.map.IChunk;
+import de.tfh.gamecore.map.ILayer;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 /**
  * Chunk, den man verändern kann
@@ -20,5 +23,31 @@ public class AlterableChunk extends Chunk implements IChunk
   public AlterableChunk(@NotNull ChunkDataModel pDataModel, int pXTileCount, int pYTileCount)
   {
     super(pDataModel, pXTileCount, pYTileCount);
+  }
+
+  @Override
+  public void synchronizeModel()
+  {
+    super.synchronizeModel();
+    for(ILayer currLayer : getLayers(false))
+      if(currLayer instanceof AlterableLayer)
+        ((AlterableLayer) currLayer).setUnmodified();
+  }
+
+  /**
+   * Gibt zurück, ob der Layer modifiziert wurde
+   *
+   * @return <tt>true</tt>, wenn er modifiziert wurde
+   */
+  public boolean isModified()
+  {
+    List<ILayer> layers = getLayers(false);
+    for(ILayer layer : layers)
+    {
+      if(layer instanceof AlterableLayer && ((AlterableLayer) layer).isModified())
+        return true;
+    }
+
+    return false;
   }
 }

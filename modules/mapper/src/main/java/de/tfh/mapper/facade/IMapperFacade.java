@@ -178,7 +178,7 @@ public interface IMapperFacade
 
     /**
      * Wird aufgerufen, wenn sich die Map speichert
-     * @param pObject
+     * @param pObject MapSaveObject, aus dem man den Progress herauslesen kann
      */
     void mapSaved(MapSaveObject pObject);
   }

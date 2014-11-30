@@ -4,6 +4,7 @@ import de.tfh.core.exceptions.TFHException;
 import de.tfh.core.utils.ExceptionUtil;
 import de.tfh.datamodels.models.MapDescriptionDataModel;
 import de.tfh.datamodels.utils.DataModelIOUtil;
+import de.tfh.gamecore.map.alterable.AlterableChunk;
 import de.tfh.gamecore.map.tileset.ITileset;
 import de.tfh.gamecore.util.MapUtil;
 import org.apache.commons.io.IOUtils;
@@ -15,7 +16,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Enumeration;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.zip.ZipEntry;
@@ -135,14 +135,28 @@ public class Map implements IMap
     {
       final ZipOutputStream zip = new ZipOutputStream(pOutputStream);
       MapSaveObject obj = new MapSaveObject();
-      ExecutorService pool = Executors.newFixedThreadPool(pThreadCount);
+      ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(pThreadCount);
 
       //chunks speichern
       for(int i = 0; i < chunks.length; i++)
-      {
-        final int finalI = i;
-        pool.submit(() -> new _SaveRunnable(finalI, zip, (ThreadPoolExecutor) pool, obj));
-      }
+        pool.execute(new _SaveRunnable(i, zip, pool, obj));
+
+      // Thread der läuft, wenn der pool fertig ist
+      new Thread(() -> {
+        try
+        {
+          while(!(pool.getQueue().size() == 0))
+            Thread.sleep(100);
+
+          _saveOthers(zip);
+          obj.setFinished();
+          zip.close();
+        }
+        catch(Exception e)
+        {
+          ExceptionUtil.logError(logger, 49, e);
+        }
+      }).start();
 
       return obj;
     }
@@ -319,25 +333,18 @@ public class Map implements IMap
         IChunk currChunk = chunks[chunkNr];
         if(currChunk != null)
         {
-          currChunk.synchronizeModel(); //Damit Chunk und Datenmodell synchron sind
+          if(currChunk instanceof AlterableChunk && ((AlterableChunk) currChunk).isModified())
+            currChunk.synchronizeModel(); //Damit Chunk und Datenmodell synchron sind
 
           synchronized(SAVE_LOCK)
           {
             ZipEntry entry = new ZipEntry(IMapConstants.CHUNK_FOLDER + "chunk" + chunkNr + ".chunk");
             stream.putNextEntry(entry);
             DataModelIOUtil.writeDataModelXML(currChunk.getModel(), stream);
+            object.setProgress((100.0D / (double) chunks.length) * (double) chunkNr);
             stream.closeEntry();
           }
         }
-
-        if(pool.getActiveCount() == 1 && chunkNr > 0)
-        {
-          _saveOthers(stream);
-          object.setFinished();
-          stream.close();
-        }
-        else
-          object.setProgress((100.0D / (double) chunks.length) * (double) chunkNr);
       }
       catch(Exception e)
       {

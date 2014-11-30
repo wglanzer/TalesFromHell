@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class Chunk implements IChunk
 {
-   // Das dahinterliegende Datenmodell
+  // Das dahinterliegende Datenmodell
   private final ChunkDataModel dataModel;
 
   // TileCount in X- und Y-Richtung
@@ -34,11 +34,11 @@ public class Chunk implements IChunk
   /**
    * Konstruktor
    *
-   * @param pX           X-Position des Chunks
-   * @param pY           Y-Position des Chunks
-   * @param pXTileCount  Anzahl der Tiles in X-Richtung
-   * @param pYTileCount  Anzahl der Tiles in Y-Richtung
-   * @param pTiles       Bit-Speichermasken-Array für die Tiles, genauer beschrieben im ChunkDataModel
+   * @param pX          X-Position des Chunks
+   * @param pY          Y-Position des Chunks
+   * @param pXTileCount Anzahl der Tiles in X-Richtung
+   * @param pYTileCount Anzahl der Tiles in Y-Richtung
+   * @param pTiles      Bit-Speichermasken-Array für die Tiles, genauer beschrieben im ChunkDataModel
    */
   public Chunk(int pX, int pY, int pXTileCount, int pYTileCount, Long[] pTiles)
   {
@@ -55,9 +55,9 @@ public class Chunk implements IChunk
   /**
    * Konstruktor
    *
-   * @param pDataModel   Das dahinterliegende Datenmodell
-   * @param pXTileCount  Anzahl der Tiles in X-Richtung
-   * @param pYTileCount  Anzahl der Tiles in Y-Richtung
+   * @param pDataModel  Das dahinterliegende Datenmodell
+   * @param pXTileCount Anzahl der Tiles in X-Richtung
+   * @param pYTileCount Anzahl der Tiles in Y-Richtung
    */
   public Chunk(@NotNull ChunkDataModel pDataModel, int pXTileCount, int pYTileCount)
   {
@@ -108,10 +108,14 @@ public class Chunk implements IChunk
         BitSet bitSL = currBits.get(33, 48);
         BitSet bitFG = currBits.get(49, 64);
 
-        background.addTile(x, y, new TilePreference(bitBG));
-        midground.addTile(x, y, new TilePreference(bitMG));
-        specialLayer.addTile(x, y, new TilePreference(bitSL));
-        foreground.addTile(x, y, new TilePreference(bitFG));
+        if(!bitBG.isEmpty())
+          background.addTile(x, y, new TilePreference(bitBG));
+        if(!bitMG.isEmpty())
+          midground.addTile(x, y, new TilePreference(bitMG));
+        if(!bitSL.isEmpty())
+          specialLayer.addTile(x, y, new TilePreference(bitSL));
+        if(!bitFG.isEmpty())
+          foreground.addTile(x, y, new TilePreference(bitFG));
       }
 
       cachedLayers.add(Layer.BACKGROUND, background);
@@ -184,12 +188,19 @@ public class Chunk implements IChunk
     {
       int offset = 16 * i;
       TilePreference currTile = pPreferences[i];
-      BitSet bitSet = currTile.getBitSet();
-      for(int j = 0; j < 16; j++)
-        currBitSet.set(j + offset, bitSet.get(j));
+      if(currTile != null)
+      {
+        BitSet bitSet = currTile.getBitSet();
+        for(int j = 0; j < 16; j++)
+          currBitSet.set(j + offset, bitSet.get(j));
+      }
     }
 
-    return currBitSet.toLongArray()[0];
+    long[] longs = currBitSet.toLongArray();
+    if(longs.length > 0)
+      return longs[0];
+
+    return 0L;
   }
 
   private void _verifiyTileNulls()

@@ -11,6 +11,8 @@ import de.tfh.gamecore.map.TilePreference;
  */
 public class AlterableLayer extends Layer implements ILayer
 {
+  private boolean modified = false;
+
   public AlterableLayer(int pTilesX, int pTilesY)
   {
     super(pTilesX, pTilesY);
@@ -26,5 +28,24 @@ public class AlterableLayer extends Layer implements ILayer
   public void addTile(int pX, int pY, TilePreference pTilePreference)
   {
     tilesOnLayer[getTilesX() * pY + pX] = pTilePreference;
+    modified = true;
+  }
+
+  /**
+   * Gibt zurück, ob der Layer modifiziert wurde
+   *
+   * @return <tt>true</tt>, wenn er modifiziert wurde
+   */
+  public boolean isModified()
+  {
+    return modified;
+  }
+
+  /**
+   * Setzt den Layer wieder auf unmodifiziert
+   */
+  protected void setUnmodified()
+  {
+    modified = false;
   }
 }

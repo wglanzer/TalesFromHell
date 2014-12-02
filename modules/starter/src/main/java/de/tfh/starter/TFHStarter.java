@@ -2,7 +2,6 @@ package de.tfh.starter;
 
 import de.tfh.core.utils.ExceptionUtil;
 import de.tfh.datamodels.StaticDataModelRegistrator;
-import de.tfh.gamecore.TFHBasicGame;
 import de.tfh.gamecore.config.IConfigLoader;
 import de.tfh.gamecore.config.XMLConfigLoader;
 import de.tfh.slick.SlickInit;

@@ -1,4 +1,4 @@
-package de.tfh.gamecore.scenes;
+package de.tfh.scenes;
 
 /**
  * Enthält alle States und deren ID

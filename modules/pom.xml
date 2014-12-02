@@ -18,6 +18,7 @@
         <module>core</module>
         <module>gamecore</module>
         <module>mapper</module>
+        <module>scenes</module>
         <module>starter</module>
     </modules>
 </project>

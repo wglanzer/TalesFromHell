@@ -10,20 +10,20 @@
         <version>1.0</version>
     </parent>
 
-    <artifactId>gamecore</artifactId>
-    <name>TalesFromHell: GameCore</name>
+    <artifactId>scenes</artifactId>
+    <name>TalesFromHell: Scenes</name>
 
     <dependencies>
 
         <dependency>
             <groupId>de.tfh</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>gamecore</artifactId>
             <version>1.0</version>
         </dependency>
 
         <dependency>
             <groupId>de.tfh</groupId>
-            <artifactId>datamodels</artifactId>
+            <artifactId>nifty</artifactId>
             <version>1.0</version>
         </dependency>
 

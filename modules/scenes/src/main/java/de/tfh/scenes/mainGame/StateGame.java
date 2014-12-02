@@ -1,11 +1,11 @@
-package de.tfh.gamecore.scenes.mainGame;
+package de.tfh.scenes.mainGame;
 
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.builder.ScreenBuilder;
 import de.tfh.core.IGameController;
 import de.tfh.core.exceptions.TFHException;
-import de.tfh.gamecore.scenes.States;
 import de.tfh.nifty.AbstractGameState;
+import de.tfh.scenes.States;
 import org.jetbrains.annotations.NotNull;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;

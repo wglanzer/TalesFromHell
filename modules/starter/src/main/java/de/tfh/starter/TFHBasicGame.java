@@ -1,11 +1,11 @@
-package de.tfh.gamecore;
+package de.tfh.starter;
 
 import de.lessvoid.nifty.slick2d.NiftyStateBasedGame;
 import de.tfh.core.IGameController;
 import de.tfh.core.IStaticResources;
-import de.tfh.gamecore.scenes.StateMainMenu;
-import de.tfh.gamecore.scenes.States;
-import de.tfh.gamecore.scenes.mainGame.StateGame;
+import de.tfh.scenes.StateMainMenu;
+import de.tfh.scenes.States;
+import de.tfh.scenes.mainGame.StateGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.transition.FadeInTransition;

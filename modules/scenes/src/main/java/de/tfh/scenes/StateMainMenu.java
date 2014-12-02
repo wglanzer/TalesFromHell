@@ -1,4 +1,4 @@
-package de.tfh.gamecore.scenes;
+package de.tfh.scenes;
 
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.builder.LayerBuilder;

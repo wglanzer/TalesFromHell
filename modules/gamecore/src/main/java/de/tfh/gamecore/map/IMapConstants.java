@@ -28,4 +28,8 @@ public interface IMapConstants
    */
   public static final String DESC_MAP = "map.xml";
 
+  /**
+   * Gibt die Anzahl an SINNVOLLEN gleichzeitigen Threads zurück
+   */
+  public static final int MAX_THREADCOUNT = Runtime.getRuntime().availableProcessors();
 }

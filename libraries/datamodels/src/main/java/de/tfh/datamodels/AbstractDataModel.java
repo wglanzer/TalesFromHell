@@ -77,7 +77,7 @@ public abstract class AbstractDataModel implements IDataModel
         for(Object currObject : arr)
           if(currObject != null)
           {
-            Element eleArr = new Element("ArrayEntry");
+            Element eleArr = new Element("e");
             eleArr.addContent(currObject.toString());
             childEle.addContent(eleArr);
           }

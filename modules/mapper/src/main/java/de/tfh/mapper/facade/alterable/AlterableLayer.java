@@ -1,4 +1,4 @@
-package de.tfh.gamecore.map.alterable;
+package de.tfh.mapper.facade.alterable;
 
 import de.tfh.gamecore.map.ILayer;
 import de.tfh.gamecore.map.Layer;
@@ -16,6 +16,11 @@ public class AlterableLayer extends Layer implements ILayer
   public AlterableLayer(int pTilesX, int pTilesY)
   {
     super(pTilesX, pTilesY);
+  }
+
+  public AlterableLayer(int pTilesX, int pTilesY, TilePreference[] pTiles)
+  {
+    super(pTilesX, pTilesY, pTiles);
   }
 
   /**

@@ -5,7 +5,7 @@ package de.tfh.gamecore.map;
  * Background-, Midground-, Foreground-Layer
  * Read-Only!
  *
- * @see de.tfh.gamecore.map.alterable.AlterableLayer
+ * @see de.tfh.mapper.facade.alterable.AlterableLayer
  * @author W.Glanzer, 17.11.2014
  */
 public class Layer implements ILayer

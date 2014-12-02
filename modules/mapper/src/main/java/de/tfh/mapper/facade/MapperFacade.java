@@ -2,16 +2,13 @@ package de.tfh.mapper.facade;
 
 import de.tfh.core.exceptions.TFHException;
 import de.tfh.core.utils.ExceptionUtil;
-import de.tfh.gamecore.map.IChunk;
-import de.tfh.gamecore.map.ILayer;
-import de.tfh.gamecore.map.ProgressObject;
-import de.tfh.gamecore.map.TilePreference;
-import de.tfh.gamecore.map.alterable.AlterableChunk;
-import de.tfh.gamecore.map.alterable.AlterableLayer;
-import de.tfh.gamecore.map.alterable.AlterableMap;
+import de.tfh.gamecore.map.*;
 import de.tfh.gamecore.map.tileset.ITileset;
 import de.tfh.gamecore.map.tileset.MapperTileset;
 import de.tfh.mapper.TFHMappperException;
+import de.tfh.mapper.facade.alterable.AlterableChunk;
+import de.tfh.mapper.facade.alterable.AlterableLayer;
+import de.tfh.mapper.facade.alterable.AlterableMap;
 import de.tfh.mapper.gui.GraphicTile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -213,7 +210,7 @@ public class MapperFacade implements IMapperFacade
     {
       if(map != null)
       {
-        ProgressObject object = map.save(pStream, 4);
+        ProgressObject object = map.save(pStream, IMapConstants.MAX_THREADCOUNT);
         _fireMapSaved(object);
       }
     }

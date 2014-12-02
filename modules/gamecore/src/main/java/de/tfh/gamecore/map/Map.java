@@ -1,13 +1,12 @@
 package de.tfh.gamecore.map;
 
 import de.tfh.core.exceptions.TFHException;
+import de.tfh.core.exceptions.TFHUnsupportedOperationException;
 import de.tfh.core.utils.ExceptionUtil;
 import de.tfh.datamodels.models.MapDescriptionDataModel;
 import de.tfh.datamodels.utils.DataModelIOUtil;
-import de.tfh.gamecore.map.alterable.AlterableChunk;
 import de.tfh.gamecore.map.tileset.ITileset;
 import de.tfh.gamecore.util.MapUtil;
-import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +21,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import java.util.zip.ZipOutputStream;
 
 /**
  * Stellt eine normale Map dar, auf der gespielt werden kann.
@@ -33,13 +31,11 @@ import java.util.zip.ZipOutputStream;
  */
 public class Map implements IMap
 {
+  private static final Logger logger = LoggerFactory.getLogger(IMap.class);
+
   protected ITileset graphicTiles;
   protected IChunk[] chunks = new IChunk[0];
   protected MapDescriptionDataModel mapDesc;
-  protected boolean isSavable = false;
-
-  private final Object SAVE_LOCK = new Object();
-  private static final Logger logger = LoggerFactory.getLogger(IMap.class);
 
   public Map(File pZipFile, @Nullable ProgressObject pLoadObj, @Nullable Runnable pRunAfterSuccess)
   {
@@ -128,12 +124,6 @@ public class Map implements IMap
   }
 
   @Override
-  public void setTileSet(ITileset<?> pSet)
-  {
-    graphicTiles = pSet;
-  }
-
-  @Override
   public ITileset getTileSet()
   {
     return graphicTiles;
@@ -142,46 +132,19 @@ public class Map implements IMap
   @Override
   public ProgressObject save(OutputStream pOutputStream, int pThreadCount) throws TFHException
   {
-    try
-    {
-      final ZipOutputStream zip = new ZipOutputStream(pOutputStream);
-      ProgressObject obj = new ProgressObject();
-      ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(pThreadCount);
+    throw new TFHUnsupportedOperationException(9999);
+  }
 
-      //chunks speichern
-      for(int i = 0; i < chunks.length; i++)
-        pool.execute(new _SaveRunnable(i, zip, pool, obj));
-
-      // Thread der läuft, wenn der pool fertig ist
-      new Thread(() -> {
-        try
-        {
-          while(!(pool.getQueue().size() == 0))
-            Thread.sleep(100);
-
-          _saveOthers(zip);
-          obj.setFinished();
-          zip.close();
-        }
-        catch(Exception e)
-        {
-          ExceptionUtil.logError(logger, 49, e);
-        }
-      }).start();
-
-      return obj;
-    }
-    catch(Exception e)
-    {
-      //Map konnte nicht gespeichert werden
-      throw new TFHException(e, 42);
-    }
+  @Override
+  public void setTileSet(ITileset<?> pSet)
+  {
+    throw new TFHUnsupportedOperationException(9999);
   }
 
   @Override
   public boolean isSavable()
   {
-    return isSavable;
+    return false;
   }
 
   /**
@@ -217,36 +180,6 @@ public class Map implements IMap
       return chunkToAdd;
 
     return null;
-  }
-
-  /**
-   * Speichert den zusätzlichen Inhalt
-   *
-   * @param pStream Stream, auf den geschrieben werden soll
-   * @throws TFHException wenn dabei ein Fehler aufgetreten ist
-   */
-  private void _saveOthers(ZipOutputStream pStream) throws TFHException
-  {
-    try
-    {
-      synchronized(SAVE_LOCK)
-      {
-        ZipEntry entry = new ZipEntry(IMapConstants.DESC_MAP);
-        pStream.putNextEntry(entry);
-        DataModelIOUtil.writeDataModelXML(mapDesc, pStream);
-        pStream.closeEntry();
-
-        //Tiles.png speichern
-        ZipEntry entryTiles = new ZipEntry(IMapConstants.TILES);
-        pStream.putNextEntry(entryTiles);
-        IOUtils.copy(graphicTiles.getImageInputStream(), pStream);
-        pStream.closeEntry();
-      }
-    }
-    catch(Exception e)
-    {
-      throw new TFHException(e, 40);
-    }
   }
 
   /**
@@ -393,51 +326,5 @@ public class Map implements IMap
     ZipEntry descMap = pZipFile.getEntry(IMapConstants.DESC_MAP);
 
     return tilesPNG != null && descMap != null;
-  }
-
-  /**
-   * Runnable zum Speichern eines Chunks
-   */
-  private class _SaveRunnable implements Runnable
-  {
-    private final int chunkNr;
-    private final ZipOutputStream stream;
-    private final ThreadPoolExecutor pool;
-    private final ProgressObject object;
-
-    public _SaveRunnable(int pChunkNr, ZipOutputStream pStream, ThreadPoolExecutor pPool, ProgressObject pObject)
-    {
-      chunkNr = pChunkNr;
-      stream = pStream;
-      pool = pPool;
-      object = pObject;
-    }
-
-    @Override
-    public void run()
-    {
-      try
-      {
-        IChunk currChunk = chunks[chunkNr];
-        if(currChunk != null)
-        {
-          if(currChunk instanceof AlterableChunk && ((AlterableChunk) currChunk).isModified())
-            currChunk.synchronizeModel(); //Damit Chunk und Datenmodell synchron sind
-
-          synchronized(SAVE_LOCK)
-          {
-            ZipEntry entry = new ZipEntry(IMapConstants.CHUNK_FOLDER + "chunk" + chunkNr + ".chunk");
-            stream.putNextEntry(entry);
-            DataModelIOUtil.writeDataModelXML(currChunk.getModel(), stream);
-            object.setProgress((100.0D / (double) chunks.length) * (double) chunkNr);
-            stream.closeEntry();
-          }
-        }
-      }
-      catch(Exception e)
-      {
-        ExceptionUtil.logError(logger, 41, e);
-      }
-    }
   }
 }

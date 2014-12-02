@@ -14,22 +14,22 @@ public class MapDescriptionDataModel extends AbstractDataModel
   /**
    * Anzahl der Chunks in X-Richtung
    */
-  public int chunksX = 32;
+  public int chunksX = 2;
 
   /**
    * Anzahl der Chunks in Y-Richtung
    */
-  public int chunksY = 32;
+  public int chunksY = 2;
 
   /**
    * Anzahl der Tiels pro Chunk in X-Richtung
    */
-  public int tilesPerChunkX = 32;
+  public int tilesPerChunkX = 16;
 
   /**
    * Anzahl der Tiels pro Chunk in Y-Richtung
    */
-  public int tilesPerChunkY = 32;
+  public int tilesPerChunkY = 16;
 
   /**
    * Breite (in Pixel) der Tiles

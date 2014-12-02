@@ -3,7 +3,6 @@ package de.tfh.gamecore.map;
 import de.tfh.core.exceptions.TFHException;
 import de.tfh.core.utils.ExceptionUtil;
 import de.tfh.datamodels.models.ChunkDataModel;
-import de.tfh.gamecore.map.alterable.AlterableLayer;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,18 +87,16 @@ public class Chunk implements IChunk
     {
       cachedLayers = new ArrayList<>(4);
 
-      AlterableLayer background = new AlterableLayer(xTileCount, yTileCount);
-      AlterableLayer midground = new AlterableLayer(xTileCount, yTileCount);
-      AlterableLayer specialLayer = new AlterableLayer(xTileCount, yTileCount);
-      AlterableLayer foreground = new AlterableLayer(xTileCount, yTileCount);
+      TilePreference[] background = new TilePreference[xTileCount * yTileCount];
+      TilePreference[] midground = new TilePreference[xTileCount * yTileCount];
+      TilePreference[] foreground = new TilePreference[xTileCount * yTileCount];
+      TilePreference[] special = new TilePreference[xTileCount * yTileCount];
 
       Long[] dmTiles = dataModel.tiles;
 
       for(int i = 0; i < dmTiles.length; i++)
       {
         long currDMTile = dmTiles[i] != null ? dmTiles[i] : 0L;
-        int y = i / xTileCount;
-        int x = i - y * xTileCount;
 
         BitSet currBits = BitSet.valueOf(new long[]{currDMTile});
 
@@ -109,19 +106,19 @@ public class Chunk implements IChunk
         BitSet bitFG = currBits.get(48, 63);
 
         if(!bitBG.isEmpty())
-          background.addTile(x, y, new TilePreference(bitBG));
+          background[i] = new TilePreference(bitBG);
         if(!bitMG.isEmpty())
-          midground.addTile(x, y, new TilePreference(bitMG));
+          midground[i] = new TilePreference(bitMG);
         if(!bitSL.isEmpty())
-          specialLayer.addTile(x, y, new TilePreference(bitSL));
+          special[i] = new TilePreference(bitSL);
         if(!bitFG.isEmpty())
-          foreground.addTile(x, y, new TilePreference(bitFG));
+          foreground[i] = new TilePreference(bitFG);
       }
 
-      cachedLayers.add(Layer.BACKGROUND, background);
-      cachedLayers.add(Layer.MIDGROUND, midground);
-      cachedLayers.add(Layer.SPECIAL_LAYER, specialLayer);
-      cachedLayers.add(Layer.FOREGROUND, foreground);
+      cachedLayers.add(Layer.BACKGROUND, createLayer(xTileCount, yTileCount, background));
+      cachedLayers.add(Layer.MIDGROUND, createLayer(xTileCount, yTileCount, midground));
+      cachedLayers.add(Layer.SPECIAL_LAYER, createLayer(xTileCount, yTileCount, special));
+      cachedLayers.add(Layer.FOREGROUND, createLayer(xTileCount, yTileCount, foreground));
     }
 
     return cachedLayers;
@@ -178,6 +175,11 @@ public class Chunk implements IChunk
     dataModel.tiles = tileArr;
     dataModel.x = getX();
     dataModel.y = getY();
+  }
+
+  protected ILayer createLayer(int pXTileCount, int pYTileCount, TilePreference[] pPreferences)
+  {
+    return new Layer(pXTileCount, pYTileCount, pPreferences);
   }
 
   private Long _toLong(TilePreference[] pPreferences)

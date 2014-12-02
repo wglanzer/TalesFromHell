@@ -2,7 +2,7 @@ package de.tfh.mapper.gui;
 
 import de.tfh.core.IStaticResources;
 import de.tfh.core.i18n.Messages;
-import de.tfh.gamecore.map.ProgressObject;
+import de.tfh.gamecore.util.ProgressObject;
 import de.tfh.mapper.ChangeListenerAdapter;
 import de.tfh.mapper.facade.IMapperFacade;
 import de.tfh.mapper.gui.common.ComponentGlassPane;

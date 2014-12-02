@@ -4,7 +4,7 @@ import de.tfh.datamodels.models.ChunkDataModel;
 import de.tfh.gamecore.map.Chunk;
 import de.tfh.gamecore.map.IChunk;
 import de.tfh.gamecore.map.ILayer;
-import de.tfh.gamecore.map.TilePreference;
+import de.tfh.gamecore.map.TileDescription;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -53,7 +53,7 @@ public class AlterableChunk extends Chunk implements IChunk
   }
 
   @Override
-  protected ILayer createLayer(int pXTileCount, int pYTileCount, TilePreference[] pPreferences)
+  protected ILayer createLayer(int pXTileCount, int pYTileCount, TileDescription[] pPreferences)
   {
     return new AlterableLayer(pXTileCount, pYTileCount, pPreferences);
   }

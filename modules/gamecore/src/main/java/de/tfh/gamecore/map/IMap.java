@@ -2,6 +2,7 @@ package de.tfh.gamecore.map;
 
 import de.tfh.core.exceptions.TFHException;
 import de.tfh.gamecore.map.tileset.ITileset;
+import de.tfh.gamecore.util.ProgressObject;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.OutputStream;

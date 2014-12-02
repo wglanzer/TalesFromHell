@@ -7,6 +7,7 @@ import de.tfh.datamodels.models.MapDescriptionDataModel;
 import de.tfh.datamodels.utils.DataModelIOUtil;
 import de.tfh.gamecore.map.tileset.ITileset;
 import de.tfh.gamecore.util.MapUtil;
+import de.tfh.gamecore.util.ProgressObject;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

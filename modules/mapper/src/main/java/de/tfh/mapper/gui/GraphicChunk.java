@@ -3,7 +3,7 @@ package de.tfh.mapper.gui;
 import de.tfh.core.exceptions.TFHException;
 import de.tfh.core.utils.ExceptionUtil;
 import de.tfh.gamecore.map.Layer;
-import de.tfh.gamecore.map.TilePreference;
+import de.tfh.gamecore.map.TileDescription;
 import de.tfh.mapper.facade.IMapperFacade;
 import org.slf4j.LoggerFactory;
 
@@ -54,7 +54,7 @@ public class GraphicChunk extends JPanel
 
         try
         {
-          TilePreference pref = facade.getPreference(x, y, posX, posY, Layer.MIDGROUND);
+          TileDescription pref = facade.getPreference(x, y, posX, posY, Layer.MIDGROUND);
           if(pref != null)
           {
             pref.setGraphicID(facade.getSelectedMapTileID());

@@ -10,6 +10,7 @@ import de.tfh.gamecore.map.*;
 import de.tfh.gamecore.map.tileset.ITileset;
 import de.tfh.gamecore.map.tileset.MapperTileset;
 import de.tfh.gamecore.util.MapUtil;
+import de.tfh.gamecore.util.ProgressObject;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -156,7 +157,7 @@ public class AlterableMap extends Map implements IMap
    * @param pLayer  Layer, auf dem das Tile positioniert werden soll
    * @param pTile   Tile das gesetzt werden soll
    */
-  public void setTile(int pX, int pY, int pLayer, TilePreference pTile)
+  public void setTile(int pX, int pY, int pLayer, TileDescription pTile)
   {
     IChunk chunk = getChunkContaining(pX, pY);
     if(chunk != null)

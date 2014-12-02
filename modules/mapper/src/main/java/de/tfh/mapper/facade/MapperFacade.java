@@ -2,9 +2,13 @@ package de.tfh.mapper.facade;
 
 import de.tfh.core.exceptions.TFHException;
 import de.tfh.core.utils.ExceptionUtil;
-import de.tfh.gamecore.map.*;
+import de.tfh.gamecore.map.IChunk;
+import de.tfh.gamecore.map.ILayer;
+import de.tfh.gamecore.map.IMapConstants;
+import de.tfh.gamecore.map.TileDescription;
 import de.tfh.gamecore.map.tileset.ITileset;
 import de.tfh.gamecore.map.tileset.MapperTileset;
+import de.tfh.gamecore.util.ProgressObject;
 import de.tfh.mapper.TFHMappperException;
 import de.tfh.mapper.facade.alterable.AlterableChunk;
 import de.tfh.mapper.facade.alterable.AlterableLayer;
@@ -62,12 +66,12 @@ public class MapperFacade implements IMapperFacade
   }
 
   @Override
-  public void setTile(int pX, int pY, int pLayer, TilePreference pTilePreference) throws TFHMappperException
+  public void setTile(int pX, int pY, int pLayer, TileDescription pTileDescription) throws TFHMappperException
   {
     if(pLayer < 0)
       throw new TFHMappperException(36, "layer=" + pLayer);
 
-    map.setTile(pX, pY, pLayer, pTilePreference);
+    map.setTile(pX, pY, pLayer, pTileDescription);
   }
 
   public int getTileIDOnMap(int pX, int pY, int pLayer) throws TFHException
@@ -76,7 +80,7 @@ public class MapperFacade implements IMapperFacade
     {
       int x = pX % map.getTilesPerChunkX();
       int y = pY % map.getTilesPerChunkY();
-      TilePreference tilePref = map.getChunkContaining(pX, pY).getTilesOn(x, y)[pLayer];
+      TileDescription tilePref = map.getChunkContaining(pX, pY).getTilesOn(x, y)[pLayer];
       if(tilePref != null)
         return tilePref.getGraphicID();
 
@@ -156,7 +160,7 @@ public class MapperFacade implements IMapperFacade
   }
 
   @Override
-  public TilePreference getPreference(int pXTile, int pYTile, int pChunkX, int pChunkY, int pLayer) throws TFHException
+  public TileDescription getPreference(int pXTile, int pYTile, int pChunkX, int pChunkY, int pLayer) throws TFHException
   {
     try
     {
@@ -164,18 +168,18 @@ public class MapperFacade implements IMapperFacade
       if(chunk != null)
       {
         AlterableChunk alterable = (AlterableChunk) chunk;
-        TilePreference[] tiles = alterable.getTilesOn(pXTile, pYTile);
+        TileDescription[] tiles = alterable.getTilesOn(pXTile, pYTile);
 
         if(tiles != null && tiles.length == 4)
         {
-          TilePreference pref = tiles[pLayer];
+          TileDescription pref = tiles[pLayer];
 
           if(tiles[pLayer] == null)
           {
             ILayer layer = alterable.getLayers(false).get(pLayer);
             AlterableLayer alterableLayer = (AlterableLayer) layer;
 
-            pref = new TilePreference(-1);
+            pref = new TileDescription(-1);
             alterableLayer.addTile(pXTile, pYTile, pref);
           }
 

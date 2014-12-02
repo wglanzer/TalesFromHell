@@ -1,4 +1,4 @@
-package de.tfh.gamecore.map;
+package de.tfh.gamecore.util;
 
 import java.util.HashSet;
 import java.util.Set;

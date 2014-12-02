@@ -42,7 +42,7 @@ public interface IChunk
    * @return Tile-Array mit den Tiles, die auf diesem Punkt sind
    * @throws de.tfh.core.exceptions.TFHException Falls dabei ein Fehler aufgetreten ist
    */
-  TilePreference[] getTilesOn(int pX, int pY) throws TFHException;
+  TileDescription[] getTilesOn(int pX, int pY) throws TFHException;
 
   /**
    * Liefert das ChunkDataModel, das dahinter liegt

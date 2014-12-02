@@ -14,7 +14,7 @@ public interface ILayer
    * @param pY  Y-Position des Tiles
    * @return Die TilePreferences, oder <tt>null</tt>
    */
-  TilePreference getTile(int pX, int pY);
+  TileDescription getTile(int pX, int pY);
 
   /**
    * Anzahl der Tiles in X-Richtung

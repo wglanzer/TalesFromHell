@@ -1,8 +1,8 @@
 package de.tfh.mapper.facade;
 
 import de.tfh.core.exceptions.TFHException;
-import de.tfh.gamecore.map.ProgressObject;
-import de.tfh.gamecore.map.TilePreference;
+import de.tfh.gamecore.map.TileDescription;
+import de.tfh.gamecore.util.ProgressObject;
 import de.tfh.mapper.TFHMappperException;
 import de.tfh.mapper.gui.GraphicTile;
 
@@ -32,9 +32,9 @@ public interface IMapperFacade
    * @param pX              X-Position des Tiles
    * @param pY              Y-Position des Tiles
    * @param pLayer          Layer-ID des Tiles
-   * @param pTilePreference ID des Tiles an sich
+   * @param pTileDescription ID des Tiles an sich
    */
-  void setTile(int pX, int pY, int pLayer, TilePreference pTilePreference) throws TFHMappperException;
+  void setTile(int pX, int pY, int pLayer, TileDescription pTileDescription) throws TFHMappperException;
 
   /**
    * Gibt die ID zurück
@@ -71,7 +71,7 @@ public interface IMapperFacade
    * @param pChunkY Chunk, auf dem das Tile war in Y-Richtung
    * @return derzeiteigen TilePreferences
    */
-  TilePreference getPreference(int pXTile, int pYTile, int pChunkX, int pChunkY, int pLayer) throws TFHException;
+  TileDescription getPreference(int pXTile, int pYTile, int pChunkX, int pChunkY, int pLayer) throws TFHException;
 
   /**
    * Liefert die Tile-Breite

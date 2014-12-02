@@ -7,17 +7,17 @@ import java.util.BitSet;
  *
  * @author W.Glanzer, 17.11.2014
  */
-public class TilePreference
+public class TileDescription
 {
 
   private int graphicID = -1;
 
-  public TilePreference(int pGraphicID)
+  public TileDescription(int pGraphicID)
   {
     graphicID = pGraphicID;
   }
 
-  public TilePreference(BitSet pBits)
+  public TileDescription(BitSet pBits)
   {
     BitSet bitID = pBits.get(0, 7);
     BitSet bitAttr = pBits.get(8, 16);
@@ -26,7 +26,7 @@ public class TilePreference
       graphicID = (int) bitID.toLongArray()[0];
 
     if(!bitAttr.isEmpty())
-      _analyzeAttributeBits(bitAttr);
+      _fromAttributeBits(bitAttr);
   }
 
   /**
@@ -50,20 +50,29 @@ public class TilePreference
   }
 
   /**
-   * Analysiert die Attribute des Tiles / BitSets
-   */
-  private void _analyzeAttributeBits(BitSet pAttributes)
-  {
-  }
-
-  /**
    * Liefert das repräsentierende BitSet zurück
    *
    * @return BitSet
    */
   public BitSet getBitSet()
   {
-    BitSet bitSet = BitSet.valueOf(new long[]{graphicID});
-    return bitSet;
+    return _toAttributeBits();
+  }
+
+  /**
+   * Analysiert die Attribute des Tiles / BitSets
+   */
+  private void _fromAttributeBits(BitSet pAttributes)
+  {
+  }
+
+  /**
+   * Gibt die Attribut-Bits als Bitset zurück
+   *
+   * @return BitSet
+   */
+  private BitSet _toAttributeBits()
+  {
+    return BitSet.valueOf(new long[]{graphicID});
   }
 }

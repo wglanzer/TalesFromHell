@@ -41,14 +41,14 @@ public class Layer implements ILayer
   /**
    * TilePreferences jedes einzelnen Tiles
    */
-  protected final TilePreference[] tilesOnLayer;
+  protected final TileDescription[] tilesOnLayer;
 
   public Layer(int pTilesX, int pTilesY)
   {
-    this(pTilesX, pTilesY, new TilePreference[pTilesX * pTilesY]);
+    this(pTilesX, pTilesY, new TileDescription[pTilesX * pTilesY]);
   }
 
-  public Layer(int pTilesX, int pTilesY, TilePreference[] pTiles)
+  public Layer(int pTilesX, int pTilesY, TileDescription[] pTiles)
   {
     tilesX = pTilesX;
     tilesY = pTilesY;
@@ -56,7 +56,7 @@ public class Layer implements ILayer
   }
 
   @Override
-  public TilePreference getTile(int pX, int pY)
+  public TileDescription getTile(int pX, int pY)
   {
     return tilesOnLayer[tilesX * pY + pX];
   }

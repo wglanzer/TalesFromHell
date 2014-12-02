@@ -87,10 +87,10 @@ public class Chunk implements IChunk
     {
       cachedLayers = new ArrayList<>(4);
 
-      TilePreference[] background = new TilePreference[xTileCount * yTileCount];
-      TilePreference[] midground = new TilePreference[xTileCount * yTileCount];
-      TilePreference[] foreground = new TilePreference[xTileCount * yTileCount];
-      TilePreference[] special = new TilePreference[xTileCount * yTileCount];
+      TileDescription[] background = new TileDescription[xTileCount * yTileCount];
+      TileDescription[] midground = new TileDescription[xTileCount * yTileCount];
+      TileDescription[] foreground = new TileDescription[xTileCount * yTileCount];
+      TileDescription[] special = new TileDescription[xTileCount * yTileCount];
 
       Long[] dmTiles = dataModel.tiles;
 
@@ -106,13 +106,13 @@ public class Chunk implements IChunk
         BitSet bitFG = currBits.get(48, 63);
 
         if(!bitBG.isEmpty())
-          background[i] = new TilePreference(bitBG);
+          background[i] = new TileDescription(bitBG);
         if(!bitMG.isEmpty())
-          midground[i] = new TilePreference(bitMG);
+          midground[i] = new TileDescription(bitMG);
         if(!bitSL.isEmpty())
-          special[i] = new TilePreference(bitSL);
+          special[i] = new TileDescription(bitSL);
         if(!bitFG.isEmpty())
-          foreground[i] = new TilePreference(bitFG);
+          foreground[i] = new TileDescription(bitFG);
       }
 
       cachedLayers.add(Layer.BACKGROUND, createLayer(xTileCount, yTileCount, background));
@@ -125,12 +125,12 @@ public class Chunk implements IChunk
   }
 
   @Override
-  public TilePreference[] getTilesOn(int pX, int pY) throws TFHException
+  public TileDescription[] getTilesOn(int pX, int pY) throws TFHException
   {
     try
     {
       List<ILayer> layers = getLayers(false);
-      TilePreference[] tiles = new TilePreference[layers.size()];
+      TileDescription[] tiles = new TileDescription[layers.size()];
       for(int i = 0; i < layers.size(); i++)
       {
         ILayer currLayer = layers.get(i);
@@ -162,7 +162,7 @@ public class Chunk implements IChunk
       {
         try
         {
-          TilePreference[] tiles = getTilesOn(x, y);
+          TileDescription[] tiles = getTilesOn(x, y);
           tileArr[y * xTileCount + x] = _toLong(tiles);
         }
         catch(TFHException e)
@@ -177,19 +177,19 @@ public class Chunk implements IChunk
     dataModel.y = getY();
   }
 
-  protected ILayer createLayer(int pXTileCount, int pYTileCount, TilePreference[] pPreferences)
+  protected ILayer createLayer(int pXTileCount, int pYTileCount, TileDescription[] pPreferences)
   {
     return new Layer(pXTileCount, pYTileCount, pPreferences);
   }
 
-  private Long _toLong(TilePreference[] pPreferences)
+  private Long _toLong(TileDescription[] pPreferences)
   {
     BitSet currBitSet = new BitSet();
 
     for(int i = 0; i < pPreferences.length; i++)
     {
       int offset = 16 * i;
-      TilePreference currTile = pPreferences[i];
+      TileDescription currTile = pPreferences[i];
       if(currTile != null)
       {
         BitSet bitSet = currTile.getBitSet();

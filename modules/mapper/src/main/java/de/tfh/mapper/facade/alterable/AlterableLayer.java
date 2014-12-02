@@ -2,7 +2,7 @@ package de.tfh.mapper.facade.alterable;
 
 import de.tfh.gamecore.map.ILayer;
 import de.tfh.gamecore.map.Layer;
-import de.tfh.gamecore.map.TilePreference;
+import de.tfh.gamecore.map.TileDescription;
 
 /**
  * Layer, der bearbeitet werden kann
@@ -18,7 +18,7 @@ public class AlterableLayer extends Layer implements ILayer
     super(pTilesX, pTilesY);
   }
 
-  public AlterableLayer(int pTilesX, int pTilesY, TilePreference[] pTiles)
+  public AlterableLayer(int pTilesX, int pTilesY, TileDescription[] pTiles)
   {
     super(pTilesX, pTilesY, pTiles);
   }
@@ -28,11 +28,11 @@ public class AlterableLayer extends Layer implements ILayer
    *
    * @param pX               X-Position des Tiles
    * @param pY               Y-Position des Tiles
-   * @param pTilePreference  Neue TilePreferences
+   * @param pTileDescription  Neue TilePreferences
    */
-  public void addTile(int pX, int pY, TilePreference pTilePreference)
+  public void addTile(int pX, int pY, TileDescription pTileDescription)
   {
-    tilesOnLayer[getTilesX() * pY + pX] = pTilePreference;
+    tilesOnLayer[getTilesX() * pY + pX] = pTileDescription;
     modified = true;
   }
 

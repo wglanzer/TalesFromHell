@@ -1,6 +1,6 @@
 package de.tfh.mapper;
 
-import de.tfh.gamecore.map.ProgressObject;
+import de.tfh.gamecore.util.ProgressObject;
 import de.tfh.mapper.facade.IMapperFacade;
 
 /**

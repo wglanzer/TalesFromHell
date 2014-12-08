@@ -78,11 +78,22 @@ public class MapperFacade implements IMapperFacade
   {
     try
     {
-      int x = pX % map.getTilesPerChunkX();
-      int y = pY % map.getTilesPerChunkY();
-      TileDescription tilePref = map.getChunkContaining(pX, pY).getTilesOn(x, y)[pLayer];
-      if(tilePref != null)
-        return tilePref.getGraphicID();
+      if(map != null)
+      {
+        int x = pX % map.getTilesPerChunkX();
+        int y = pY % map.getTilesPerChunkY();
+        IChunk chunk = map.getChunkContaining(pX, pY);
+        if(chunk != null)
+        {
+          TileDescription[] tiles = chunk.getTilesOn(x, y);
+          if(tiles != null)
+          {
+            TileDescription tilePref = tiles[pLayer];
+            if(tilePref != null)
+              return tilePref.getGraphicID();
+          }
+        }
+      }
 
       return -1;
     }

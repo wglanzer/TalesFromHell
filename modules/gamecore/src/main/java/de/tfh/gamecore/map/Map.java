@@ -75,6 +75,7 @@ public class Map implements IMap
   }
 
   @Override
+  @Nullable
   public IChunk getChunkContaining(int pX, int pY)
   {
     int x = pX / mapDesc.tilesPerChunkX;

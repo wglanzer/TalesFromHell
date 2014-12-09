@@ -2,10 +2,10 @@
 <ConfigDataModel>
   <onlyUpdateWhenVisible>true</onlyUpdateWhenVisible>
   <fullscreen>false</fullscreen>
-  <screenHeight>900</screenHeight>
+  <screenHeight>500</screenHeight>
   <vSync>false</vSync>
   <musicEnabled>true</musicEnabled>
-  <screenWidth>1600</screenWidth>
+  <screenWidth>800</screenWidth>
   <soundEnabled>true</soundEnabled>
   <musicVolume>0.5</musicVolume>
   <multisample>2</multisample>

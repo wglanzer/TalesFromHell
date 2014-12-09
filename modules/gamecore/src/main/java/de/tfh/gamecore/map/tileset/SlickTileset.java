@@ -13,7 +13,7 @@ import java.io.InputStream;
 import java.util.UUID;
 
 /**
- * TileSet, das nicht zwingend eine OpenGL-Verbindung erzwingt
+ * TileSet, das zwingend eine OpenGL-Verbindung braucht
  *
  * @author W.Glanzer, 22.11.2014
  */
@@ -30,6 +30,7 @@ public class SlickTileset implements ITileset<Image>
     stream = pStream;
     tileWidth = pTileWidth;
     tileHeight = pTileHeight;
+    spriteSheet = getSpriteSheet();
   }
 
   /**
@@ -54,10 +55,10 @@ public class SlickTileset implements ITileset<Image>
   }
 
   @Override
-  public Image getTileForID(int pLayer)
+  public Image getTileForID(int pID)
   {
-    int y = pLayer - pLayer / getTileCountX();
-    int x = pLayer - y * getTileCountX();
+    int y = pID / getTileCountX();
+    int x = pID % getTileCountX();
     return spriteSheet.getSprite(x, y);
   }
 

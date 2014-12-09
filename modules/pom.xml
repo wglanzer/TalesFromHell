@@ -17,6 +17,7 @@
     <modules>
         <module>core</module>
         <module>gamecore</module>
+        <module>gui-common</module>
         <module>mapper</module>
         <module>scenes</module>
         <module>starter</module>

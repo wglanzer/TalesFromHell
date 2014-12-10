@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
+import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
 
@@ -90,10 +91,13 @@ public class MapperMenuBar extends JMenuBar
         {
           String mapName = dialog.getMapName();
           String tilesetPath = dialog.getTilesetPath();
+          Dimension chunkCount = dialog.getChunkCount();
+          Dimension chunkSize = dialog.getChunkSize();
+          Dimension tileSize = dialog.getTileSize();
 
           if(!mapName.isEmpty() && !tilesetPath.isEmpty())
           {
-            facade.generateNewMap(mapName, tilesetPath);
+            facade.generateNewMap(mapName, tilesetPath, chunkCount, chunkSize, tileSize);
             return true;
           }
         }

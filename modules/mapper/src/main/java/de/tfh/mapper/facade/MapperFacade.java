@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -42,19 +43,19 @@ public class MapperFacade implements IMapperFacade
 
   public MapperFacade()
   {
-    map = new AlterableMap(false);
+    map = new AlterableMap(false, null, null, null);
     map.setSavable(false);
   }
 
   @Override
-  public void generateNewMap(String pName, String pTilesetPath) throws TFHException
+  public void generateNewMap(String pName, String pTilesetPath, Dimension pChunkCount, Dimension pChunkSize, Dimension pTileSize) throws TFHException
   {
     try
     {
-      map = new AlterableMap(true);
+      map = new AlterableMap(true, pChunkCount, pChunkSize, pTileSize);
       map.setSavable(true);
       BufferedImage image = ImageIO.read(new File(pTilesetPath));
-      map.setTileSet(new MapperTileset(image, image.getWidth() / 16, image.getHeight() / 16));
+      map.setTileSet(new MapperTileset(image, pTileSize.width, pTileSize.height));
 
       fireFacadeChanged();
     }
@@ -292,7 +293,7 @@ public class MapperFacade implements IMapperFacade
     synchronized(changeListeners)
     {
       for(IChangeListener currListener : changeListeners)
-        currListener.facadeChanged();
+        SwingUtilities.invokeLater(currListener::facadeChanged);
     }
   }
 

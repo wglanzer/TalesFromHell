@@ -23,15 +23,18 @@ public interface IMapperFacade
    *
    * @param pName        Name der Map
    * @param pTilesetPath Pfad zum Tileset
+   * @param pChunkCount  Anzahl der Chunks
+   * @param pChunkSize   Größe der Chunks (Anzahl der Tiles innerhalb des Chunks)
+   * @param pTileSize    Größe der Tiles in px
    */
-  void generateNewMap(String pName, String pTilesetPath) throws TFHException;
+  void generateNewMap(String pName, String pTilesetPath, Dimension pChunkCount, Dimension pChunkSize, Dimension pTileSize) throws TFHException;
 
   /**
    * Setzt die ID eines Tiles auf einer bestimmten Position
    *
-   * @param pX              X-Position des Tiles
-   * @param pY              Y-Position des Tiles
-   * @param pLayer          Layer-ID des Tiles
+   * @param pX               X-Position des Tiles
+   * @param pY               Y-Position des Tiles
+   * @param pLayer           Layer-ID des Tiles
    * @param pTileDescription ID des Tiles an sich
    */
   void setTile(int pX, int pY, int pLayer, TileDescription pTileDescription) throws TFHMappperException;
@@ -153,7 +156,7 @@ public interface IMapperFacade
   /**
    * Lädt die Map aus einem File
    *
-   * @param pFile  File, das geladen werden kann / soll
+   * @param pFile File, das geladen werden kann / soll
    */
   void load(File pFile) throws TFHException;
 
@@ -186,12 +189,14 @@ public interface IMapperFacade
 
     /**
      * Wird aufgerufen, wenn sich die Map speichert
+     *
      * @param pObject ProgressObject, aus dem man den Progress herauslesen kann
      */
     void mapSaved(ProgressObject pObject);
 
     /**
      * Wird aufgerufen, wenn eine Map geladen wird
+     *
      * @param pObject ProgressObject, aus dem man den Progress herauslesen kann
      */
     void mapLoaded(ProgressObject pObject);

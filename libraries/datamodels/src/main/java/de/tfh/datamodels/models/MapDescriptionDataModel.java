@@ -14,32 +14,32 @@ public class MapDescriptionDataModel extends AbstractDataModel
   /**
    * Anzahl der Chunks in X-Richtung
    */
-  public int chunksX = 2;
+  public int chunksX = 0;
 
   /**
    * Anzahl der Chunks in Y-Richtung
    */
-  public int chunksY = 2;
+  public int chunksY = 0;
 
   /**
    * Anzahl der Tiels pro Chunk in X-Richtung
    */
-  public int tilesPerChunkX = 16;
+  public int tilesPerChunkX = 0;
 
   /**
    * Anzahl der Tiels pro Chunk in Y-Richtung
    */
-  public int tilesPerChunkY = 16;
+  public int tilesPerChunkY = 0;
 
   /**
    * Breite (in Pixel) der Tiles
    */
-  public int tileWidth = 32;
+  public int tileWidth = 0;
 
   /**
    * Höhe (in Pixel) der Tiles
    */
-  public int tileHeight = 32;
+  public int tileHeight = 0;
 
   @Override
   public String getName()

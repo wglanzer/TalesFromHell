@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.InputStream;
@@ -38,13 +39,13 @@ public class AlterableMap extends Map implements IMap
   private boolean isSavable = false;
   private final Object SAVE_LOCK = new Object();
 
-  public AlterableMap(boolean pGenerateNewMap)
+  public AlterableMap(boolean pGenerateNewMap, Dimension pChunkCount, Dimension pChunkSize, Dimension pTileSize)
   {
     super(null);
     try
     {
       if(pGenerateNewMap)
-        _newMap();
+        _newMap(pChunkCount, pChunkSize, pTileSize);
     }
     catch(TFHException e)
     {
@@ -205,13 +206,34 @@ public class AlterableMap extends Map implements IMap
   /**
    * Erstellt eine neue Map-Instanz
    *
+   * @param pChunkCount  Anzahl der Chunks
+   * @param pChunkSize   Anzahl der Tiles innerhalb des Chunks
+   * @param pTileSize    Größe der Tiles in px
    * @throws de.tfh.datamodels.TFHDataModelException Wenn beim Erstellen der MapDescription ein Fehler aufgetreten ist
    */
-  private void _newMap() throws TFHException
+  private void _newMap(Dimension pChunkCount, Dimension pChunkSize, Dimension pTileSize) throws TFHException
   {
     mapDesc = (MapDescriptionDataModel) DefaultDataModelRegistry.getDefault().newInstance(MapDescriptionDataModel.class);
     if(mapDesc == null)
       throw new TFHException(31);
+
+    if(pChunkCount != null)
+    {
+      mapDesc.chunksX = pChunkCount.width;
+      mapDesc.chunksY = pChunkCount.height;
+    }
+
+    if(pChunkSize != null)
+    {
+      mapDesc.tilesPerChunkX = pChunkSize.width;
+      mapDesc.tilesPerChunkY = pChunkSize.height;
+    }
+
+    if(pTileSize != null)
+    {
+      mapDesc.tileWidth = pTileSize.width;
+      mapDesc.tileHeight = pTileSize.height;
+    }
 
     chunks = new AlterableChunk[mapDesc.chunksX * mapDesc.chunksY];
     for(int i = 0; i < chunks.length; i++)

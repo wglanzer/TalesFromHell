@@ -24,11 +24,11 @@ public abstract class AbstractContainer extends JPanel
         @Override
         public void facadeChanged()
         {
-          reinit();
+          SwingUtilities.invokeLater(AbstractContainer.this::reinit);
         }
       });
 
-    reinit();
+    SwingUtilities.invokeLater(AbstractContainer.this::reinit);
   }
 
   /**

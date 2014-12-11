@@ -58,6 +58,14 @@ public interface IMapperFacade
   GraphicTile getTile(int pTileID);
 
   /**
+   * Gibt den selektierten Layer zurück
+   *
+   * @return Layer als Int, zu finden in Layer
+   * @see de.tfh.gamecore.map.Layer
+   */
+  int getSelectedLayer();
+
+  /**
    * Liefert das Bild des Tiles für die angegebene ID
    *
    * @param pTileID ID für die das Bild zurückgegeben werden soll

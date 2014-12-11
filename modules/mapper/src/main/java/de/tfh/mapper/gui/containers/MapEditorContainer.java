@@ -1,7 +1,9 @@
 package de.tfh.mapper.gui.containers;
 
 import de.tfh.core.i18n.Messages;
+import de.tfh.gamecore.map.Layer;
 import de.tfh.mapper.facade.IMapperFacade;
+import de.tfh.mapper.facade.MapperFacade;
 import de.tfh.mapper.gui.GraphicChunk;
 import de.tfh.mapper.gui.common.JToggleButtonPanel;
 import de.tfh.mapper.gui.tablelayout.TableLayoutConstants;
@@ -46,6 +48,31 @@ public class MapEditorContainer extends AbstractContainer
   private JPanel _getControlPanel()
   {
     JToggleButtonPanel panel = new JToggleButtonPanel(4, Messages.get(27), Messages.get(28), Messages.get(29), Messages.get(30));
+    panel.addSelectionListener(pNewIndex -> {
+      IMapperFacade facade = getFacade();
+      if(!(facade instanceof MapperFacade))
+        return;
+
+      switch(pNewIndex)
+      {
+        default:
+        case 0:
+          ((MapperFacade) facade).setSelectedLayer(Layer.BACKGROUND);
+          break;
+
+        case 1:
+          ((MapperFacade) facade).setSelectedLayer(Layer.MIDGROUND);
+          break;
+
+        case 2:
+          ((MapperFacade) facade).setSelectedLayer(Layer.FOREGROUND);
+          break;
+
+        case 3:
+          ((MapperFacade) facade).setSelectedLayer(Layer.SPECIAL_LAYER);
+          break;
+      }
+    });
     panel.setBorder(BorderFactory.createEmptyBorder());
     panel.setSelected(0);
     return panel;

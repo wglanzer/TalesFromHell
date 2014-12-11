@@ -1,16 +1,15 @@
 package de.tfh.mapper.gui;
 
 import de.tfh.core.exceptions.TFHException;
-import de.tfh.core.utils.ExceptionUtil;
 import de.tfh.gamecore.map.Layer;
 import de.tfh.gamecore.map.TileDescription;
 import de.tfh.mapper.facade.IMapperFacade;
-import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 /**
  * Beschreibt einen Grafischen Chunk. Hier
@@ -54,7 +53,8 @@ public class GraphicChunk extends JPanel
 
         try
         {
-          TileDescription pref = facade.getPreference(x, y, posX, posY, Layer.MIDGROUND);
+          int selectedLayer = facade.getSelectedLayer();
+          TileDescription pref = facade.getPreference(x, y, posX, posY, selectedLayer >= 0 ? selectedLayer : 0);
           if(pref != null)
           {
             pref.setGraphicID(facade.getSelectedMapTileID());
@@ -92,19 +92,14 @@ public class GraphicChunk extends JPanel
           g.drawLine((int) (x * tileWidth), (int) (y * tileHeight), (int) ((x + 1) * tileWidth), (int) (y * tileHeight));
           g.drawLine((int) (x * tileWidth), (int) (y * tileHeight), (int) (x * tileWidth), (int) ((y + 1) * tileHeight));
 
-          int id = facade.getTileIDOnMap(posX * tileCountX + x, posY * tileCountY + y, Layer.MIDGROUND);
-          if(id > -1)
-          {
-            Image img = facade.getImageForTile(id);
-            if(img != null)
-              g.drawImage(img, (int) (x * tileWidth * zoom), (int) (y * tileWidth * zoom), (int) (zoom * tileWidth), (int) (zoom * tileHeight), null);
-          }
+          for(Image currImage : _getImagesWithoutCollision(posX * tileCountX + x, posY * tileCountY + y))
+            g.drawImage(currImage, (int) (x * tileWidth * zoom), (int) (y * tileWidth * zoom), (int) (zoom * tileWidth), (int) (zoom * tileHeight), null);
         }
       }
     }
-    catch(Exception e)
+    catch(TFHException e1)
     {
-      ExceptionUtil.logError(LoggerFactory.getLogger(GraphicChunk.class), 47, e);
+      e1.printStackTrace();
     }
 
     g.setColor(Color.BLACK);
@@ -122,5 +117,24 @@ public class GraphicChunk extends JPanel
   {
     zoom = pZoom;
     setPreferredSize(new Dimension((int) (tileCountX * tileWidth * zoom), (int) (tileCountY * tileHeight * zoom)));
+  }
+
+  private Image[] _getImagesWithoutCollision(int pX, int pY) throws TFHException
+  {
+    ArrayList<Image> images = new ArrayList<>();
+    for(int i = 0; i < 4; i++)
+    {
+      if(i == Layer.SPECIAL_LAYER)
+        continue;
+
+      int id = facade.getTileIDOnMap(pX, pY, i);
+      if(id > -1)
+      {
+        Image img = facade.getImageForTile(id);
+        if(img != null)
+          images.add(img);
+      }
+    }
+    return images.toArray(new Image[images.size()]);
   }
 }

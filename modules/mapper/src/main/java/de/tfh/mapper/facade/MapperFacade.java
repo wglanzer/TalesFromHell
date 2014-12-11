@@ -40,6 +40,7 @@ public class MapperFacade implements IMapperFacade
   private AlterableMap map;
   private int selectedID = -1;
   private final Set<IChangeListener> changeListeners = new HashSet<>();
+  private int selectedLayer = 0;
 
   public MapperFacade()
   {
@@ -159,6 +160,12 @@ public class MapperFacade implements IMapperFacade
       return new GraphicTile(pTileID, (Image) tileSet.getTileForID(pTileID));
 
     return null;
+  }
+
+  @Override
+  public int getSelectedLayer()
+  {
+    return selectedLayer;
   }
 
   @Override
@@ -295,6 +302,11 @@ public class MapperFacade implements IMapperFacade
       for(IChangeListener currListener : changeListeners)
         SwingUtilities.invokeLater(currListener::facadeChanged);
     }
+  }
+
+  public void setSelectedLayer(int pLayer)
+  {
+    selectedLayer = pLayer;
   }
 
   private void _fireMapSaved(ProgressObject pObject)

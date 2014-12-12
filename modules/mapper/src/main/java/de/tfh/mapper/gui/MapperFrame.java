@@ -2,6 +2,7 @@ package de.tfh.mapper.gui;
 
 import de.tfh.core.IStaticResources;
 import de.tfh.core.i18n.Messages;
+import de.tfh.core.utils.ExceptionUtil;
 import de.tfh.gamecore.util.ProgressObject;
 import de.tfh.mapper.ChangeListenerAdapter;
 import de.tfh.mapper.facade.IMapperFacade;
@@ -9,6 +10,8 @@ import de.tfh.mapper.gui.common.ComponentGlassPane;
 import de.tfh.mapper.gui.containers.DummyContainer;
 import de.tfh.mapper.gui.containers.MapEditorContainer;
 import de.tfh.mapper.gui.containers.MapTilesContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,6 +24,7 @@ import java.text.MessageFormat;
  */
 public class MapperFrame extends JFrame
 {
+  private static final Logger logger = LoggerFactory.getLogger(MapperFrame.class);
 
   private final IMapperFacade facade;
   private Container mapEditorContainer;
@@ -70,7 +74,7 @@ public class MapperFrame extends JFrame
     }
     catch(Exception e)
     {
-      e.printStackTrace();
+      ExceptionUtil.logError(logger, 62, e);
     }
   }
 

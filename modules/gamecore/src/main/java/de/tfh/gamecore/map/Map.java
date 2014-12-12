@@ -134,13 +134,13 @@ public class Map implements IMap
   @Override
   public ProgressObject save(OutputStream pOutputStream, int pThreadCount) throws TFHException
   {
-    throw new TFHUnsupportedOperationException(9999);
+    throw new TFHUnsupportedOperationException(58);
   }
 
   @Override
   public void setTileSet(ITileset<?> pSet)
   {
-    throw new TFHUnsupportedOperationException(9999);
+    throw new TFHUnsupportedOperationException(59);
   }
 
   @Override

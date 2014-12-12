@@ -1,9 +1,12 @@
 package de.tfh.mapper.gui;
 
 import de.tfh.core.exceptions.TFHException;
+import de.tfh.core.utils.ExceptionUtil;
 import de.tfh.gamecore.map.Layer;
 import de.tfh.gamecore.map.TileDescription;
 import de.tfh.mapper.facade.IMapperFacade;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,6 +34,7 @@ public class GraphicChunk extends JPanel
   private int tileCountY;
 
   private static final BasicStroke DASHED = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, new float[]{10.0f}, 0.0f);
+  private static final Logger logger = LoggerFactory.getLogger(GraphicChunk.class);
 
   public GraphicChunk(int pPosX, int pPosY, IMapperFacade pFacade)
   {
@@ -67,7 +71,7 @@ public class GraphicChunk extends JPanel
         }
         catch(TFHException e1)
         {
-          e1.printStackTrace();
+          ExceptionUtil.logError(logger, 60, e1);
         }
       }
     });
@@ -99,7 +103,7 @@ public class GraphicChunk extends JPanel
     }
     catch(TFHException e1)
     {
-      e1.printStackTrace();
+      ExceptionUtil.logError(logger, 61, e1);
     }
 
     g.setColor(Color.BLACK);

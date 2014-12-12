@@ -7,7 +7,6 @@ import de.tfh.gamecore.util.ProgressObject;
 import de.tfh.mapper.ChangeListenerAdapter;
 import de.tfh.mapper.facade.IMapperFacade;
 import de.tfh.mapper.gui.common.ComponentGlassPane;
-import de.tfh.mapper.gui.containers.DummyContainer;
 import de.tfh.mapper.gui.containers.MapEditorContainer;
 import de.tfh.mapper.gui.containers.MapTilesContainer;
 import org.slf4j.Logger;
@@ -61,14 +60,14 @@ public class MapperFrame extends JFrame
     {
       mapEditorContainer = new MapEditorContainer(facade);
       maptilesContainer = new MapTilesContainer(facade);
-      preferencesContainer = new DummyContainer(facade);
-      classEditorContainer = new DummyContainer(facade);
-      classTreeContainer = new DummyContainer(facade);
+//      preferencesContainer = new DummyContainer(facade);
+//      classEditorContainer = new DummyContainer(facade);
+//      classTreeContainer = new DummyContainer(facade);
 
       JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
 
       tabbedPane.addTab(Messages.get(12), _createTabMap(mapEditorContainer, maptilesContainer, preferencesContainer));
-      tabbedPane.addTab(Messages.get(13), _createTabClasses(classTreeContainer, classEditorContainer));
+//      tabbedPane.addTab(Messages.get(13), _createTabClasses(classTreeContainer, classEditorContainer));
 
       add(tabbedPane, BorderLayout.CENTER);
     }
@@ -87,16 +86,16 @@ public class MapperFrame extends JFrame
     panel.setLayout(new BorderLayout());
 
     final JSplitPane horizSplitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-    final JSplitPane verticSplitpane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-    verticSplitpane.setTopComponent(new JScrollPane(pMaptilesContainer, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER));
-    verticSplitpane.setBottomComponent(pPreferencesContainer);
-    horizSplitpane.setLeftComponent(verticSplitpane);
+//    final JSplitPane verticSplitpane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+//    verticSplitpane.setTopComponent(new JScrollPane(pMaptilesContainer, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER));
+//    verticSplitpane.setBottomComponent(pPreferencesContainer);
+    horizSplitpane.setLeftComponent(new JScrollPane(pMaptilesContainer, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER));
     horizSplitpane.setRightComponent(pMapEditorContainer);
     panel.add(horizSplitpane, BorderLayout.CENTER);
 
     SwingUtilities.invokeLater(() -> {
-      horizSplitpane.setDividerLocation(0.18);
-      verticSplitpane.setDividerLocation(0.6);
+      horizSplitpane.setResizeWeight(0.18);
+//      verticSplitpane.setResizeWeight(0.6);
     });
 
     return panel;

@@ -1,17 +1,17 @@
 package de.tfh.guicommon.map;
 
 import de.tfh.core.exceptions.TFHUnsupportedOperationException;
+import de.tfh.gamecore.IDrawable;
 import de.tfh.gamecore.map.IChunk;
 import de.tfh.gamecore.map.IMap;
 import de.tfh.gamecore.map.tileset.SlickTileset;
-import org.newdawn.slick.Renderable;
 
 /**
  * Kapselt eine Map, um diese zu rendern
  *
  * @author W.Glanzer, 08.12.2014
  */
-public class GraphicMap implements Renderable
+public class GraphicMap implements IDrawable
 {
 
   private final IMap map;

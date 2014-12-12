@@ -1,9 +1,9 @@
 package de.tfh.guicommon.map;
 
+import de.tfh.gamecore.IDrawable;
 import de.tfh.gamecore.map.IChunk;
 import de.tfh.gamecore.map.ILayer;
 import de.tfh.gamecore.map.tileset.SlickTileset;
-import org.newdawn.slick.Renderable;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author W.Glanzer, 09.12.2014
  */
-public class GraphicChunk implements Renderable
+public class GraphicChunk implements IDrawable
 {
 
   private final SlickTileset tileset;

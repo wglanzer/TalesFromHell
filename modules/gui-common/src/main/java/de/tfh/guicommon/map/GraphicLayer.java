@@ -1,10 +1,10 @@
 package de.tfh.guicommon.map;
 
 import de.tfh.core.utils.ExceptionUtil;
+import de.tfh.gamecore.IDrawable;
 import de.tfh.gamecore.map.ILayer;
 import de.tfh.gamecore.map.TileDescription;
 import de.tfh.gamecore.map.tileset.SlickTileset;
-import org.newdawn.slick.Renderable;
 import org.newdawn.slick.SlickException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author W.Glanzer, 09.12.2014
  */
-public class GraphicLayer implements Renderable
+public class GraphicLayer implements IDrawable
 {
   private static final Logger logger = LoggerFactory.getLogger(GraphicLayer.class);
 

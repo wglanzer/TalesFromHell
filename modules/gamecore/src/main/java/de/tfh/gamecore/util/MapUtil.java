@@ -1,5 +1,6 @@
 package de.tfh.gamecore.util;
 
+import de.tfh.core.LWJGLHelper;
 import de.tfh.core.exceptions.TFHException;
 import de.tfh.datamodels.IDataModel;
 import de.tfh.datamodels.models.ChunkDataModel;
@@ -8,9 +9,11 @@ import de.tfh.datamodels.utils.DataModelIOUtil;
 import de.tfh.gamecore.map.Chunk;
 import de.tfh.gamecore.map.IChunk;
 import de.tfh.gamecore.map.tileset.ITileset;
+import de.tfh.gamecore.map.tileset.MapperTileset;
 import de.tfh.gamecore.map.tileset.SlickTileset;
 import org.jetbrains.annotations.Nullable;
 
+import javax.imageio.ImageIO;
 import java.io.InputStream;
 
 /**
@@ -61,7 +64,10 @@ public class MapUtil
   {
     try
     {
-      return new SlickTileset(pPNGStream, pMapDescription.tileWidth, pMapDescription.tileHeight);
+      if(LWJGLHelper.isLWJGLEnabled())
+        return new SlickTileset(pPNGStream, pMapDescription.tileWidth, pMapDescription.tileHeight);
+      else
+        return new MapperTileset(ImageIO.read(pPNGStream), pMapDescription.tileWidth, pMapDescription.tileHeight);
     }
     catch(Exception e)
     {

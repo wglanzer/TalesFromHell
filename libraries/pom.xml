@@ -15,6 +15,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>appdirs</module>
         <module>datamodels</module>
         <module>log4j</module>
         <module>nifty</module>

@@ -110,7 +110,7 @@ public class SlickTileset implements ITileset<Image>
     if(spriteSheet != null)
       return spriteSheet.getHorizontalCount();
 
-    return -1;
+    return 0;
   }
 
   @Override
@@ -119,7 +119,7 @@ public class SlickTileset implements ITileset<Image>
     if(spriteSheet != null)
       return spriteSheet.getVerticalCount();
 
-    return -1;
+    return 0;
   }
 
   @Override

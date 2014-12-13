@@ -1,5 +1,9 @@
 package de.tfh.core;
 
+import org.jetbrains.annotations.Nullable;
+
+import java.io.File;
+
 /**
  * Stellt die Verbindung zwischen dem BasicGame und den einzelnen
  * States bereit
@@ -16,4 +20,11 @@ public interface IGameController
    */
   void enterState(int pID);
 
+  /**
+   * Liefert das derzeitige File-Object der derzeitigen Map
+   *
+   * @return das derzeitige File-Object der derzeitigen Map
+   */
+  @Nullable
+  File getCurrentMapFileObject();
 }

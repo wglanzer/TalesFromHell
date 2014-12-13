@@ -1,7 +1,9 @@
 package de.tfh.gamecore.util;
 
+import de.tfh.core.IStaticResources;
 import de.tfh.core.LWJGLHelper;
 import de.tfh.core.exceptions.TFHException;
+import de.tfh.core.utils.ExceptionUtil;
 import de.tfh.datamodels.IDataModel;
 import de.tfh.datamodels.models.ChunkDataModel;
 import de.tfh.datamodels.models.MapDescriptionDataModel;
@@ -11,10 +13,17 @@ import de.tfh.gamecore.map.IChunk;
 import de.tfh.gamecore.map.tileset.ITileset;
 import de.tfh.gamecore.map.tileset.MapperTileset;
 import de.tfh.gamecore.map.tileset.SlickTileset;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
+import java.io.File;
 import java.io.InputStream;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Allgemeine Utilityklasse für die Map
@@ -23,6 +32,8 @@ import java.io.InputStream;
  */
 public class MapUtil
 {
+
+  private static final Logger logger = LoggerFactory.getLogger(MapUtil.class);
 
   /**
    * Erstellt einen Chunk anhand eines InputStreams, kann <tt>null</tt> sein,
@@ -74,5 +85,29 @@ public class MapUtil
       // TileSet konnte nicht aus InputStream geladen werden
       throw new TFHException(e, 29);
     }
+  }
+
+  /**
+   * Liefert alle verfügbaren Maps, die gespielt werden können
+   *
+   * @return Set aus Strings
+   */
+  @NotNull
+  public static Set<File> getAvailableMaps()
+  {
+    Set<File> paths = new HashSet<>();
+
+    try
+    {
+      File mapFolder = new File(IStaticResources.MAP_PATH);
+      if(mapFolder.exists() && mapFolder.isDirectory())
+        Collections.addAll(paths, mapFolder.listFiles(pFile -> pFile.getName().endsWith(IStaticResources.MAP_FILEENDING)));
+    }
+    catch(Exception e)
+    {
+      ExceptionUtil.logError(logger, 63, e);
+    }
+
+    return paths;
   }
 }

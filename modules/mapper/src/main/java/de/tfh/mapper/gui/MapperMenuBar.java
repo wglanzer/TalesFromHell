@@ -46,7 +46,7 @@ public class MapperMenuBar extends JMenuBar
   {
     JMenuItem item = new JMenuItem(Messages.get(23));
     item.addActionListener((e) -> {
-      JFileChooser chooser = new JFileChooser();
+      JFileChooser chooser = new JFileChooser(IStaticResources.MAP_PATH);
       chooser.setFileFilter(new _MapFileFilter());
       int result = chooser.showDialog(SwingUtilities.getRoot(this), Messages.get(23));
       File file = chooser.getSelectedFile();
@@ -125,7 +125,7 @@ public class MapperMenuBar extends JMenuBar
     item.addActionListener(e -> {
       try
       {
-        JFileChooser chooser = new JFileChooser();
+        JFileChooser chooser = new JFileChooser(IStaticResources.MAP_PATH);
         chooser.setFileFilter(new _MapFileFilter());
 
         int result = chooser.showSaveDialog(SwingUtilities.getRoot(this));

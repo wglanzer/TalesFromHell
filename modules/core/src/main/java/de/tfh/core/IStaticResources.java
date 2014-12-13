@@ -7,7 +7,7 @@ import java.awt.*;
  *
  * @author W.Glanzer, 25.10.2014
  */
-public interface IStaticResources
+public interface IStaticResources extends IStaticPaths
 {
 
   /**
@@ -28,11 +28,6 @@ public interface IStaticResources
    * {1} = Version
    */
   public static final String WINDOW_TITLE = "{0} - {1}";
-
-  /**
-   * Relativer Pfad zur config.xml
-   */
-  public static final String CONFIG_RELATIVE_PATH = "config.xml";
 
   /**
    * Standardgröße des Mappers

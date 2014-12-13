@@ -3,12 +3,15 @@ package de.tfh.gamecore.map.tileset;
 import de.tfh.core.exceptions.TFHException;
 import de.tfh.core.exceptions.TFHUnsupportedOperationException;
 import de.tfh.core.utils.ExceptionUtil;
+import org.jetbrains.annotations.Nullable;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.UUID;
 
@@ -25,7 +28,12 @@ public class SlickTileset implements ITileset<Image>
   private final int tileHeight;
   private SpriteSheet spriteSheet;
 
-  public SlickTileset(InputStream pStream, int pTileWidth, int pTileHeight) throws SlickException
+  public SlickTileset(String pFile, int pTileWidth, int pTileHeight) throws FileNotFoundException
+  {
+    this(new FileInputStream(pFile), pTileWidth, pTileHeight);
+  }
+
+  public SlickTileset(InputStream pStream, int pTileWidth, int pTileHeight)
   {
     stream = pStream;
     tileWidth = pTileWidth;
@@ -55,11 +63,33 @@ public class SlickTileset implements ITileset<Image>
   }
 
   @Override
-  public Image getTileForID(int pID)
+  public Image getTile(int pID)
   {
     int y = pID / getTileCountX();
     int x = pID % getTileCountX();
     return spriteSheet.getSprite(x, y);
+  }
+
+  @Nullable
+  @Override
+  public Image getTile(int pX, int pY)
+  {
+    return spriteSheet.getSprite(pX, pY);
+  }
+
+  @Override
+  public Image[] getTiles()
+  {
+    int tileX = spriteSheet.getHorizontalCount();
+    int tileY = spriteSheet.getVerticalCount();
+
+    Image[] images = new Image[tileX * tileY];
+
+    for(int x = 0; x < tileX; x++)
+      for(int y = 0; y < tileY; y++)
+        images[y * tileX + x] = spriteSheet.getSprite(x, y);
+
+    return images;
   }
 
   @Override

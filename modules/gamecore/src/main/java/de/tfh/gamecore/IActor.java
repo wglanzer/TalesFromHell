@@ -15,6 +15,6 @@ public interface IActor extends IDrawable, IUpdateable
   void draw(float pX, float pY);
 
   @Override
-  void update(float pDelta, @NotNull Input pInput);
+  void update(int pDelta, @NotNull Input pInput);
 
 }

@@ -5,6 +5,8 @@ import de.lessvoid.nifty.builder.ScreenBuilder;
 import de.tfh.core.IGameController;
 import de.tfh.core.exceptions.TFHException;
 import de.tfh.gamecore.map.Map;
+import de.tfh.gamecore.map.tileset.SlickTileset;
+import de.tfh.guicommon.Player;
 import de.tfh.guicommon.map.GraphicMap;
 import de.tfh.nifty.AbstractGameState;
 import de.tfh.nifty.DefaultScreenController;
@@ -25,6 +27,7 @@ public class StateGame extends AbstractGameState
 {
   // Map, auf der gerade gespielt werden soll
   private GraphicMap map;
+  private Player player;
 
   public StateGame(IGameController pController)
   {
@@ -34,18 +37,28 @@ public class StateGame extends AbstractGameState
   @Override
   protected void initState(@NotNull GameContainer pGameContainer, @NotNull StateBasedGame pStateBasedGame) throws TFHException
   {
-    map = new GraphicMap(new Map(new File("C:\\Users\\werne_000\\Desktop\\map1.map")));    //todo
+    try
+    {
+      map = new GraphicMap(new Map(new File("C:\\Users\\werne_000\\Desktop\\map1.map")));
+      player = new Player(new SlickTileset("C:\\Users\\werne_000\\Desktop\\player.png", 64, 128), 250);
+    }
+    catch(Exception e)
+    {
+      throw new TFHException(e, 9999);
+    }
   }
 
   @Override
-  protected void renderState(@NotNull GameContainer pGameContainer, @NotNull StateBasedGame pStateBasedGame, @NotNull Graphics pGraphics) throws TFHException
+  protected void renderState(@NotNull GameContainer pGameContainer, @NotNull StateBasedGame pStateBasedGame, @NotNull Graphics pGraphics)
   {
     map.draw(0, 0);
+    player.draw(100, 100);
   }
 
   @Override
-  protected void updateState(@NotNull GameContainer pGameContainer, @NotNull StateBasedGame pStateBasedGame, int pDelta) throws TFHException
+  protected void updateState(@NotNull GameContainer pGameContainer, @NotNull StateBasedGame pStateBasedGame, int pDelta)
   {
+    player.update(pDelta, pGameContainer.getInput());
   }
 
   @Override

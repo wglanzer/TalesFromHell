@@ -85,27 +85,13 @@ public abstract class AbstractGameState extends NiftyOverlayBasicGameState
   @Override
   protected void renderGame(@NotNull GameContainer pGameContainer, @NotNull StateBasedGame pStateBasedGame, @NotNull Graphics pGraphics)
   {
-    try
-    {
-      renderState(pGameContainer, pStateBasedGame, pGraphics);
-    }
-    catch(TFHException e)
-    {
-      ExceptionUtil.logError(logger, 13, e, "id", getID(), "container=", pGameContainer, "stateBasedGame=", pStateBasedGame, "graphics=", pGraphics);
-    }
+    renderState(pGameContainer, pStateBasedGame, pGraphics);
   }
 
   @Override
   protected void updateGame(@NotNull GameContainer pGameContainer, @NotNull StateBasedGame pStateBasedGame, int i)
   {
-    try
-    {
-      updateState(pGameContainer, pStateBasedGame, i);
-    }
-    catch(TFHException e)
-    {
-      ExceptionUtil.logError(logger, 14, e, "id", getID(), "container=", pGameContainer, "stateBasedGame=", pStateBasedGame, "delta=", i);
-    }
+    updateState(pGameContainer, pStateBasedGame, i);
   }
 
   @Override
@@ -148,9 +134,8 @@ public abstract class AbstractGameState extends NiftyOverlayBasicGameState
    * @param pGameContainer  GameContainer, der gerendert werden soll
    * @param pStateBasedGame StateBasedGame, das gerendert werden soll
    * @param pGraphics       GraphicsObject, auf das gerendert werden soll
-   * @throws TFHException Falls während dem Rendern eine Exception auftritt
    */
-  protected abstract void renderState(@NotNull GameContainer pGameContainer, @NotNull StateBasedGame pStateBasedGame, @NotNull Graphics pGraphics) throws TFHException;
+  protected abstract void renderState(@NotNull GameContainer pGameContainer, @NotNull StateBasedGame pStateBasedGame, @NotNull Graphics pGraphics);
 
   /**
    * Updated den State, kein Rendering!
@@ -158,9 +143,8 @@ public abstract class AbstractGameState extends NiftyOverlayBasicGameState
    * @param pGameContainer  GameContainer, der geupdated wird
    * @param pStateBasedGame StateBasedGame, das geupdated werden soll
    * @param pDelta          Zeit seit dem letzen Frame, zur Interpolation der Werte
-   * @throws TFHException Falls während dem Updaten ine Exception auftritt
    */
-  protected abstract void updateState(@NotNull GameContainer pGameContainer, @NotNull StateBasedGame pStateBasedGame, int pDelta) throws TFHException;
+  protected abstract void updateState(@NotNull GameContainer pGameContainer, @NotNull StateBasedGame pStateBasedGame, int pDelta);
 
   /**
    * Initialisiert das Nifty-HUD. Zur besseren Kapselung sollte

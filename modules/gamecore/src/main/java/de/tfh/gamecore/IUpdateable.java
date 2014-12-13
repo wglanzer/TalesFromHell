@@ -8,6 +8,12 @@ import org.newdawn.slick.Input;
 public interface IUpdateable
 {
 
-  void update(float pDelta, Input pInput);
+  /**
+   * Führt den "Update"-Befehl aus
+   *
+   * @param pDelta  Zeit seit dem letzten Frame in ms
+   * @param pInput  Input-Objekt für Tastaturabfragen
+   */
+  void update(int pDelta, Input pInput);
 
 }

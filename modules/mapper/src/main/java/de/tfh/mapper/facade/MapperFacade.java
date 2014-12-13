@@ -157,7 +157,7 @@ public class MapperFacade implements IMapperFacade
   {
     ITileset tileSet = map.getTileSet();
     if(tileSet != null)
-      return new GraphicTile(pTileID, (Image) tileSet.getTileForID(pTileID));
+      return new GraphicTile(pTileID, (Image) tileSet.getTile(pTileID));
 
     return null;
   }
@@ -173,7 +173,7 @@ public class MapperFacade implements IMapperFacade
   {
     ITileset tileSet = map.getTileSet();
     if(tileSet != null)
-      return (Image) tileSet.getTileForID(pTileID);
+      return (Image) tileSet.getTile(pTileID);
 
     return null;
   }

@@ -1,6 +1,7 @@
 package de.tfh.gamecore.map.tileset;
 
 import de.tfh.core.exceptions.TFHException;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.InputStream;
 
@@ -12,12 +13,29 @@ import java.io.InputStream;
 public interface ITileset<T>
 {
   /**
-   * Liefert das Tile für den angegebenen Layer
+   * Liefert das Tile für die angegeben ID
    *
-   * @param pLayer  Layer, der verwendet werden soll
+   * @param pID  ID, die verwendet werden soll
    * @return Das Tile (Instanz von T)
    */
-  public T getTileForID(int pLayer);
+  T getTile(int pID);
+
+  /**
+   * Liefert das Tile an der gewünschten Position, oder <tt>null</tt>
+   *
+   * @param pX  X-Position des Tiles
+   * @param pY  Y-Position des Tiles
+   * @return das Tile, oder <tt>null</tt>
+   */
+  @Nullable
+  T getTile(int pX, int pY);
+
+  /**
+   * Liefert alle verfügbaren Tiles
+   *
+   * @return alle verfügbaren Tiles
+   */
+  T[] getTiles();
 
   /**
    * Liefert die Breite eines Tiles

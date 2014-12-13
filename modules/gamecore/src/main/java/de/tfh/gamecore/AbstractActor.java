@@ -14,11 +14,10 @@ public abstract class AbstractActor implements IActor
   @Override
   public void draw(float pX, float pY)
   {
-
   }
 
   @Override
-  public void update(float pDelta, @NotNull Input pInput)
+  public void update(int pDelta, @NotNull Input pInput)
   {
   }
 

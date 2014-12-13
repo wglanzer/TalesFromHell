@@ -6,6 +6,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 /**
+ * Grafische Implementierung eines Tiles
+ *
  * @author W.Glanzer, 08.12.2014
  */
 public class GraphicTile extends Image implements IDrawable
@@ -13,7 +15,7 @@ public class GraphicTile extends Image implements IDrawable
 
   public GraphicTile(int pID, SlickTileset pTileset) throws SlickException
   {
-    super(pTileset.getTileForID(pID));
+    super(pTileset.getTile(pID));
   }
 
 }

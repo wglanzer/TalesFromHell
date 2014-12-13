@@ -1,6 +1,7 @@
 package de.tfh.gamecore.map.tileset;
 
 import de.tfh.core.exceptions.TFHException;
+import org.jetbrains.annotations.Nullable;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -38,7 +39,7 @@ public class MapperTileset implements ITileset<Image>
   }
 
   @Override
-  public Image getTileForID(int pID)
+  public Image getTile(int pID)
   {
     if(!imageCache.containsKey(pID))
     {
@@ -48,6 +49,29 @@ public class MapperTileset implements ITileset<Image>
     }
 
     return imageCache.get(pID);
+  }
+
+  @Override
+  public Image[] getTiles()
+  {
+    Image[] images = new Image[tilesX * tilesY];
+
+    for(int i = 0; i < tilesX * tilesY; i++)
+      images[i] = getTile(i);
+
+    return images;
+  }
+
+  @Nullable
+  @Override
+  public Image getTile(int pX, int pY)
+  {
+    int i = pY * tilesX + pY;
+
+    if(i <= tilesX * tilesY)
+      return getTile(i);
+
+    return null;
   }
 
   @Override

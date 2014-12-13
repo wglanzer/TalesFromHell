@@ -3,7 +3,7 @@
   <onlyUpdateWhenVisible>true</onlyUpdateWhenVisible>
   <fullscreen>false</fullscreen>
   <screenHeight>500</screenHeight>
-  <vSync>false</vSync>
+  <vSync>true</vSync>
   <musicEnabled>true</musicEnabled>
   <screenWidth>800</screenWidth>
   <soundEnabled>true</soundEnabled>

@@ -13,7 +13,7 @@ public class LWJGLHelper
    */
   public static boolean isLWJGLEnabled()
   {
-    return System.getProperty("java.library.path") != null && System.getProperty("java.library.path").contains("/natives");
+    return System.getProperty("java.library.path") != null && System.getProperty("java.library.path").contains("\\natives");
   }
 
 }

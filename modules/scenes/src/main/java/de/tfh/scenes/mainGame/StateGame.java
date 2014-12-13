@@ -7,6 +7,7 @@ import de.tfh.core.exceptions.TFHException;
 import de.tfh.gamecore.map.Map;
 import de.tfh.guicommon.map.GraphicMap;
 import de.tfh.nifty.AbstractGameState;
+import de.tfh.nifty.DefaultScreenController;
 import de.tfh.scenes.States;
 import org.jetbrains.annotations.NotNull;
 import org.newdawn.slick.GameContainer;
@@ -33,7 +34,7 @@ public class StateGame extends AbstractGameState
   @Override
   protected void initState(@NotNull GameContainer pGameContainer, @NotNull StateBasedGame pStateBasedGame) throws TFHException
   {
-    map = new GraphicMap(new Map(new File("C:\\Users\\Werner\\Desktop\\sdf.map")));    //todo
+    map = new GraphicMap(new Map(new File("C:\\Users\\werne_000\\Desktop\\map1.map")));    //todo
   }
 
   @Override
@@ -50,5 +51,6 @@ public class StateGame extends AbstractGameState
   @Override
   protected void initGUI(GameContainer pGameContainer, StateBasedGame pStateBasedGame, @NotNull Nifty pNifty, ScreenBuilder pScreen, String pScreenID) throws TFHException
   {
+    pScreen.controller(new DefaultScreenController());
   }
 }

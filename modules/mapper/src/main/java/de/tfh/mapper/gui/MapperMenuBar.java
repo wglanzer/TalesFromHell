@@ -216,7 +216,8 @@ public class MapperMenuBar extends JMenuBar
           }
         }
 
-        _save(file);
+        if(file != null)
+          _save(file);
       }
       catch(Exception ex)
       {

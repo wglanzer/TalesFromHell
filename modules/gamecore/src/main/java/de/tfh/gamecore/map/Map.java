@@ -259,15 +259,17 @@ public class Map implements IMap
           {
             try
             {
-              Thread.sleep(100);
-              _validateChunkNulls(mapDesc);
-              pLoadObj.setFinished();
+              Thread.sleep(25);
             }
             catch(Exception e)
             {
               ExceptionUtil.logError(logger, 51, e);
             }
           }
+
+          _validateChunkNulls(mapDesc);
+          pLoadObj.setFinished();
+
         }).start();
       }
       else

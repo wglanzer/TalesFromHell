@@ -28,7 +28,7 @@
         </dependency>
 
         <dependency>
-            <groupId>de.sciss</groupId>
+            <groupId>com.alee</groupId>
             <artifactId>weblaf</artifactId>
             <version>1.28</version>
             <exclusions>

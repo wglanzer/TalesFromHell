@@ -12,7 +12,11 @@ import org.slf4j.LoggerFactory;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 /**
@@ -25,6 +29,9 @@ public class MapperMenuBar extends JMenuBar
   private static final Logger logger = LoggerFactory.getLogger(MapperMenuBar.class);
   private final IMapperFacade facade;
 
+  private ActionListener saveActionListener;
+  private String lastFile;
+
   public MapperMenuBar(IMapperFacade pFacade)
   {
     facade = pFacade;
@@ -35,6 +42,19 @@ public class MapperMenuBar extends JMenuBar
     menu.add(new JSeparator());
     menu.add(_createExitItem());
     add(menu);
+
+    SwingUtilities.invokeLater(this::_registerHotkeys);
+  }
+
+  /**
+   * Registriert die Hotkeys
+   */
+  private void _registerHotkeys()
+  {
+    getRootPane().registerKeyboardAction((e) -> {
+      if(facade.isSavable())
+        saveActionListener.actionPerformed(e);
+    }, KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
   }
 
   /**
@@ -54,6 +74,7 @@ public class MapperMenuBar extends JMenuBar
         try
         {
           facade.load(file);
+          lastFile = file.getAbsolutePath();
         }
         catch(TFHException e1)
         {
@@ -122,28 +143,46 @@ public class MapperMenuBar extends JMenuBar
   {
     JMenuItem item = new JMenuItem(Messages.get(21));
     item.addPropertyChangeListener(evt -> item.setEnabled(facade.isSavable()));
-    item.addActionListener(e -> {
-      try
+    saveActionListener = new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
       {
-        JFileChooser chooser = new JFileChooser(IStaticResources.MAP_PATH);
-        chooser.setFileFilter(new _MapFileFilter());
-
-        int result = chooser.showSaveDialog(SwingUtilities.getRoot(this));
-        if(result == JFileChooser.APPROVE_OPTION)
+        try
         {
-          String file = chooser.getSelectedFile().getAbsolutePath();
-          if(!file.endsWith("." + IStaticResources.MAP_FILEENDING))
-            file += "." + IStaticResources.MAP_FILEENDING;
+          String file = lastFile;
 
-          FileOutputStream stream = new FileOutputStream(file);
-          facade.save(stream);
+          if(file == null)
+          {
+            JFileChooser chooser = new JFileChooser(IStaticResources.MAP_PATH);
+            chooser.setFileFilter(new _MapFileFilter());
+
+            int result = chooser.showSaveDialog(SwingUtilities.getRoot(MapperMenuBar.this));
+            if(result == JFileChooser.APPROVE_OPTION)
+            {
+              file = chooser.getSelectedFile().getAbsolutePath();
+              lastFile = file;
+            }
+          }
+
+          _save(file);
+        }
+        catch(Exception ex)
+        {
+          ExceptionUtil.logError(logger, 48, ex);
         }
       }
-      catch(Exception ex)
+
+      private void _save(String pFile) throws FileNotFoundException
       {
-        ExceptionUtil.logError(logger, 48, ex);
+        if(!pFile.endsWith("." + IStaticResources.MAP_FILEENDING))
+          pFile += "." + IStaticResources.MAP_FILEENDING;
+
+        FileOutputStream stream = new FileOutputStream(pFile);
+        facade.save(stream);
       }
-    });
+    };
+    item.addActionListener(saveActionListener);
 
     return item;
   }

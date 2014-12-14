@@ -29,7 +29,7 @@ public class MapperMenuBar extends JMenuBar
   private static final Logger logger = LoggerFactory.getLogger(MapperMenuBar.class);
   private final IMapperFacade facade;
 
-  private ActionListener saveActionListener;
+  private ActionListener saveActionListener = new _SaveActionListener();
   private String lastFile;
 
   public MapperMenuBar(IMapperFacade pFacade)
@@ -39,6 +39,7 @@ public class MapperMenuBar extends JMenuBar
     menu.add(_createNewMapItem());
     menu.add(_createLoadItem());
     menu.add(_createSaveItem());
+    menu.add(_createSaveAsItem());
     menu.add(new JSeparator());
     menu.add(_createExitItem());
     add(menu);
@@ -51,10 +52,12 @@ public class MapperMenuBar extends JMenuBar
    */
   private void _registerHotkeys()
   {
-    getRootPane().registerKeyboardAction((e) -> {
-      if(facade.isSavable())
-        saveActionListener.actionPerformed(e);
-    }, KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
+    SwingUtilities.invokeLater(() -> {
+      getRootPane().registerKeyboardAction((e) -> {
+        if(facade.isSavable())
+          saveActionListener.actionPerformed(e);
+      }, KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
+    });
   }
 
   /**
@@ -143,50 +146,30 @@ public class MapperMenuBar extends JMenuBar
   {
     JMenuItem item = new JMenuItem(Messages.get(21));
     item.addPropertyChangeListener(evt -> item.setEnabled(facade.isSavable()));
-    saveActionListener = new ActionListener()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        try
-        {
-          String file = lastFile;
-
-          if(file == null)
-          {
-            JFileChooser chooser = new JFileChooser(IStaticResources.MAP_PATH);
-            chooser.setFileFilter(new _MapFileFilter());
-
-            int result = chooser.showSaveDialog(SwingUtilities.getRoot(MapperMenuBar.this));
-            if(result == JFileChooser.APPROVE_OPTION)
-            {
-              file = chooser.getSelectedFile().getAbsolutePath();
-              lastFile = file;
-            }
-          }
-
-          _save(file);
-        }
-        catch(Exception ex)
-        {
-          ExceptionUtil.logError(logger, 48, ex);
-        }
-      }
-
-      private void _save(String pFile) throws FileNotFoundException
-      {
-        if(!pFile.endsWith("." + IStaticResources.MAP_FILEENDING))
-          pFile += "." + IStaticResources.MAP_FILEENDING;
-
-        FileOutputStream stream = new FileOutputStream(pFile);
-        facade.save(stream);
-      }
-    };
     item.addActionListener(saveActionListener);
 
     return item;
   }
 
+  /**
+   * MenuItem fürs Speichern der Map
+   *
+   * @return MenuItem
+   */
+  private JMenuItem _createSaveAsItem()
+  {
+    JMenuItem item = new JMenuItem(Messages.get(31));
+    item.addPropertyChangeListener(evt -> item.setEnabled(facade.isSavable()));
+    item.addActionListener((e) -> {
+      lastFile = null;
+      saveActionListener.actionPerformed(e);
+    });
+    return item;
+  }
+
+  /**
+   * FileFilter-Impl
+   */
   private static class _MapFileFilter extends FileFilter
   {
     @Override
@@ -205,6 +188,49 @@ public class MapperMenuBar extends JMenuBar
     public String getDescription()
     {
       return "Map (*." + IStaticResources.MAP_FILEENDING + ")";
+    }
+  }
+
+  /**
+   * ActionListener-Impl
+   */
+  private class _SaveActionListener implements ActionListener
+  {
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+      try
+      {
+        String file = lastFile;
+
+        if(file == null)
+        {
+          JFileChooser chooser = new JFileChooser(IStaticResources.MAP_PATH);
+          chooser.setFileFilter(new _MapFileFilter());
+
+          int result = chooser.showSaveDialog(SwingUtilities.getRoot(MapperMenuBar.this));
+          if(result == JFileChooser.APPROVE_OPTION)
+          {
+            file = chooser.getSelectedFile().getAbsolutePath();
+            lastFile = file;
+          }
+        }
+
+        _save(file);
+      }
+      catch(Exception ex)
+      {
+        ExceptionUtil.logError(logger, 48, ex);
+      }
+    }
+
+    private void _save(String pFile) throws FileNotFoundException
+    {
+      if(!pFile.endsWith("." + IStaticResources.MAP_FILEENDING))
+        pFile += "." + IStaticResources.MAP_FILEENDING;
+
+      FileOutputStream stream = new FileOutputStream(pFile);
+      facade.save(stream);
     }
   }
 }

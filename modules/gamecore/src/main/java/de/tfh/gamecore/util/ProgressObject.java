@@ -12,6 +12,7 @@ public class ProgressObject
 {
 
   private final Set<IProgressListener> listeners = new HashSet<>();
+  private boolean finished = false;
 
   /**
    * Setzt den neuen Progress
@@ -28,6 +29,7 @@ public class ProgressObject
    */
   public synchronized void setFinished()
   {
+    finished = true;
     _fireProgressFinished();
     listeners.clear();
   }
@@ -81,6 +83,16 @@ public class ProgressObject
     {
       listeners.remove(pListener);
     }
+  }
+
+  /**
+   * Gibt zurück, ob der Progress fertig ist
+   *
+   * @return <tt>true</tt>, wenn der Progress fertig ist
+   */
+  public boolean isFinished()
+  {
+    return finished;
   }
 
   /**

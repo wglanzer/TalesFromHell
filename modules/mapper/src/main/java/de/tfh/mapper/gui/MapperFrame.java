@@ -134,12 +134,18 @@ public class MapperFrame extends JFrame
     public void mapSaved(ProgressObject pObject)
     {
       _addBar(pObject);
+
+      if(pObject.isFinished())
+        _deactivate();
     }
 
     @Override
     public void mapLoaded(ProgressObject pObject)
     {
       _addBar(pObject);
+
+      if(pObject.isFinished())
+        _deactivate();
     }
 
     private void _addBar(ProgressObject pObject)
@@ -163,12 +169,17 @@ public class MapperFrame extends JFrame
         @Override
         public void finished()
         {
-          pane.deactivate();
-          rootpane.setGlassPane(oldGlassPane);
-
-          SwingUtilities.invokeLater(MapperFrame.this::repaint);
+          _deactivate();
         }
       });
+    }
+
+    private void _deactivate()
+    {
+      pane.deactivate();
+      SwingUtilities.getRootPane(MapperFrame.this).setGlassPane(oldGlassPane);
+
+      SwingUtilities.invokeLater(MapperFrame.this::repaint);
     }
   }
 }

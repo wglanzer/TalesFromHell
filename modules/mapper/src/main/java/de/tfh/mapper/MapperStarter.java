@@ -1,6 +1,7 @@
 package de.tfh.mapper;
 
 import de.tfh.datamodels.StaticDataModelRegistrator;
+import de.tfh.lf.LFSetter;
 import de.tfh.mapper.facade.MapperFacade;
 import de.tfh.mapper.gui.MapperFrame;
 
@@ -13,6 +14,9 @@ public class MapperStarter
 {
   public static void main(String[] args)
   {
+    // LF initialisieren
+    LFSetter.set();
+
     // Alle Datenmodelle registrieren, damit man bspw. Zugriff auf die MapDescription hat
     StaticDataModelRegistrator.registerAll(true);
 

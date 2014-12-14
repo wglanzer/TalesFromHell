@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>de.tfh</groupId>
+        <artifactId>libraries</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <artifactId>mapperLF</artifactId>
+    <name>TalesFromHell: Mapper LookAndFeel</name>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>de.tfh</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.tfh</groupId>
+            <artifactId>core</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.sciss</groupId>
+            <artifactId>weblaf</artifactId>
+            <version>1.28</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+    </dependencies>
+
+</project>

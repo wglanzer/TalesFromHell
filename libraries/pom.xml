@@ -18,6 +18,7 @@
         <module>appdirs</module>
         <module>datamodels</module>
         <module>log4j</module>
+        <module>mapperLF</module>
         <module>nifty</module>
         <module>slick2D</module>
         <module>steam-condenser</module>

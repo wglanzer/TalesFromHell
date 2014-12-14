@@ -258,6 +258,7 @@ public class MapperFacade implements IMapperFacade
     {
       ProgressObject loadObj = new ProgressObject();
       map = new AlterableMap(pFile, loadObj, this::fireFacadeChanged);
+      _fireMapLoaded(loadObj);
       loadObj.addProgressListener(new ProgressObject.IProgressListener()
       {
         @Override
@@ -271,7 +272,6 @@ public class MapperFacade implements IMapperFacade
           fireFacadeChanged();
         }
       });
-      _fireMapLoaded(loadObj);
     }
     catch(Exception e)
     {

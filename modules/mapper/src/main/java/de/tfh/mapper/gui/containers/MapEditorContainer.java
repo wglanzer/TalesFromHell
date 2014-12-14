@@ -11,6 +11,7 @@ import de.tfh.mapper.gui.tablelayout.TableLayoutHelper;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 /**
  * @author W.Glanzer, 19.11.2014
@@ -18,6 +19,7 @@ import java.awt.*;
 public class MapEditorContainer extends AbstractContainer
 {
   private static JPanel content = new _ScrollablePanel();
+  private JToggleButtonPanel panel;
 
   public MapEditorContainer(IMapperFacade pFacade)
   {
@@ -25,6 +27,8 @@ public class MapEditorContainer extends AbstractContainer
     setLayout(new BorderLayout(0, 0));
     add(new JScrollPane(content), BorderLayout.CENTER);
     add(_getControlPanel(), BorderLayout.NORTH);
+
+    SwingUtilities.invokeLater(this::_registerHotkeys);
   }
 
   @Override
@@ -45,9 +49,26 @@ public class MapEditorContainer extends AbstractContainer
     });
   }
 
+  /**
+   * Registriert die Hotkeys global
+   */
+  private void _registerHotkeys()
+  {
+    JRootPane root = getRootPane();
+    root.registerKeyboardAction(e -> panel.setSelected(0), KeyStroke.getKeyStroke(KeyEvent.VK_Q, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+    root.registerKeyboardAction(e -> panel.setSelected(1), KeyStroke.getKeyStroke(KeyEvent.VK_W, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+    root.registerKeyboardAction(e -> panel.setSelected(2), KeyStroke.getKeyStroke(KeyEvent.VK_E, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+    root.registerKeyboardAction(e -> panel.setSelected(3), KeyStroke.getKeyStroke(KeyEvent.VK_R, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+  }
+
+  /**
+   * Liefert das Control-Panel mit den Control-Buttons
+   *
+   * @return Control-Panel mit den Control-Buttons
+   */
   private JPanel _getControlPanel()
   {
-    JToggleButtonPanel panel = new JToggleButtonPanel(4, Messages.get(27), Messages.get(28), Messages.get(29), Messages.get(30));
+    panel = new JToggleButtonPanel(4, Messages.get(27), Messages.get(28), Messages.get(29), Messages.get(30));
     panel.addSelectionListener(pNewIndex -> {
       IMapperFacade facade = getFacade();
       if(!(facade instanceof MapperFacade))
@@ -78,6 +99,9 @@ public class MapEditorContainer extends AbstractContainer
     return panel;
   }
 
+  /**
+   * JPanel-Impl fürs Scrollen
+   */
   private static class _ScrollablePanel extends JPanel implements Scrollable
   {
     @Override

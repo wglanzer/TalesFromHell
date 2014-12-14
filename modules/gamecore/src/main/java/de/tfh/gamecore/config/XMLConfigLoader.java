@@ -20,7 +20,7 @@ public class XMLConfigLoader implements IConfigLoader
 
   public XMLConfigLoader()
   {
-    config = new Configuration(IStaticResources.CONFIG_RELATIVE_PATH);
+    config = new Configuration(IStaticResources.CONFIG_PATH);
   }
 
   @Override

@@ -13,14 +13,14 @@ import java.io.File;
 interface IStaticPaths
 {
   /**
-   * Relativer Pfad zur config.xml
-   */
-  public static final String CONFIG_RELATIVE_PATH = "config.xml";
-
-  /**
    * Pfad zum Speicherordner in [...]/Appdata/Roaming
    */
   public static final String ROAMING_PATH = _Helper.getOrCreateRoamingFolder();
+
+  /**
+   * Relativer Pfad zur config.xml
+   */
+  public static final String CONFIG_PATH = ROAMING_PATH + "/config.xml";
 
   /**
    * Pfad des Map-Ordners in [...]/Appdata/Roaming

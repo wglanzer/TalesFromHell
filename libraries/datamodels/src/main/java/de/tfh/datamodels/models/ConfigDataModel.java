@@ -64,7 +64,7 @@ public class ConfigDataModel extends AbstractDataModel
   /**
    * VSync eingeschaltet
    */
-  public boolean vSync = false;
+  public boolean vSync = true;
 
   @Override
   public String getName()

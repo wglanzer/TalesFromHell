@@ -1,5 +1,10 @@
 package de.tfh.mapper.gui;
 
+import com.alee.extended.layout.ToolbarLayout;
+import com.alee.extended.statusbar.WebMemoryBar;
+import com.alee.extended.statusbar.WebStatusBar;
+import com.alee.laf.tabbedpane.TabbedPaneStyle;
+import com.alee.laf.tabbedpane.WebTabbedPane;
 import de.tfh.core.IStaticResources;
 import de.tfh.core.i18n.Messages;
 import de.tfh.core.utils.ExceptionUtil;
@@ -7,13 +12,13 @@ import de.tfh.gamecore.util.ProgressObject;
 import de.tfh.mapper.ChangeListenerAdapter;
 import de.tfh.mapper.facade.IMapperFacade;
 import de.tfh.mapper.gui.common.ComponentGlassPane;
-import de.tfh.mapper.gui.containers.MapEditorContainer;
-import de.tfh.mapper.gui.containers.MapTilesContainer;
+import de.tfh.mapper.gui.tabs.TabMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.text.MessageFormat;
 
 /**
@@ -26,22 +31,20 @@ public class MapperFrame extends JFrame
   private static final Logger logger = LoggerFactory.getLogger(MapperFrame.class);
 
   private final IMapperFacade facade;
-  private Container mapEditorContainer;
-  private Container maptilesContainer;
-  private Container preferencesContainer;
-  private Container classEditorContainer;
-  private Container classTreeContainer;
+  private final JMenuBar menuBar;
 
   public MapperFrame(boolean pShow, IMapperFacade pFacade)
   {
     facade = pFacade;
+    menuBar = new MapperMenuBar(facade);
+
     pFacade.addChangeListener(new _MapSaveListener());
 
+    setJMenuBar(menuBar);
     setTitle(MessageFormat.format(IStaticResources.MAPPER_TITLE, IStaticResources.MAIN_TITLE, IStaticResources.VERSION));
     setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     setSize(IStaticResources.MAPPER_SIZE);
     setLocationRelativeTo(null);
-    setJMenuBar(new MapperMenuBar(facade));
     setLayout(new BorderLayout());
 
     if(pShow)
@@ -49,27 +52,45 @@ public class MapperFrame extends JFrame
         _initGui();
         setVisible(true);
       });
+
+    SwingUtilities.invokeLater(this::_registerHotkeys);
   }
 
   /**
-   * Initialisiert generell die GUI
+   * Registriert die Hotkeys
+   */
+  private void _registerHotkeys()
+  {
+    SwingUtilities.invokeLater(() -> {
+      JRootPane root = SwingUtilities.getRootPane(this);
+      root.registerKeyboardAction((e) -> {
+        setJMenuBar(getJMenuBar() == null ? menuBar : null);
+        revalidate();
+        repaint();
+      }, KeyStroke.getKeyStroke(KeyEvent.VK_ALT, KeyEvent.ALT_DOWN_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
+    });
+  }
+
+  /**
+   * Initialisiert generell die GUI.
+   * Hier werden bspw. die Tabs zusammengebaut, oder
+   * die Statusbar hinzugefügt
    */
   private void _initGui()
   {
     try
     {
-      mapEditorContainer = new MapEditorContainer(facade);
-      maptilesContainer = new MapTilesContainer(facade);
-//      preferencesContainer = new DummyContainer(facade);
-//      classEditorContainer = new DummyContainer(facade);
-//      classTreeContainer = new DummyContainer(facade);
-
-      JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
-
-      tabbedPane.addTab(Messages.get(12), _createTabMap(mapEditorContainer, maptilesContainer, preferencesContainer));
-//      tabbedPane.addTab(Messages.get(13), _createTabClasses(classTreeContainer, classEditorContainer));
-
+      // Tabs initialisieren
+      WebTabbedPane tabbedPane = new WebTabbedPane(WebTabbedPane.TOP);
+      tabbedPane.addTab(Messages.get(12), new TabMap(facade));
+      tabbedPane.setTabbedPaneStyle(TabbedPaneStyle.attached);
       add(tabbedPane, BorderLayout.CENTER);
+
+      // Initialisiert die StatusBar
+      add(_createStatusBar(), BorderLayout.SOUTH);
+
+      // Initialisiert die Main-ToolBar
+      add(_createMainToolBar(), BorderLayout.NORTH);
     }
     catch(Exception e)
     {
@@ -78,46 +99,36 @@ public class MapperFrame extends JFrame
   }
 
   /**
-   * Initialisiert den Tab "Map"
+   * Initialisiert die Toolbar und gibt diese zurück
+   *
+   * @return die Toolbar
    */
-  private JPanel _createTabMap(Container pMapEditorContainer, Container pMaptilesContainer, Container pPreferencesContainer)
+  private JComponent _createMainToolBar()
   {
     JPanel panel = new JPanel();
     panel.setLayout(new BorderLayout());
-
-    final JSplitPane horizSplitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-//    final JSplitPane verticSplitpane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-//    verticSplitpane.setTopComponent(new JScrollPane(pMaptilesContainer, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER));
-//    verticSplitpane.setBottomComponent(pPreferencesContainer);
-    horizSplitpane.setLeftComponent(new JScrollPane(pMaptilesContainer, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER));
-    horizSplitpane.setRightComponent(pMapEditorContainer);
-    panel.add(horizSplitpane, BorderLayout.CENTER);
-
-    SwingUtilities.invokeLater(() -> {
-      horizSplitpane.setResizeWeight(0.18);
-//      verticSplitpane.setResizeWeight(0.6);
-    });
-
+    panel.add(new MapperToolbar(facade));
+    panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 2, 0));
     return panel;
   }
 
   /**
-   * Initialisiert den Tab "Klassen"
+   * Initialisiert die Statusbar und gibt diese zurück
+   *
+   * @return die Statusbar
    */
-  private JPanel _createTabClasses(Container pClassTreeContainer, Container pClassEditorContainer)
+  private JComponent _createStatusBar()
   {
-    JPanel panel = new JPanel();
-    panel.setLayout(new BorderLayout());
+    WebStatusBar statusBar = new WebStatusBar();
+    WebMemoryBar memoryBar = new WebMemoryBar();
+    memoryBar.setPreferredWidth(memoryBar.getPreferredSize().width + 20);
+    memoryBar.setDrawBorder(false);
+    memoryBar.setFillBackground(false);
+    memoryBar.setShowMaximumMemory(false);
 
-    final JSplitPane horizSplitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-
-    horizSplitpane.setLeftComponent(pClassTreeContainer);
-    horizSplitpane.setRightComponent(pClassEditorContainer);
-
-    SwingUtilities.invokeLater(() -> horizSplitpane.setDividerLocation(0.18));
-
-    panel.add(horizSplitpane, BorderLayout.CENTER);
-    return panel;
+    statusBar.addSeparatorToEnd();
+    statusBar.add(memoryBar, ToolbarLayout.END);
+    return statusBar;
   }
 
   /**

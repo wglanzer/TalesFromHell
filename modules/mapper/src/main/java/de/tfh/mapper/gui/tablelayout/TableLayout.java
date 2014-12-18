@@ -330,7 +330,7 @@ import java.util.ListIterator;
  * <spc>
  *         pack();
  *         setResizable(false);
- *         show();
+ *         info();
  *     }
  * }
  * </pre>

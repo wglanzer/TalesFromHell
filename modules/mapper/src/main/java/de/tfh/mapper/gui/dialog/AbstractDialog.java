@@ -38,9 +38,7 @@ public abstract class AbstractDialog extends JDialog
     getRootPane().registerKeyboardAction(escapeListener, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
 
     SwingUtilities.invokeLater(() -> {
-      pack();
-      setMinimumSize(getPreferredSize());
-      setLocationRelativeTo(AbstractDialog.this);
+      setLocationRelativeTo(getOwner());
       setModal(true);
       setVisible(true);
     });

@@ -16,6 +16,7 @@ public class LFSetter
   public static void set()
   {
     WebLookAndFeel.install(true);
+//    WebLookAndFeel.setDecorateAllWindows(true);
   }
 
 }

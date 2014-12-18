@@ -1,8 +1,8 @@
 package de.tfh.mapper.gui.dialog;
 
+import com.alee.extended.filechooser.WebFileChooserField;
+import de.tfh.core.IStaticResources;
 import de.tfh.core.i18n.Messages;
-import de.tfh.mapper.gui.common.FileChooserPanel;
-import de.tfh.mapper.gui.common.ITextable;
 import de.tfh.mapper.gui.tablelayout.TableLayout;
 import de.tfh.mapper.gui.tablelayout.TableLayoutConstants;
 
@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.io.File;
+import java.util.List;
 
 /**
  * "Neue Karte" - Dialog
@@ -19,13 +20,13 @@ import java.io.File;
 public class NewMapDialog extends AbstractDialog
 {
   private JTextField nameMap = new JTextField();
-  private JTextField chunkCountX = new JTextField();
-  private JTextField chunkCountY = new JTextField();
-  private JTextField tileCountX = new JTextField();
-  private JTextField tileCountY = new JTextField();
-  private JTextField tileWidth = new JTextField();
-  private JTextField tileHeight = new JTextField();
-  private ITextable tilesetPath = new FileChooserPanel(new _TilesetFileFilter(), false);
+  private JTextField chunkCountX = new JTextField("8");
+  private JTextField chunkCountY = new JTextField("8");
+  private JTextField tileCountX = new JTextField("16");
+  private JTextField tileCountY = new JTextField("16");
+  private JTextField tileWidth = new JTextField("32");
+  private JTextField tileHeight = new JTextField("32");
+  private WebFileChooserField tilesetPath = new WebFileChooserField(this, true);
 
   public NewMapDialog()
   {
@@ -39,10 +40,13 @@ public class NewMapDialog extends AbstractDialog
     JPanel textPanel = getTextPanel();
     textPanel.setLayout(tl);
 
+    tilesetPath.getWebFileChooser().setFileFilter(new _TilesetFileFilter());
+    tilesetPath.getWebFileChooser().setCurrentDirectory(IStaticResources.MAP_PATH);
+
     textPanel.add(new JLabel(Messages.get(16) + ":"), "0,0"); // Mapname
     textPanel.add(nameMap, "1,0");
     textPanel.add(new JLabel(Messages.get(17) + ":"), "0,1"); // Tileset-Pfad
-    textPanel.add(tilesetPath.getComp(), "1,1");
+    textPanel.add(tilesetPath, "1,1");
     textPanel.add(new JLabel(Messages.get(24) + ":"), "0,2"); // Größe der Tiles
     textPanel.add(_getTileSizePanel(), "1,2");
     textPanel.add(new JLabel(Messages.get(25) + ":"), "0,3"); // Anzahl der Chunks
@@ -63,7 +67,11 @@ public class NewMapDialog extends AbstractDialog
 
   public String getTilesetPath()
   {
-    return tilesetPath.getText();
+    List<File> files = tilesetPath.getSelectedFiles();
+    if(files != null && files.size() >= 1)
+      return files.get(0).getAbsolutePath();
+
+    return null;
   }
 
   public Dimension getChunkSize()

@@ -1,11 +1,17 @@
 package de.tfh.mapper.gui.containers;
 
+import com.alee.extended.button.WebSwitch;
+import com.alee.extended.panel.WebButtonGroup;
+import com.alee.laf.button.WebToggleButton;
+import com.alee.laf.label.WebLabel;
+import com.alee.laf.toolbar.ToolbarStyle;
+import com.alee.laf.toolbar.WebToolBar;
+import com.google.common.base.Supplier;
 import de.tfh.core.i18n.Messages;
 import de.tfh.gamecore.map.Layer;
 import de.tfh.mapper.facade.IMapperFacade;
 import de.tfh.mapper.facade.MapperFacade;
 import de.tfh.mapper.gui.GraphicChunk;
-import de.tfh.mapper.gui.common.JToggleButtonPanel;
 import de.tfh.mapper.gui.tablelayout.TableLayoutConstants;
 import de.tfh.mapper.gui.tablelayout.TableLayoutHelper;
 
@@ -19,16 +25,27 @@ import java.awt.event.KeyEvent;
 public class MapEditorContainer extends AbstractContainer
 {
   private static JPanel content = new _ScrollablePanel();
-  private JToggleButtonPanel panel;
+  private Supplier<Boolean> isPaintChunkSeparators;
+  private Supplier<Boolean> isPaintTileSeparators;
 
   public MapEditorContainer(IMapperFacade pFacade)
   {
     super(pFacade);
     setLayout(new BorderLayout(0, 0));
-    add(new JScrollPane(content), BorderLayout.CENTER);
-    add(_getControlPanel(), BorderLayout.NORTH);
 
-    SwingUtilities.invokeLater(this::_registerHotkeys);
+    WebToolBar bar = new WebToolBar(WebToolBar.HORIZONTAL);
+    bar.add(_getControlPanel());
+    bar.addSeparator();
+    bar.add(new WebLabel(Messages.get(32)));
+    bar.add(_createIsPaintChunkSeparatorSwitch());
+    bar.add(new WebLabel(Messages.get(33)));
+    bar.add(_createIsPaintTileSeparatorSwitch());
+    bar.setFloatable(false);
+    bar.setToolbarStyle(ToolbarStyle.attached);
+    bar.setUndecorated(true);
+
+    add(new JScrollPane(content), BorderLayout.CENTER);
+    add(bar, BorderLayout.NORTH);
   }
 
   @Override
@@ -41,7 +58,7 @@ public class MapEditorContainer extends AbstractContainer
 
     for(int y = 0; y < facade.getChunkCountY(); y++)
       for(int x = 0; x < facade.getChunkCountX(); x++)
-        content.add(new GraphicChunk(x, y, facade), x + ", " + y);
+        content.add(new GraphicChunk(x, y, facade, isPaintChunkSeparators, isPaintTileSeparators), x + ", " + y);
 
     SwingUtilities.invokeLater(() -> {
       revalidate();
@@ -50,15 +67,39 @@ public class MapEditorContainer extends AbstractContainer
   }
 
   /**
-   * Registriert die Hotkeys global
+   * Erstellt den Switch fürs PaintChunkSeparator-Supplier und gibt ihn zurück
+   *
+   * @return Switch
    */
-  private void _registerHotkeys()
+  private WebSwitch _createIsPaintChunkSeparatorSwitch()
   {
-    JRootPane root = getRootPane();
-    root.registerKeyboardAction(e -> panel.setSelected(0), KeyStroke.getKeyStroke(KeyEvent.VK_Q, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
-    root.registerKeyboardAction(e -> panel.setSelected(1), KeyStroke.getKeyStroke(KeyEvent.VK_W, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
-    root.registerKeyboardAction(e -> panel.setSelected(2), KeyStroke.getKeyStroke(KeyEvent.VK_E, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
-    root.registerKeyboardAction(e -> panel.setSelected(3), KeyStroke.getKeyStroke(KeyEvent.VK_R, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+    WebSwitch switch1 = new WebSwitch(true);
+    isPaintChunkSeparators = () -> switch1.isSelected();
+
+    switch1.addActionListener((e) -> {
+      revalidate();
+      repaint();
+    });
+
+    return switch1;
+  }
+
+  /**
+   * Erstellt den Switch fürs PaintTileSeparator-Supplier und gibt ihn zurück
+   *
+   * @return Switch
+   */
+  private WebSwitch _createIsPaintTileSeparatorSwitch()
+  {
+    WebSwitch switch1 = new WebSwitch(true);
+    isPaintTileSeparators = () -> switch1.isSelected();
+
+    switch1.addActionListener((e) -> {
+      revalidate();
+      repaint();
+    });
+
+    return switch1;
   }
 
   /**
@@ -68,35 +109,53 @@ public class MapEditorContainer extends AbstractContainer
    */
   private JPanel _getControlPanel()
   {
-    panel = new JToggleButtonPanel(4, Messages.get(27), Messages.get(28), Messages.get(29), Messages.get(30));
-    panel.addSelectionListener(pNewIndex -> {
+    WebToggleButton bg = new WebToggleButton(Messages.get(27));
+    bg.setActionCommand("BG");
+    bg.addHotkey(KeyEvent.VK_Q);
+    WebToggleButton mg = new WebToggleButton(Messages.get(28));
+    mg.setActionCommand("MG");
+    mg.addHotkey(KeyEvent.VK_W);
+    WebToggleButton fg = new WebToggleButton(Messages.get(29));
+    fg.setActionCommand("FG");
+    fg.addHotkey(KeyEvent.VK_E);
+    WebToggleButton sl = new WebToggleButton(Messages.get(30));
+    sl.setActionCommand("SL");
+    sl.addHotkey(KeyEvent.VK_R);
+    sl.setEnabled(false);
+
+    WebButtonGroup group = new WebButtonGroup(true, bg, mg, fg, sl);
+    group.setButtonsDrawFocus(false);
+    group.getButtonGroup().addButtonGroupListener(() -> {
+      String actionCommand = group.getButtonGroup().getSelection().getActionCommand();
+
       IMapperFacade facade = getFacade();
       if(!(facade instanceof MapperFacade))
         return;
 
-      switch(pNewIndex)
+      switch(actionCommand)
       {
         default:
-        case 0:
+        case "BG":
           ((MapperFacade) facade).setSelectedLayer(Layer.BACKGROUND);
           break;
 
-        case 1:
+        case "MG":
           ((MapperFacade) facade).setSelectedLayer(Layer.MIDGROUND);
           break;
 
-        case 2:
+        case "FG":
           ((MapperFacade) facade).setSelectedLayer(Layer.FOREGROUND);
           break;
 
-        case 3:
+        case "SL":
           ((MapperFacade) facade).setSelectedLayer(Layer.SPECIAL_LAYER);
           break;
       }
     });
-    panel.setBorder(BorderFactory.createEmptyBorder());
-    panel.setSelected(0);
-    return panel;
+
+    group.setBorder(BorderFactory.createEmptyBorder());
+    group.getButtonGroup().setSelected(group.getButtonGroup().getButtons().get(0).getModel(), true);
+    return group;
   }
 
   /**

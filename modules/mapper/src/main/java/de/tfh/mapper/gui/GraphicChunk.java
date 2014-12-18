@@ -1,5 +1,6 @@
 package de.tfh.mapper.gui;
 
+import com.google.common.base.Supplier;
 import de.tfh.core.exceptions.TFHException;
 import de.tfh.core.utils.ExceptionUtil;
 import de.tfh.gamecore.map.Layer;
@@ -26,6 +27,8 @@ public class GraphicChunk extends JPanel
   private final int posX;
   private final int posY;
   private final IMapperFacade facade;
+  private final Supplier<Boolean> isPaintChunkSeparators;
+  private final Supplier<Boolean> isPaintTileSeparators;
   private double zoom = 0.25;
 
   private double tileWidth;
@@ -36,11 +39,13 @@ public class GraphicChunk extends JPanel
   private static final BasicStroke DASHED = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, new float[]{10.0f}, 0.0f);
   private static final Logger logger = LoggerFactory.getLogger(GraphicChunk.class);
 
-  public GraphicChunk(int pPosX, int pPosY, IMapperFacade pFacade)
+  public GraphicChunk(int pPosX, int pPosY, IMapperFacade pFacade, Supplier<Boolean> pIsPaintChunkSeparators, Supplier<Boolean> pIsPaintTileSeparators)
   {
     posX = pPosX;
     posY = pPosY;
     facade = pFacade;
+    isPaintChunkSeparators = pIsPaintChunkSeparators;
+    isPaintTileSeparators = pIsPaintTileSeparators;
     tileCountX = pFacade.getTileCountPerChunkX();
     tileCountY = pFacade.getTileCountPerChunkY();
     tileWidth = pFacade.getTileWidth();
@@ -84,6 +89,8 @@ public class GraphicChunk extends JPanel
 
     int width = getWidth();
     int height = getHeight();
+    boolean isPaintTileSeparator = isPaintTileSeparators.get();
+    boolean isPaintChunkSeparator = isPaintChunkSeparators.get();
 
     g.setColor(Color.GRAY.brighter());
 
@@ -93,8 +100,11 @@ public class GraphicChunk extends JPanel
       {
         for(int y = 0; y < tileCountY; y++)
         {
-          g.drawLine((int) (x * tileWidth), (int) (y * tileHeight), (int) ((x + 1) * tileWidth), (int) (y * tileHeight));
-          g.drawLine((int) (x * tileWidth), (int) (y * tileHeight), (int) (x * tileWidth), (int) ((y + 1) * tileHeight));
+          if(isPaintTileSeparator)
+          {
+            g.drawLine((int) (x * tileWidth), (int) (y * tileHeight), (int) ((x + 1) * tileWidth), (int) (y * tileHeight));
+            g.drawLine((int) (x * tileWidth), (int) (y * tileHeight), (int) (x * tileWidth), (int) ((y + 1) * tileHeight));
+          }
 
           for(Image currImage : _getImagesWithoutCollision(posX * tileCountX + x, posY * tileCountY + y))
             g.drawImage(currImage, (int) (x * tileWidth * zoom), (int) (y * tileWidth * zoom), (int) (zoom * tileWidth), (int) (zoom * tileHeight), null);
@@ -106,10 +116,13 @@ public class GraphicChunk extends JPanel
       ExceptionUtil.logError(logger, 61, e1);
     }
 
-    g.setColor(Color.BLACK);
-    ((Graphics2D) g).setStroke(DASHED);
-    g.drawLine(0, 0, width, 0);
-    g.drawLine(0, 0, 0, height);
+    if(isPaintChunkSeparator)
+    {
+      g.setColor(Color.BLACK);
+      ((Graphics2D) g).setStroke(DASHED);
+      g.drawLine(0, 0, width, 0);
+      g.drawLine(0, 0, 0, height);
+    }
   }
 
   /**

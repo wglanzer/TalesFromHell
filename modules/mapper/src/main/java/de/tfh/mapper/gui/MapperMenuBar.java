@@ -1,40 +1,39 @@
 package de.tfh.mapper.gui;
 
-import de.tfh.core.IStaticResources;
-import de.tfh.core.exceptions.TFHException;
+import com.alee.laf.menu.MenuBarStyle;
+import com.alee.laf.menu.WebMenuBar;
 import de.tfh.core.i18n.Messages;
-import de.tfh.core.utils.ExceptionUtil;
 import de.tfh.mapper.facade.IMapperFacade;
-import de.tfh.mapper.gui.dialog.NewMapDialog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 
 /**
  * Menüleiste des Mappers
  *
  * @author W.Glanzer, 16.11.2014
  */
-public class MapperMenuBar extends JMenuBar
+public class MapperMenuBar extends WebMenuBar
 {
   private static final Logger logger = LoggerFactory.getLogger(MapperMenuBar.class);
   private final IMapperFacade facade;
 
-  private ActionListener saveActionListener = new _SaveActionListener();
-  private String lastFile;
+  private ActionListener saveActionListener;
 
   public MapperMenuBar(IMapperFacade pFacade)
   {
     facade = pFacade;
+    saveActionListener = new GuiAction.SaveMapActionListener(facade);
+
+    setPreferredSize(new Dimension(getPreferredSize().width, 24));
+    setMenuBarStyle(MenuBarStyle.attached);
+
     JMenu menu = new JMenu(Messages.get(11));  //Datei
     menu.add(_createNewMapItem());
     menu.add(_createLoadItem());
@@ -44,7 +43,15 @@ public class MapperMenuBar extends JMenuBar
     menu.add(_createExitItem());
     add(menu);
 
-    SwingUtilities.invokeLater(this::_registerHotkeys);
+    addComponentListener(new ComponentAdapter()
+    {
+      @Override
+      public void componentShown(ComponentEvent e)
+      {
+        removeComponentListener(this);
+        SwingUtilities.invokeLater(MapperMenuBar.this::_registerHotkeys);
+      }
+    });
   }
 
   /**
@@ -68,22 +75,7 @@ public class MapperMenuBar extends JMenuBar
   private JMenuItem _createLoadItem()
   {
     JMenuItem item = new JMenuItem(Messages.get(23));
-    item.addActionListener((e) -> {
-      JFileChooser chooser = new JFileChooser(IStaticResources.MAP_PATH);
-      chooser.setFileFilter(new _MapFileFilter());
-      int result = chooser.showDialog(SwingUtilities.getRoot(this), Messages.get(23));
-      File file = chooser.getSelectedFile();
-      if(result == JFileChooser.APPROVE_OPTION && file != null)
-        try
-        {
-          facade.load(file);
-          lastFile = file.getAbsolutePath();
-        }
-        catch(TFHException e1)
-        {
-          ExceptionUtil.logError(logger, 55, e1, "selectedFile=" + file);
-        }
-    });
+    item.addActionListener(new GuiAction.LoadMapActionListener(facade));
     return item;
   }
 
@@ -108,31 +100,7 @@ public class MapperMenuBar extends JMenuBar
   private JMenuItem _createNewMapItem()
   {
     JMenuItem item = new JMenuItem(Messages.get(19));
-    item.addActionListener(e -> {
-      NewMapDialog dialog = new NewMapDialog();
-      dialog.addOKActionListener(() -> {
-        try
-        {
-          String mapName = dialog.getMapName();
-          String tilesetPath = dialog.getTilesetPath();
-          Dimension chunkCount = dialog.getChunkCount();
-          Dimension chunkSize = dialog.getChunkSize();
-          Dimension tileSize = dialog.getTileSize();
-
-          if(!mapName.isEmpty() && !tilesetPath.isEmpty())
-          {
-            facade.generateNewMap(mapName, tilesetPath, chunkCount, chunkSize, tileSize);
-            return true;
-          }
-        }
-        catch(TFHException e2)
-        {
-          ExceptionUtil.logError(logger, 38, e2);
-        }
-
-        return false;
-      });
-    });
+    item.addActionListener(new GuiAction.NewMapActionListener(facade));
 
     return item;
   }
@@ -160,78 +128,7 @@ public class MapperMenuBar extends JMenuBar
   {
     JMenuItem item = new JMenuItem(Messages.get(31));
     item.addPropertyChangeListener(evt -> item.setEnabled(facade.isSavable()));
-    item.addActionListener((e) -> {
-      lastFile = null;
-      saveActionListener.actionPerformed(e);
-    });
+    item.addActionListener(new GuiAction.SaveAsActionListener(facade));
     return item;
-  }
-
-  /**
-   * FileFilter-Impl
-   */
-  private static class _MapFileFilter extends FileFilter
-  {
-    @Override
-    public boolean accept(File f)
-    {
-      if(f != null)
-      {
-        if(f.isDirectory() || f.getName().endsWith("." + IStaticResources.MAP_FILEENDING))
-          return true;
-      }
-
-      return false;
-    }
-
-    @Override
-    public String getDescription()
-    {
-      return "Map (*." + IStaticResources.MAP_FILEENDING + ")";
-    }
-  }
-
-  /**
-   * ActionListener-Impl
-   */
-  private class _SaveActionListener implements ActionListener
-  {
-    @Override
-    public void actionPerformed(ActionEvent e)
-    {
-      try
-      {
-        String file = lastFile;
-
-        if(file == null)
-        {
-          JFileChooser chooser = new JFileChooser(IStaticResources.MAP_PATH);
-          chooser.setFileFilter(new _MapFileFilter());
-
-          int result = chooser.showSaveDialog(SwingUtilities.getRoot(MapperMenuBar.this));
-          if(result == JFileChooser.APPROVE_OPTION)
-          {
-            file = chooser.getSelectedFile().getAbsolutePath();
-            lastFile = file;
-          }
-        }
-
-        if(file != null)
-          _save(file);
-      }
-      catch(Exception ex)
-      {
-        ExceptionUtil.logError(logger, 48, ex);
-      }
-    }
-
-    private void _save(String pFile) throws FileNotFoundException
-    {
-      if(!pFile.endsWith("." + IStaticResources.MAP_FILEENDING))
-        pFile += "." + IStaticResources.MAP_FILEENDING;
-
-      FileOutputStream stream = new FileOutputStream(pFile);
-      facade.save(stream);
-    }
   }
 }

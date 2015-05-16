@@ -15,6 +15,13 @@
         <module>modules</module>
     </modules>
 
+    <repositories>
+        <repository>
+            <id>NEXUS</id>
+            <url>http://nexus.private.ghost-division-airsoft.de/content/groups/public</url>
+        </repository>
+    </repositories>
+
     <build>
         <plugins>
             <plugin>

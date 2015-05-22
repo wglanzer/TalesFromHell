@@ -18,7 +18,7 @@
     <repositories>
         <repository>
             <id>NEXUS</id>
-            <url>http://nexus.private.ghost-division-airsoft.de/content/groups/public</url>
+            <url>http://nexus.private.ghost-division-airsoft.de/nexus/content/groups/public</url>
         </repository>
     </repositories>
 

@@ -1,6 +1,6 @@
 package de.tfh.mapper.gui;
 
-import com.alee.global.StyleConstants;
+import com.alee.laf.StyleConstants;
 import com.alee.laf.button.WebButton;
 import com.alee.laf.toolbar.ToolbarStyle;
 import com.alee.laf.toolbar.WebToolBar;
